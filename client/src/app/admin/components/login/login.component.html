@@ -1,0 +1,81 @@
+
+<div @fade class="root">
+
+	<!-- Component Header -->
+	<div class="row">
+		<div class="col-md-12 d-flex justify-content-center align-items-center mb-5">
+
+			<div class="mt-5">
+				<h4>Authentification d'admin</h4>
+			</div>
+
+		</div>
+	</div>
+	<!-- End Component Header -->
+	
+	<!-- login section -->
+	<div class="row">
+		<div class="col-md-12 d-flex justify-content-center align-items-center mb-5">
+			<div class="login-form-wrapper">
+				<form nz-form [formGroup]="loginForm" class="login-form" (ngSubmit)="submitLoginForm()">
+					<span class="error">{{ loginErrorMsg }}</span>
+					<nz-form-item>
+						<nz-form-control>
+							
+						<!-- email input -->
+						<nz-input-group [nzPrefix]="prefixUser">
+							<input type="email" nz-input formControlName="email" placeholder="Email" />
+						</nz-input-group>
+
+						<!-- email validation -->
+						<div *ngIf="loginForm.get('email')?.dirty">
+							<nz-form-explain *ngIf="loginForm.get('email').errors?.required">
+								Saisissez une adresse email.
+							</nz-form-explain>
+							<nz-form-explain *ngIf="loginForm.get('email').errors?.email">
+								Saisissez une adresse email valide.
+							</nz-form-explain>
+							<nz-form-explain *ngIf="loginForm.get('email').errors?.maxlength">
+								Email trop long.
+							</nz-form-explain>
+						</div>
+
+						</nz-form-control>
+					</nz-form-item>
+					<nz-form-item>
+						<nz-form-control>
+
+							<!-- password input -->
+							<nz-input-group [nzPrefix]="prefixLock">
+								<input type="password" nz-input formControlName="password" placeholder="Mot De Passe" />
+							</nz-input-group>
+
+							<!-- password validation -->
+							<div *ngIf="loginForm.get('password')?.dirty">
+								<nz-form-explain *ngIf="loginForm.get('password').errors?.required">
+									Saisissez un mot de passe.
+								</nz-form-explain>
+								<nz-form-explain *ngIf="loginForm.get('password').errors?.maxlength">
+									Mot de passe trop long.
+								</nz-form-explain>
+							</div>
+
+						</nz-form-control>
+					</nz-form-item>
+					
+					<nz-form-item>
+						<nz-form-control>
+							<label nz-checkbox formControlName="remember">
+								<span>Souvenir de moi</span>
+							</label>
+							
+							<button nz-button class="login-form-button" [nzType]="'primary'">Se Connecter</button>
+						</nz-form-control>
+					</nz-form-item>
+				</form>
+				<ng-template #prefixUser><i nz-icon type="user"></i></ng-template>
+				<ng-template #prefixLock><i nz-icon type="lock"></i></ng-template>
+			</div>
+		</div>
+	</div>
+</div>

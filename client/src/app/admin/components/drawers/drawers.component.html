@@ -1,0 +1,79 @@
+<!--
+-------------------------------------------------
+Menu Drawer
+-------------------------------------------------
+-->
+<nz-drawer class="menu" [nzClosable]="false" [nzWidth]="380" [nzVisible]="visibleMenu" nzPlacement="right" (nzOnClose)="closeMenu()">
+	<div class="pre-header">
+		<span class="title">Administration</span>
+		<span (click)="closeMenu()" class="x">&times;</span>
+	</div>
+
+	<div class="header">
+		<div class="row">
+			<div class="user-icon-div col-2">
+				<nz-badge [nzCount]="2">	
+					<i nz-icon type="user" class="user-icon"></i>
+				</nz-badge>
+			</div>
+			<div class="username col-7">
+				{{ admin.name }}
+				<span class="category">
+					{{ admin.email }}
+				</span>
+			</div>
+			<div class="col-1">
+				<nz-dropdown [nzPlacement]="'bottomRight'">
+					<span nz-dropdown><i class="fas fa-ellipsis-v options"></i></span>
+					<ul nz-menu>
+						<li nz-menu-item>
+							<a (click)="toSettings()"><i class="fas fa-cog"></i> Paramètres</a>
+						</li>
+						<li nz-menu-item>
+							<a (click)="logout()"><i class="fas fa-sign-out-alt"></i> Se Déconnecter</a>
+						</li>
+					</ul>
+				</nz-dropdown>
+			</div>
+			
+		</div>
+	</div>
+	<div class="body">
+		<div class="menu-item">
+			<a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="dashboard" (click)="menuItemClicked()">
+
+				<i nz-icon nzType="dashboard" class="menu-item-icon" nzTheme="fill"></i>
+				<span class="menu-item-legend">Tableau de bord</span>
+				
+			</a>
+		</div>
+		<div class="menu-item">
+			<a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="commercials" (click)="menuItemClicked()">
+
+				<i class="fas fa-user-shield menu-item-icon"></i>
+				<span class="menu-item-legend">Commercials</span>
+				
+			</a>
+		</div>
+		<div class="menu-item">
+			<a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="clients" (click)="menuItemClicked()">
+
+				<i class="fas fa-users menu-item-icon"></i>
+				<span class="menu-item-legend">Clients</span>
+				
+			</a>
+		</div>
+		<div class="menu-item">
+			<a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="products" (click)="menuItemClicked()">
+
+				<i class="fas fa-box-open menu-item-icon"></i>
+				<span class="menu-item-legend">Produits</span>
+				
+			</a>
+		</div>
+	</div>
+	<div class="drawer-footer">
+		<img src="assets/layout/img/drawer-bg.svg" alt="">
+	</div>
+
+</nz-drawer>

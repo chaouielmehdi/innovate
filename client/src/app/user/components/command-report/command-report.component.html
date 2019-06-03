@@ -1,0 +1,74 @@
+
+<div @fade class="root">
+	
+	<!-- Component Header -->
+	<div class="row">
+		<div class="col-md-12 d-flex justify-content-center align-items-center mb-5">
+			<div class="backward">
+				<button nz-button nzType="default" (click)="backward()">
+					<i nz-icon type="left"></i>
+					Commande
+				</button>
+			</div>
+			<div class="mt-5">
+				<h4 class="c-grey">Signaler Une Commande</h4>
+			</div>
+		</div>
+	</div>
+	<!-- End Component Header -->
+
+	<!-- Report choices -->
+	<div class="row">
+		<div class="col-sm-12 ml-2">
+			<p class="c-grey">Veuillez choisir c'est quoi votre problème :</p>
+		</div>
+		<div class="col-lg-4 col-md-6 d-flex justify-content-center">
+			<a>
+				<nz-card class="report-card">
+					<i class="fas fa-exclamation-triangle c-yellow mr-2"></i>
+					Commande non reçue?
+				</nz-card>
+			</a>
+		</div>
+		<div class="col-lg-4 col-md-6 d-flex justify-content-center">
+			<a>
+				<nz-card class="report-card">
+					<i class="fas fa-exclamation-triangle c-yellow mr-2"></i>
+					Commande refusée par l'admin?
+				</nz-card>
+			</a>
+		</div>
+		<div class="col-lg-4 col-md-6 d-flex justify-content-center">
+			<a>
+				<nz-card class="report-card">
+					<i class="fas fa-exclamation-triangle c-yellow mr-2"></i>
+					Problème technique?
+				</nz-card>
+			</a>
+		</div>
+		<div class="col-lg-4 col-md-6 d-flex justify-content-center">
+			<a>
+				<nz-card class="report-card" (click)="reportAutre=!reportAutre">
+					<i class="fas fa-exclamation-triangle c-yellow mr-2"></i>
+					Autre
+				</nz-card>
+			</a>
+		</div>
+	</div>
+	<!-- End Report choices -->
+
+	<!-- Report autre -->
+	<div *ngIf="reportAutre" class="row d-flex justify-content-center">
+		<div class="col-sm-12 report-message">
+			<textarea
+				nz-input
+				placeholder="Votre problème en quelques mots..."
+				[(ngModel)]="reportMsg"
+				[nzAutosize]="{ minRows: 2, maxRows: 10 }"
+			></textarea>
+		</div>
+	</div>
+	<!-- End Report autre -->
+
+</div>
+

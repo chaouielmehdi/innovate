@@ -1,0 +1,9 @@
+.ant-anchor-ink::before {
+	display: none !important;
+	width: 0px !important;
+}
+
+.ant-slider{
+	margin-top: 0 !important;
+	margin-bottom: 0 !important;
+}

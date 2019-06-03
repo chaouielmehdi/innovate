@@ -1,0 +1,208 @@
+
+.wrapper {
+	z-index: 999;
+	height: 52px;
+	position: fixed;
+	width: 100%;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+}
+
+nav {
+	padding-top: 4px;
+	height: 52px;
+	overflow: scroll;
+	background: white;
+}
+
+nav ul {
+	display: flex;
+	height: 44px;
+	justify-content: space-around;
+	align-items: center;
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+}
+
+
+nav a {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	display: block;
+	color: #282F33;
+	font-size: 16px;
+	font-weight: lighter;
+	text-decoration: none;
+	transition: 0.4s;
+}
+
+nav a:hover {
+	color: #377dff;
+}
+.active {
+	color: #255ed9 !important;
+}
+.search-icon {
+	padding: 5px ;
+	font-size: 18px;
+}
+.user-icon-header{
+	padding: 5px;
+	border-style: solid !important;
+	border-width: 1px;
+	border-radius: 3px;
+	font-size: 18px;
+}
+.user-icon-badge{
+	position: relative;
+	top: -18px;
+	right: 8px;
+	background-color: #52c41a;
+	font-size: 6px;
+	border-style: solid !important;
+	border-width: 2px;
+	border-color: #fff !important;
+	border-radius: 50% !important;
+}
+
+
+
+
+
+
+/* 
+-------------------------------------------------
+Little Menu Part
+-------------------------------------------------
+*/
+
+.little-menu{
+	padding-top: 20px;
+	height: 100%;
+	width: 70px;
+	position: fixed;
+	z-index: -10;
+	top: 0;
+	right: 0;
+	background-color: #fff;
+	overflow-x: hidden;
+	box-shadow: 0 1px 10px rgba(0, 0, 0, 0.09);
+}
+
+
+.x{
+	margin-right: 7px;
+	position: relative;
+	top: -12px;
+	float: right;
+	font-size: 30px;
+	color: #77838f96;
+	cursor: pointer;
+}
+.pre-header .title{
+	margin-top: 0;
+	margin-bottom: 0 !important;
+	font-weight: 500;
+	font-size: 1rem !important;
+	line-height: 1.5;
+}
+.header{
+	margin-top: 28px;
+	padding-top: 25px;
+	padding-bottom: 25px;
+	background-color: #f0f2f5;
+}
+.user-icon-div{
+	margin-left: 14px;
+	margin-top: 8px;
+	border: 2px !important;
+}
+.user-icon{
+	padding: 10px;
+	border-width: 2px;
+	border-style: solid !important;
+	border-radius: 5px;
+	font-size: 25px;
+}
+.username{
+	margin-top: 8px;
+	margin-left: 8px;
+	color: #1e2022;
+	line-height: 1.5;
+	font-size: 1rem;
+	font-weight: 600 !important;
+}
+.category{
+	display: block;
+	color: #8c98a4;
+	font-weight: 400;
+	font-size: .75rem;
+}
+.options{
+	padding: 8px;
+	color: #8c98a4;
+	cursor: pointer;
+}
+.options:hover{
+	color: #8c98a4ad;
+}
+ul[nz-menu]{
+	margin-top: 10px !important;
+}
+li[nz-menu-item]{
+	margin-top: 7px;
+	margin-bottom: 7px;
+	font-size: .95rem;
+	color: #97a4af;
+	transition: 0.2s ease-in-out;
+}
+li[nz-menu-item]:hover{
+	color: #377dff;
+	background-color: #ffffff00;
+}
+
+.body{
+	margin-top: 35px;
+}
+.body hr{
+	margin-top: 2rem !important;
+	margin: 1rem;
+}
+.menu-item{
+	padding: .625rem;
+	margin-right: 1rem;
+	margin-left: 1rem;
+	margin-top: .3rem;
+	margin-bottom: .3rem;
+	display: block;
+	font-size: .95rem;
+	color: #97a4af;
+	border-radius: 0.25rem;
+	cursor: pointer;
+	transition: 0.2s ease-in-out;
+}
+.menu-item:hover {
+	color: #377dff;
+	background-color: rgba(55, 125, 255, 0.1);
+}
+.menu-item-icon{
+	margin-left: 1rem;
+}
+.menu-item-legend{
+	margin-left: 1rem;
+}
+.menu-item nz-badge {
+	margin-right: 1rem;
+	float: right;
+}
+
+.footer{
+	position: absolute !important;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 0;
+	height: 225px;
+	display: block;
+}
+

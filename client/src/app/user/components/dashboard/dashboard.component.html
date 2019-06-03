@@ -1,0 +1,242 @@
+
+<div @fade class="root">
+	<!-- Component Header -->
+	<div class="row center">
+		<div class="col-lg-12 d-flex justify-content-center align-items-center">
+			<nz-card class="profile-card">
+				<!-- unverified account creation -->
+				<div *ngIf="!user.is_verified_account" class="invalid-account">
+					<div class="col-lg-12 d-flex justify-content-center align-items-center">
+						<span class="c-red">Votre compte n'a pas été encore validé!</span>
+					</div>
+				</div>
+
+				<!-- unverified account update -->
+				<div *ngIf="!user.is_verified_update" class="invalid-account">
+					<div class="col-lg-12 d-flex justify-content-center align-items-center">
+						<span class="c-red">Votre modifications du compte n'a pas été encore validée!</span>
+					</div>
+				</div>
+
+				<!-- Contact admin -->
+				<div *ngIf="!user.is_verified_update || !user.is_verified_account" class="col-lg-12 d-flex justify-content-center align-items-center">
+					<span class="c-red">
+						Vous pouvez
+						<span class="c-grey hover-grey c-pointer" routerLink="/support">contacter</span>
+						l'admin pour plus de détails
+					</span>
+				</div>
+
+
+				<div class="profile-photo d-flex justify-content-center align-items-center">
+					<span *ngIf="!user.logoUrl" class="profile-legend">{{user.name | slice:0:1}}{{user.canal | slice:0:1}}</span>
+					<span *ngIf="user.logoUrl">
+						<img width="100px" style="border-radius: 50%;" src="{{user.logoUrl}}" alt="">
+					</span>
+					
+					<span class="profile-photo-icon">
+						<i *ngIf="!user.is_verified_account" class="fas fa-ban c-red"></i>
+						<i *ngIf="user.is_verified_account" class="fas fa-check-circle c-green"></i>
+					</span>
+				</div>
+				<div class="profile-infos">
+					<span class="profile-name">{{ user.name }}</span>
+					<span class="ml-2">
+						<a
+							class="profile-pen hover-blue"
+							nzTitle="Modifier profil" nzPlacement="right" nz-tooltip
+							routerLink="/profile-form"
+						>
+							<i class="fas fa-pen"></i>
+						</a>
+
+					</span>
+					<span class="profile-category">
+						<div [ngSwitch]="user.canal">
+							<div *ngSwitchCase="'Hotel'">Hotel</div>
+							<div *ngSwitchCase="'Cafe'">Café</div>
+							<div *ngSwitchCase="'Restaurant'">Restaurant</div>
+							<div *ngSwitchCase="'Supermarche'">Supermarché</div>
+							<div *ngSwitchCase="'PDV'">Point de vente</div>
+							<div *ngSwitchDefault>Canal</div>
+						</div>
+					</span>
+				</div>
+			</nz-card>
+		</div>
+	</div>
+	<!-- End Component Header -->
+
+	<!-- <div class="sidebar">
+
+		<div class="header">
+			<div class="row">
+				<div class="user-icon-div col-2">
+					<nz-badge [nzCount]="2">	
+						<i nz-icon type="user" class="user-icon"></i>
+					</nz-badge>
+				</div>
+				<div class="username col-7">
+						Mehdi Chaoui
+					<span class="category">Hotel</span>
+				</div>
+				<div class="col-1">
+					<nz-dropdown [nzPlacement]="'bottomRight'">
+						<span nz-dropdown><i class="fas fa-ellipsis-v options"></i></span>
+						<ul nz-menu>
+							<li nz-menu-item>
+								<a><i class="fas fa-user-cog"></i> Paramètre</a>
+							</li>
+							<li nz-menu-item>
+								<a (click)="logout()"><i class="fas fa-sign-out-alt"></i> Se Déconnecter</a>
+							</li>
+						</ul>
+					</nz-dropdown>
+				</div>
+				
+			</div>
+		</div>
+		<div class="body">
+			<div class="menu-item">
+				<a routerActiveLink="active" routerLink="/dashboard">
+					<i nz-icon nzType="dashboard" class="menu-item-icon" nzTheme="fill"></i>
+					<span class="menu-item-legend">Tableau de bord</span>
+				</a>
+			</div>
+			<div class="menu-item">
+				<i class="fas fa-shopping-cart menu-item-icon"></i>
+				<span class="menu-item-legend">Mon Panier</span>
+			</div>
+			<div class="menu-item">
+				<i class="fas fa-user-circle menu-item-icon"></i>
+				<span class="menu-item-legend">Mon Profile</span>
+			</div>
+			<div class="menu-item">
+				<i class="fas fa-history menu-item-icon"></i>
+				<span class="menu-item-legend">Mon Historique</span>
+			</div>
+			<hr>
+			<div class="menu-item">
+				<i class="fas fa-headset menu-item-icon"></i>
+				<span class="menu-item-legend">Support</span>
+			</div>
+			<div class="menu-item">
+				<i class="fas fa-clipboard-list menu-item-icon"></i>
+				<span class="menu-item-legend">Nouveaux Produits</span>
+				<nz-badge [nzCount]="2" [nzStyle]="{ backgroundColor: '#377dff' }"></nz-badge>
+			</div>
+		</div>
+		<div class="footer">
+			<img src="assets/layout/img/drawer-bg.svg" alt="">
+		</div>
+	</div> -->
+
+	<div class="main">
+		<div class="row center">
+			<div class="col-lg-6 d-flex justify-content-center align-items-center">
+				<a routerLink="/dashboard/commands">
+					<nz-card class="dashboard-card">
+
+						<nz-badge [nzCount]="statistics.commands.notViewedNumber">
+						</nz-badge>
+
+						<i class="fas fa-clipboard-list dashboard-card-icon"></i>
+						<nz-divider nzText="Mes Commandes" nzOrientation="left"></nz-divider>
+
+						<div class="d-flex justify-content-left align-items-center">
+							<div class="dashboard-card-item">
+								<nz-progress [nzPercent]="commandsPercent" nzType="circle" [nzWidth]="80"></nz-progress>
+							</div>
+							<div class="dashboard-card-item">
+								<p class="c-grey font-weight-bold">
+									<u> Total : {{ statistics.commands.count }} commande<span *ngIf="statistics.commands.count > 1">s</span> </u>
+								</p>
+								<p class="c-blue">
+									Livrée : {{ statistics.commands.delivered }}
+								</p>
+								<p class="c-green">
+									Confirmée : {{ statistics.commands.confirmed }}
+								</p>
+								<p class="c-grey">
+									Commandée : {{ statistics.commands.commanded }}
+								</p>
+								<p class="c-red">
+									Annulée : {{ statistics.commands.canceled }}
+								</p>
+							</div>
+						</div>
+					</nz-card>
+				</a>
+			</div>
+			<div class="col-lg-6 d-flex justify-content-center align-items-center">
+				<a routerLink="/dashboard/cart">
+					<nz-card class="dashboard-card">
+						<i class="fas fa-shopping-cart dashboard-card-icon"></i>
+						<nz-divider nzText="Mon Panier" nzOrientation="left"></nz-divider>
+						<div class="d-flex justify-content-left align-items-center">
+							<div class="dashboard-card-item">
+								<nz-progress [nzPercent]="cartPercent" nzType="circle" [nzWidth]="80"></nz-progress>
+							</div>
+							<div class="dashboard-card-item">
+								<p class="c-grey font-weight-bold">
+									<u> Total : {{ statistics.cart.count }} produit<span *ngIf="statistics.cart.count > 1">s</span></u>
+								</p>
+								<p class="c-blue">
+									En attente : {{ statistics.cart.count - statistics.cart.canceled }}
+								</p>
+								<p class="c-red">
+									Annulée : {{ statistics.cart.canceled }}
+								</p>
+							</div>
+						</div>
+					</nz-card>
+				</a>
+			</div>
+			<div class="col-lg-6 d-flex justify-content-center align-items-center">
+				<a routerLink="/dashboard/credits">
+					<nz-card class="dashboard-card">
+						<i class="fas fa-coins dashboard-card-icon"></i>
+						<nz-divider nzText="Mes Crédits" nzOrientation="left"></nz-divider>
+						<div class="d-flex justify-content-left align-items-center">
+							<div class="dashboard-card-item">
+								<nz-progress [nzPercent]="creditPercent" nzType="circle" [nzWidth]="80"></nz-progress>
+							</div>
+							<div class="dashboard-card-item">
+								<p class="c-grey font-weight-bold">
+									<u> Total : {{ statistics.credits.count }} Dh</u>
+								</p>
+								<p class="c-blue">
+									Payé : {{ statistics.credits.paid }} Dh
+								</p>
+								<p class="c-yellow">
+									Crédit : {{ statistics.credits.count - statistics.credits.paid }} Dh
+								</p>
+							</div>
+						</div>
+					</nz-card>
+				</a>
+			</div>
+			<div class="col-lg-6 d-flex justify-content-center align-items-center">
+				<a routerLink="/products">
+					<nz-card class="dashboard-card">
+						<i class="fas fa-box-open dashboard-card-icon"></i>
+						<nz-divider nzText="Nos Produits" nzOrientation="left"></nz-divider>
+						<div class="d-flex justify-content-left align-items-center">
+							<div class="dashboard-card-item">
+								<p *ngIf="statistics.products.notViewedNumber" class="c-yellow mt-2">
+									Nouveaux produits : {{ statistics.products.notViewedNumber }}
+								</p>
+								<p>
+									Pour plus de détails...
+								</p>
+								<p>
+									Consulter nos produits
+								</p>
+							</div>
+						</div>
+					</nz-card>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>

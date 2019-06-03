@@ -1,0 +1,211 @@
+<div @fade class="root">
+
+	<!-- Component Header -->
+	<div class="row">
+		<div class="col-md-12 d-flex justify-content-center align-items-center mb-2">
+
+			<div>
+				<h4>Compléter l'inscription</h4>
+			</div>
+
+		</div>
+	</div>
+	<!-- End Component Header -->
+
+	<!-- User status -->
+	<div class="row">
+		<div class="col-sm-12 mt-5 mb-5">
+			<nz-steps [nzCurrent]="1">
+				<nz-step nzTitle="Pré-inscription" nzIcon="user"></nz-step>
+				<nz-step nzTitle="Inscription" nzIcon="form"></nz-step>
+				<nz-step nzTitle="Confirmation" nzIcon="solution"></nz-step>
+				<ng-template #iconTemplate>
+					<i nz-icon type="smile"></i>
+				</ng-template>
+			</nz-steps>
+		</div>
+	</div>
+	<!-- End User status -->
+
+	<div class="row">
+		<div class="col-lg-12 d-flex justify-content-center align-items-center">
+			<form class="register-form" nz-form [formGroup]="registerForm" (ngSubmit)="submitRegisterForm()">
+
+				<!-- email form control -->
+				<nz-form-item class="mt-3">
+					<nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">Email</nz-form-label>
+					<nz-form-control [nzSm]="14" [nzXs]="24">
+						<input nz-input formControlName="email" id="email" />
+						<nz-form-explain *ngIf="registerForm.get('email')?.dirty && registerForm.get('email')?.errors">
+							<ng-container *ngIf="registerForm.get('email')?.hasError('required')">
+								Saisissez une adresse email.
+							</ng-container>
+							<ng-container *ngIf="registerForm.get('email')?.hasError('email')">
+								Saisissez une adresse email valide.
+							</ng-container>
+							<ng-container *ngIf="registerForm.get('email')?.hasError('maxlength')">
+								Email trop long.
+							</ng-container>
+						</nz-form-explain>
+					</nz-form-control>
+				</nz-form-item>
+				<!-- End email form control -->
+
+				<!-- password form control -->
+				<nz-form-item class="mt-3">
+					<nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Mot De Passe</nz-form-label>
+					<nz-form-control [nzSm]="14" [nzXs]="24">
+						<nz-input-group [nzSuffix]="eyeTemplate">
+							<input
+								nz-input
+								[type]="passwordVisible ? 'text' : 'password'"
+								id="password"
+								formControlName="password"
+							/>
+						</nz-input-group>
+						<ng-template #eyeTemplate>
+							<i nz-icon class="c-pointer" [nzType]="passwordVisible ? 'eye' : 'eye-invisible'" (click)="passwordVisible = !passwordVisible"></i>
+						</ng-template>
+
+						<nz-form-explain
+							*ngIf="registerForm.get('password')?.dirty && registerForm.get('password')?.errors"
+						>
+							<ng-container *ngIf="registerForm.get('password')?.hasError('required')">
+								Saisissez un mot de passe.
+							</ng-container>
+							<ng-container *ngIf="registerForm.get('password')?.hasError('maxlength')">
+								Mot de passe trop long.
+							</ng-container>
+						</nz-form-explain>
+					</nz-form-control>
+				</nz-form-item>
+				<!-- End password form control -->
+
+				<!-- password_confirmation form control -->
+				<nz-form-item class="mt-3 mb-5">
+					<nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password_confirmation" nzRequired>Confirmation</nz-form-label>
+					<nz-form-control [nzSm]="14" [nzXs]="24">
+						<input nz-input type="password" formControlName="password_confirmation" id="password_confirmation" />
+						<nz-form-explain
+							*ngIf="registerForm.get('password_confirmation')?.dirty && registerForm.get('password_confirmation')?.errors"
+						>
+							<ng-container *ngIf="registerForm.get('password_confirmation')?.hasError('required')">
+								Confirmer votre mot de passe.
+							</ng-container>
+						</nz-form-explain>
+
+						<nz-form-explain *ngIf="(registerForm.get('password')?.dirty || registerForm.get('password_confirmation')?.dirty) && registerForm.errors?.misMatch">
+							<ng-container>
+								Confirmation invalide.
+							</ng-container>
+						</nz-form-explain>
+					</nz-form-control>
+				</nz-form-item>
+				<!-- End password_confirmation form control -->
+
+				<!-- Username form control -->
+				<nz-form-item class="mt-3">
+					<nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="username">Nom d'utilisateur</nz-form-label>
+					<nz-form-control [nzSm]="14" [nzXs]="24">
+						<input nz-input formControlName="username" id="username" />
+						<nz-form-explain *ngIf="registerForm.get('username')?.dirty && registerForm.get('username')?.errors">
+							<ng-container *ngIf="registerForm.get('username')?.hasError('required')">
+								Saisissez un nom d'utilisateur.
+							</ng-container>
+							<ng-container *ngIf="registerForm.get('username')?.hasError('maxlength')">
+								Nom d'utilisateur trop long.
+							</ng-container>
+						</nz-form-explain>
+					</nz-form-control>
+				</nz-form-item>
+				<!-- End Username form control -->
+
+				<!-- canal form control -->
+				<nz-form-item class="mt-3">
+					<nz-form-label [nzSm]="6" [nzXs]="24" nzFor="canal" nzRequired>Canal</nz-form-label>
+					<nz-form-control [nzSm]="14" [nzXs]="24">
+						<nz-select
+							id="canal"
+							formControlName="canal"
+							nzPlaceHolder="Café, Hotel ..."
+							(ngModelChange)="canalChange($event)"
+						>
+							<nz-option nzValue="Hotel" nzLabel="Hotel"></nz-option>
+							<nz-option nzValue="Café" nzLabel="Café"></nz-option>
+							<nz-option nzValue="Restaurant" nzLabel="Restaurant"></nz-option>
+							<nz-option nzValue="Supermarché" nzLabel="Supermarché"></nz-option>
+							<nz-option nzValue="Point de vente" nzLabel="Point de vente"></nz-option>
+						</nz-select>
+						
+						<nz-form-explain
+							*ngIf="registerForm.get('canal')?.dirty && registerForm.get('canal')?.errors"
+						>
+							Choisissez votre canal.
+						</nz-form-explain>
+					</nz-form-control>
+				</nz-form-item>
+				<!-- End canal form control -->
+
+				<!-- address form control -->
+				<nz-form-item class="mt-3">
+					<nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="address">Adresse</nz-form-label>
+					<nz-form-control [nzSm]="14" [nzXs]="24">
+						<input nz-input formControlName="address" id="address" />
+						<nz-form-explain *ngIf="registerForm.get('address')?.dirty && registerForm.get('address')?.errors">
+							<ng-container *ngIf="registerForm.get('address')?.hasError('required')">
+								Saisissez votre adresse.
+							</ng-container>
+							<ng-container *ngIf="registerForm.get('address')?.hasError('maxlength')">
+								Adresse trop longue.
+							</ng-container>
+						</nz-form-explain>
+					</nz-form-control>
+				</nz-form-item>
+				<!-- End address form control -->
+
+				<!-- phone_number form control -->
+				<nz-form-item class="mt-3">
+					<nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phone_number" nzRequired>Téléphone</nz-form-label>
+					<nz-form-control [nzSm]="14" [nzXs]="24" [nzValidateStatus]="registerForm.controls['phone_number']">
+						<nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
+							<ng-template #addOnBeforeTemplate>
+								<span>+212</span>
+							</ng-template>
+							<input formControlName="phone_number" id="'phone_number'" type="number" nz-input />
+						</nz-input-group>
+						<nz-form-explain
+							*ngIf="registerForm.get('phone_number')?.dirty && registerForm.get('phone_number')?.errors"
+						>
+							Saisissez votre numéro de téléphone.
+						</nz-form-explain>
+					</nz-form-control>
+				</nz-form-item>
+				<!-- End phone_number form control -->
+
+				<!-- website form control -->
+				<nz-form-item class="mt-3">
+					<nz-form-label [nzSm]="6" [nzXs]="24" nzFor="website">Website</nz-form-label>
+					<nz-form-control [nzSm]="14" [nzXs]="24">
+						<nz-input-group [nzAddOnAfterIcon]="'global'">
+							<input nz-input id="website" formControlName="website" placeholder="website.com" />
+						</nz-input-group>
+						<nz-form-explain
+							*ngIf="registerForm.get('website')?.dirty && registerForm.get('website')?.errors"
+						>
+							Saisissez un website valide.
+						</nz-form-explain>
+					</nz-form-control>
+				</nz-form-item>
+				<!-- End website form control -->
+
+				<!-- submit button -->
+				<nz-form-item nz-row>
+					<nz-form-control [nzSpan]="14" [nzOffset]="6">
+						<button nz-button nzType="primary">S'inscrire</button>
+					</nz-form-control>
+				</nz-form-item>
+				<!-- End submit button -->
+			</form>
+		</div>
+	</div>
+</div>

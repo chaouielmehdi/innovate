@@ -1,0 +1,36 @@
+
+.align-center{
+	text-align: center;
+}
+.color-grey {
+	color: #77838f;
+}
+.txt-size{
+	font-size: 17px;
+}
+.login-form {
+	width: 350px;
+}
+.login-form-forgot {
+	float: right;
+	text-decoration: underline !important;
+	text-decoration-color: #77838f;
+}
+.login-form-forgot:hover {
+	color: #77838f !important;
+}
+
+.login-form-button {
+	width: 100%;
+}
+
+
+.link{
+	color: #377dff !important;
+}
+.link:hover{
+	color: #619eff !important;
+}
+.error {
+	color: #f5222d;
+}

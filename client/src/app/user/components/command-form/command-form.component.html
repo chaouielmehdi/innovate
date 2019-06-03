@@ -1,0 +1,196 @@
+
+<div @fade class="root">
+	
+	<!-- Component Header -->
+	<div class="row">
+		<div class="col-md-12 d-flex justify-content-center align-items-center mb-5">
+
+			<div class="backward">
+				<a routerLink="/dashboard/cart">
+					<button nz-button nzType="default">
+						<i class="fas fa-shopping-cart mr-1"></i>
+						Mon Panier
+					</button>
+				</a>
+			</div>
+			
+			<div class="mt-5">
+				<h4>Commander</h4>
+			</div>
+		</div>
+	</div>
+	<!-- End Component Header -->
+
+	<!-- Command Status -->
+	<div class="row">
+		<div class="col-sm-12 mb-3">
+			<!-- Intact command -->
+			<nz-steps [nzCurrent]="0" nzStatus="process">
+				<nz-step nzTitle="Commander" nzDescription="Commander nos produits."></nz-step>
+				<nz-step nzTitle="Confirmée" nzDescription="Confirmation par l'admin."></nz-step>
+				<nz-step nzTitle="Livrée" nzDescription="Commande livrée avec succès."></nz-step>
+			</nz-steps>
+		</div>
+	</div>
+	<!-- End Command Status -->
+
+	<!-- Products Table -->
+	<div class="row">
+		<div class="col-sm-12 mt-5">
+			<nz-table nzTemplateMode nzBordered>
+				<thead>
+					<tr>
+						<th></th>
+						<th>Produit</th>
+						<th>Prix Unitaire <span class="float-right">x</span></th>
+						<th>Quantité <span class="float-right">=</span></th>
+						<th>Prix Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let commandProductQuantity of command.products_quantities, index as i">
+						<td class="text-center">
+							<a
+								nz-popconfirm
+								[nzCancelText]="'Annuler'"
+								[nzOkText]="'Supprimer'"
+								[nzOkType]="'danger'"
+								nzTitle="Êtes-vous sûr de supprimer ce produit?"
+								(nzOnConfirm)="deleteClicked(commandProductQuantity.product.id)"
+								nzPlacement="topLeft"
+								class="trash"
+							>
+								<i class="fas fa-trash-alt c-pointer c-red"></i>
+							</a>
+						</td>
+						<td>
+							<span (click)="showProductModal(commandProductQuantity.product)" class="c-pointer c-blue hover-blue" >
+								{{ commandProductQuantity.product.name }}
+							</span>
+						</td>
+						<td>
+							<span *ngIf="commandProductQuantity.product.sold > 0" class="price-w-sold">
+								{{ commandProductQuantity.product.price }} <span class="devise">DH</span>
+							</span>
+
+							<span>
+								{{
+									commandProductQuantity.product.price - (commandProductQuantity.product.price * commandProductQuantity.product.sold / 100)
+								}}
+								<span class="devise">DH</span>
+							</span>
+
+							<span class="ml-2" *ngIf="commandProductQuantity.product.sold > 0">
+								(-{{ commandProductQuantity.product.sold }}%)
+							</span>
+
+							<span class="float-right">x</span>
+						</td>
+						<td>
+							<nz-form-control style="display: inline-block;" nzValidateStatus="{{!commandProductQuantity.quantity ? 'error': ''}}">
+								<nz-input-number [nzMin]="1" (ngModelChange)="refreshPrices($event, commandProductQuantity)" [(ngModel)]="commandProductQuantity.quantity"></nz-input-number>
+							</nz-form-control>
+
+							<span class="float-right mt-2">=</span>
+							
+						</td>
+						<td>{{ commandProductQuantity.price }} Dh</td>
+					</tr>
+					<tr>
+						<td [attr.colspan]="4"> <span class="float-right font-weight-500">=</span> <span class="float-right font-weight-500 mr-3">Total</span></td>
+						<td class="bg-blue c-blue font-weight-500">{{ command.total_price }} Dh</td>
+					</tr>
+				</tbody>
+			</nz-table>
+			
+			<!-- Edit Confirmation -->
+			<div class="float-right mt-1 p-3 font-s-14">
+				<button class="mr-3" nz-button nzType="default" (click)="cancelCommand()">Annuler</button>
+				<button class="mr-3" nz-button nzType="primary" [nzLoading]="isCommandLoading" (click)="toCommand()">Commander</button>
+			</div>
+			<!-- End Edit Confirmation -->
+
+			<!-- Infos message -->
+			<div class="float-left mt-2 font-s-14 c-grey">
+
+				<p>
+					- Vous pouvez modifier cette commande avant la confirmation de l'admin.
+				</p>
+
+			</div>
+		</div>
+	</div>
+	<!-- End Products Table -->
+</div>
+
+
+	
+
+
+<!-- Product Modal -->
+<nz-modal
+	[nzStyle]="{ top: '40px' }" [nzFooter]="productModalFooter"
+	nzTitle="Détails du produit" [(nzVisible)]="isProductModalVisible"
+	(nzOnCancel)="handleProductModalCancel()" (nzOnOk)="handleProductModalOk()" 
+>
+	<!-- Product Carousel -->
+	<div class="col-lg-12">
+		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+			<ol class="carousel-indicators">
+				<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+				<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+				<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+			</ol>
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<img class="d-block w-100" src="assets/layout/img/products/clean.jpg" alt="First slide">
+				</div>
+				<div class="carousel-item">
+					<img class="d-block w-100" src="assets/layout/img/products/clean.jpg" alt="Second slide">
+				</div>
+				<div class="carousel-item">
+					<img class="d-block w-100" src="assets/layout/img/products/clean.jpg" alt="Third slide">
+				</div>
+			</div>
+			<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="sr-only">Previous</span>
+			</a>
+			<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="sr-only">Next</span>
+			</a>
+		</div>
+	</div>
+
+	<!-- Product Info -->
+	<div class="col-lg-12">
+		<!-- Body -->
+		<div class="card-body">
+			<h1 class="card-heading card-custom-heading">{{ productModal ? productModal.name : 0 }}</h1>
+			
+			<div class="">
+				<p class="price">
+					<span *ngIf="productModal ? productModal.sold > 0 : false" class="price-w-sold">
+						{{ productModal ? productModal.price : 0 }} <span class="devise">DH</span>
+					</span>
+					{{
+						productModal
+						? ( productModal.price - (productModal.price * productModal.sold / 100) )
+						: 0
+					}}
+					<span class="devise">DH</span>
+				</p>
+				<p *ngIf="productModal ? productModal.sold > 0 : false">
+					(Soldé de <span class="c-blue">{{ productModal ? productModal.sold : 0 }}%</span>)
+				</p>
+			</div>
+
+			<p class="card-paragraph card-custom-paragraph">{{ productModal ? productModal.desc : 0 }}</p>
+		</div>
+	</div>
+	<ng-template #productModalFooter>
+		<button nz-button nzType="primary" (click)="handleProductModalOk()">Ok</button>
+	</ng-template>
+</nz-modal>
+<!-- End Product Modal -->

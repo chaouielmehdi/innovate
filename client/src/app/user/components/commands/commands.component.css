@@ -1,0 +1,77 @@
+
+nz-tag{
+	cursor: default;
+}
+.notViewed-template > td{
+	background: #377dff13;
+}
+
+/*
+-------------------------------------------------
+SearchFilter.css
+-------------------------------------------------
+*/
+.search-box {
+	padding: 8px;
+}
+
+.search-box input {
+	width: 188px;
+	margin-bottom: 8px;
+	display: block;
+}
+
+.search-box button {
+	width: 90px;
+}
+
+.search-button {
+	margin-right: 8px;
+}
+
+
+
+
+
+
+
+
+
+/*
+-------------------------------------------------
+ProductModal.css
+-------------------------------------------------
+*/
+
+/* Carousel.css */
+.carousel-indicators li{
+	cursor: pointer;
+}
+.carousel-item img{
+	max-height: 350px;
+}
+
+
+/* Product description card */
+.card-custom{
+	padding: 0;
+	padding: 1.5em;
+	background-color: rgba(55,125,255,.05);
+	box-shadow: none;
+}
+.card-custom-heading{
+	font-size: 1.5em !important;
+}
+.card-custom-paragraph{
+	color: #000;/* #BDBDBD */
+	font-weight: 2em;
+	font-size: 1em;
+}
+.card-custom:hover{
+	box-shadow: none;
+}
+.price-custom{
+	font-size: 1.2em;
+	line-height: 1.5em;
+	color: rgb(55,125,255);
+}

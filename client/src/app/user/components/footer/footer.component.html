@@ -1,0 +1,59 @@
+
+<nz-footer>
+
+	<div class="row">
+		<div class="col-md-12 d-flex justify-content-center align-items-center">
+			<p class="app-name">{{ appName }}</p>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-2">
+			<p class="title">Contact</p>
+			<p class="element">email@gmail.com</p>
+			<p class="element">+212 6 37373737</p>
+		</div>
+		<div class="col-md-2">
+			<p class="title">Services</p>
+			<p>
+				<a class="a-element" routerLink="/products">Produits</a>
+			</p>
+			<p *ngIf="!loggedIn">
+				<a class="a-element" routerLink="/contact">Contact</a>
+			</p>
+			<p *ngIf="loggedIn">
+				<a class="a-element" routerLink="/support">Support</a>
+			</p>
+		</div>
+		<div class="col-md-2">
+			<p class="title">Tags</p>
+			<p class="element">
+				Innovate 			<span class="hr"> |</span>
+				Produits 			<span class="hr"> |</span>
+				d'hygiènes			<span class="hr"> |</span>
+				Société 			<span class="hr"> |</span>
+				Tétouan				<span class="hr"> |</span>
+				Maroc
+			</p>
+		</div>
+		<div class="col-md-1">
+		</div>
+		<div class="col-md-5">
+			<p class="title">A propos</p>
+			<hr>
+			<p class="element">
+				Innovate vous assure un bon rapport qualité-prix.
+				<br>
+				Que vous soyez Café, Réstaurant, Hotel, Supermarché ou point de vente, nous vous offrons les produits d'hygiènes avec des meilleurs services, et un garanti de 99%.
+			</p>
+		</div>
+	</div>
+
+	<div class="row mt-5">
+		<div class="col-md-12">
+			Made with <3 by <a href="" target="_blank">us</a> ©{{ year }}
+		</div>
+	</div>
+	
+	
+</nz-footer>

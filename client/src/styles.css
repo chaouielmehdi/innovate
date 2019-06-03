@@ -1,0 +1,143 @@
+/* You can add global styles to this file, and also import other style files */
+body {
+	margin: 0;
+	font-family: "Poppins", Helvetica, Arial, sans-serif;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #1e2022;
+	text-align: left;
+	background-color: #fff !important;
+}
+/*
+-------------------------------------------------
+ComponentsWrapper.css
+-------------------------------------------------
+*/
+.root {
+	position: relative;
+	margin-top: 20px;
+	margin-bottom: 40px;
+}
+.center {
+	text-align: center;
+}
+
+
+/*
+-------------------------------------------------
+fontAndText.css
+-------------------------------------------------
+*/
+.font-weight-bold{
+	font-weight: 500 !important;
+}
+
+
+/*
+-------------------------------------------------
+Colors.css
+-------------------------------------------------
+*/
+.c-blue{
+	color: #377dff !important;
+}
+.c-red{
+	color: #ff3737 !important;
+}
+.c-green{
+	color: #00c9a7 !important;
+}
+.c-grey{
+	color: rgba(0, 0, 0, 0.65) !important;
+}
+.c-yellow{
+	color: #ffc400 !important;
+}
+.c-white{
+	color: #ffffff !important;
+}
+
+/* hover */
+.hover-blue:hover{
+	color: #377dffbb !important;
+}
+.hover-red:hover{
+	color: #ff3737bb !important;
+}
+.hover-green:hover{
+	color: #00c9a7bb !important;
+}
+.hover-grey:hover{
+	color: rgba(0, 0, 0, 0.431) !important;
+}
+.hover-yellow:hover{
+	color: #ffc400bb !important;
+}
+.hover-white:hover{
+	color: #ffffff !important;
+}
+
+/*
+-------------------------------------------------
+Backgrounds.css
+-------------------------------------------------
+*/
+.bg-blue{
+	background-color: #377dff13;
+}
+.bg-blue-100{
+	background-color: #377dff;
+}
+.bg-grey{
+	background-color: #fafafa;
+}
+
+/*
+-------------------------------------------------
+Cursor.css
+-------------------------------------------------
+*/
+.c-pointer{
+	cursor: pointer !important;
+}
+
+
+
+/*
+-------------------------------------------------
+CommonBetweenComponents.css
+-------------------------------------------------
+*/
+.backward{
+	position: absolute;
+	left: 12px;
+	top: -2px;
+}
+.forward{
+	position: absolute;
+	right: 12px;
+	top: -2px;
+}
+
+.price{
+	font-weight: lighter;
+	font-size: 1.1em;
+	text-transform: uppercase;
+	color: rgb(55,125,255);
+}
+.price-w-sold{
+	margin-right: 6px;
+    background-image: repeating-linear-gradient(163deg, transparent 0%, transparent 48%, red 50%, transparent 52%, transparent 100%);
+	color: red;
+}
+
+.devise{
+	font-weight: lighter;
+	font-size: .6em;
+}
+
+/* ant design overriding */
+.ant-alert{
+	color: #ff3737;
+}

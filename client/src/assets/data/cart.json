@@ -1,0 +1,44 @@
+[
+	{
+		"id": 0,
+		"client_id": 0,
+		"product":
+		{
+			"id": 5,
+			"img": "clean.jpg",
+			"name": "Brosse A",
+			"desc": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa placeat mollitia esse officia, ad alias sunt provident! Nobis, odio maxime!",
+			"in_store": true,
+			"price": 200,
+			"sold": 40,
+			"category": "restaurant",
+			"created_at": "19/12/2018",
+			"updated_at" : "09/05/2013"
+		},
+		"quantity": 15,
+		"total_price": 120,
+		"created_at": "19/12/2018",
+		"updated_at" : "09/05/2013"
+	},
+	{
+		"id": 1,
+		"client_id": 0,
+		"product":
+		{
+			"id": 6,
+			"img": "clean.jpg",
+			"name": "Brosse jj",
+			"desc": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa placeat mollitia esse officia, ad alias sunt provident! Nobis, odio maxime!",
+			"in_store": false,
+			"price": 100,
+			"sold": 60,
+			"category": "restaurant",
+			"created_at": "19/12/2018",
+			"updated_at" : "09/05/2013"
+		},
+		"quantity": 1,
+		"total_price": 40,
+		"created_at": "19/12/2018",
+		"updated_at" : "09/05/2013"
+	}
+]

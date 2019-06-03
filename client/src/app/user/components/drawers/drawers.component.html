@@ -1,0 +1,371 @@
+<!--
+-------------------------------------------------
+Menu Drawer
+-------------------------------------------------
+-->
+<nz-drawer class="menu" [nzClosable]="false" [nzWidth]="380" [nzVisible]="visibleMenu" nzPlacement="right" (nzOnClose)="closeMenu()">
+	<div class="pre-header">
+		<span class="title">Gérer Mon Compte</span>
+		<span (click)="closeMenu()" class="x">&times;</span>
+	</div>
+
+	<div class="header">
+		<div class="row">
+			<div class="user-icon-div col-2">	
+				<i nz-icon type="user" class="user-icon"></i>
+			</div>
+			<div class="username col-7">
+				{{ user.name }}
+				<span class="category">
+					<div [ngSwitch]="user.canal">
+						<div *ngSwitchCase="'Hotel'">Hotel</div>
+						<div *ngSwitchCase="'Cafe'">Café</div>
+						<div *ngSwitchCase="'Restaurant'">Restaurant</div>
+						<div *ngSwitchCase="'Supermarche'">Supermarché</div>
+						<div *ngSwitchCase="'PDV'">Point de vente</div>
+						<div *ngSwitchDefault>Canal</div>
+					</div>
+				</span>
+			</div>
+			<div class="col-1">
+				<nz-dropdown [nzPlacement]="'bottomRight'">
+					<span nz-dropdown><i class="fas fa-ellipsis-v options"></i></span>
+					<ul nz-menu>
+						<li nz-menu-item>
+							<a (click)="toProfileForm()">
+								<i class="fas fa-user-cog"></i>
+								Paramètres
+							</a>
+						</li>
+						<li nz-menu-item>
+							<a (click)="logout()">
+								<i class="fas fa-sign-out-alt"></i>
+								Se Déconnecter
+							</a>
+						</li>
+					</ul>
+				</nz-dropdown>
+			</div>
+			
+		</div>
+	</div>
+	<div class="body">
+		<div class="menu-item">
+			<a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/dashboard" (click)="menuItemClicked()">
+
+				<i nz-icon nzType="dashboard" class="menu-item-icon" nzTheme="fill"></i>
+				<span class="menu-item-legend">Tableau de bord</span>
+				
+			</a>
+		</div>
+		<div class="menu-item">
+			<a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/dashboard/commands" (click)="menuItemClicked()">
+		
+				<i class="fas fa-clipboard-list menu-item-icon mar-l"></i>
+				<span class="menu-item-legend">Mes Commandes</span>
+				<div class="d-inline menu-item-badge">
+					<nz-badge [nzCount]="statistics.commands.notViewedNumber" [nzStyle]="{ backgroundColor: '#ff3737' }"></nz-badge>
+				</div>
+		
+			</a>
+		</div>
+		<div class="menu-item">
+			<a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/dashboard/cart" (click)="menuItemClicked()">
+		
+				<i class="fas fa-shopping-cart menu-item-icon smaller"></i>
+				<span class="menu-item-legend">Mon Panier</span>
+		
+			</a>
+		</div>
+		<div class="menu-item">
+			<a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/dashboard/credits" (click)="menuItemClicked()">
+		
+				<i class="fas fa-coins menu-item-icon"></i>
+				<span class="menu-item-legend">Mes Crédits</span>
+		
+			</a>
+		</div>
+		<hr>
+		<div class="menu-item">
+			<a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/products" (click)="menuItemClicked()">
+			
+				<i class="fas fa-box-open menu-item-icon smaller"></i>
+				<span class="menu-item-legend">Nos Produits</span>
+				<div class="d-inline menu-item-badge">
+					<nz-badge [nzCount]="statistics.products.notViewedNumber" [nzStyle]="{ backgroundColor: '#ff3737' }"></nz-badge>
+				</div>
+
+			</a>
+		</div>
+		<div class="menu-item">
+			<a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/support" (click)="menuItemClicked()">
+		
+				<i class="fas fa-headset menu-item-icon"></i>
+				<span class="menu-item-legend">Support</span>
+				<div class="d-inline menu-item-badge">
+					<nz-badge [nzCount]="statistics.support.notViewedNumber" [nzStyle]="{ backgroundColor: '#ff3737' }"></nz-badge>
+				</div>
+		
+			</a>
+		</div>
+	</div>
+	<div class="drawer-footer">
+		<img src="assets/layout/img/drawer-bg.svg" alt="">
+	</div>
+
+</nz-drawer>
+
+
+
+
+<!--
+-------------------------------------------------
+Login Drawer
+-------------------------------------------------
+-->
+
+<nz-drawer [nzWidth]="'900'" class="login-drawer" [nzClosable]="false" [nzVisible]="visibleLogin" nzPlacement="right"
+	(nzOnClose)="closeLogin()">
+
+	<span (click)="closeLogin()" class="x">&times;</span>
+	
+	<div class="align-center mt-5">
+		<h4>
+			Se Connecter!
+		</h4>
+		<p class="color-grey txt-size">
+			Connectez-vous,
+			<br>
+			et gérer votre compte.
+		</p>
+	</div>
+	<form nz-form [formGroup]="loginForm" class="login-form" (ngSubmit)="submitLoginForm()">
+		<span class="error">{{ loginErrorMsg }}</span>
+		<nz-form-item>
+			<nz-form-control>
+			
+			<!-- email input -->
+			<nz-input-group [nzPrefix]="prefixUser">
+				<input type="email" nz-input formControlName="email" placeholder="Email" />
+			</nz-input-group>
+
+			<!-- email validation -->
+			<div *ngIf="loginForm.get('email')?.dirty">
+				<nz-form-explain *ngIf="loginForm.get('email').errors?.required">
+					Saisissez une adresse email.
+				</nz-form-explain>
+				<nz-form-explain *ngIf="loginForm.get('email').errors?.email">
+					Saisissez une adresse email valide.
+				</nz-form-explain>
+				<nz-form-explain *ngIf="loginForm.get('email').errors?.maxlength">
+					Email trop long.
+				</nz-form-explain>
+			</div>
+
+			</nz-form-control>
+		</nz-form-item>
+		<nz-form-item>
+			<nz-form-control>
+
+				<!-- password input -->
+				<nz-input-group [nzPrefix]="prefixLock">
+					<input type="password" nz-input formControlName="password" placeholder="Mot De Passe" />
+				</nz-input-group>
+
+				<!-- password validation -->
+				<div *ngIf="loginForm.get('password')?.dirty">
+					<nz-form-explain *ngIf="loginForm.get('password').errors?.required">
+						Saisissez un mot de passe.
+					</nz-form-explain>
+					<nz-form-explain *ngIf="loginForm.get('password').errors?.maxlength">
+						Mot de passe trop long.
+					</nz-form-explain>
+				</div>
+
+			</nz-form-control>
+		</nz-form-item>
+		<nz-form-item>
+			<nz-form-control>
+			<label nz-checkbox formControlName="remember">
+				<span>Souvenir de moi</span>
+			</label>
+			<a class="login-form-forgot" (click)="openRecover()">Mode de passe oublié</a>
+			<button nz-button class="login-form-button" [nzType]="'primary'">Se Connecter</button>
+				Ou
+			<a (click)="openRegister()" class="link">Créer Votre Compte!</a>
+			</nz-form-control>
+		</nz-form-item>
+	</form>
+	<ng-template #prefixUser><i nz-icon type="user"></i></ng-template>
+	<ng-template #prefixLock><i nz-icon type="lock"></i></ng-template>
+
+	<div class="drawer-footer">
+		<img src="assets/layout/img/drawer-bg.svg" alt="">
+	</div>
+</nz-drawer>
+
+
+
+<!--
+-------------------------------------------------
+register Drawer
+-------------------------------------------------
+-->
+
+<nz-drawer [nzWidth]="'900'" class="register-drawer" [nzClosable]="false" [nzVisible]="visibleRegister" nzPlacement="right"
+	(nzOnClose)="closeRegister()">
+
+	<span (click)="closeRegister()" class="x">&times;</span>
+	
+	<div class="align-center mt-5">
+		<h4>
+			Créer un compte
+		</h4>
+		<p class="color-grey txt-size">
+			Rejoignez nous,
+			<br>
+			et profiter de nos services.
+		</p>
+	</div>
+	<form nz-form [formGroup]="registerForm" class="register-form" (ngSubmit)="submitRegisterForm()">
+		<span class="error">{{ registerErrorMsg }}</span>
+		<nz-form-item>
+			<nz-form-control>
+				
+			<!-- email input -->
+			<nz-input-group [nzPrefix]="prefixUser">
+				<input type="email" nz-input formControlName="email" placeholder="Email" />
+			</nz-input-group>
+
+			<!-- email validation -->
+			<div *ngIf="registerForm.get('email')?.dirty">
+				<nz-form-explain *ngIf="registerForm.get('email').errors?.required">
+					Saisissez une adresse email.
+				</nz-form-explain>
+				<nz-form-explain *ngIf="registerForm.get('email').errors?.email">
+					Saisissez une adresse email valide.
+				</nz-form-explain>
+				<nz-form-explain *ngIf="registerForm.get('email').errors?.maxlength">
+					Email trop long.
+				</nz-form-explain>
+			</div>
+
+			</nz-form-control>
+		</nz-form-item>
+		<nz-form-item>
+			<nz-form-control>
+
+				<!-- password input -->
+				<nz-input-group [nzPrefix]="prefixLock">
+					<input type="password" nz-input formControlName="password" placeholder="Mot De Passe" />
+				</nz-input-group>
+
+				<!-- password validation -->
+				<div *ngIf="registerForm.get('password')?.dirty">
+					<nz-form-explain *ngIf="registerForm.get('password').errors?.required">
+						Saisissez un mot de passe.
+					</nz-form-explain>
+					<nz-form-explain *ngIf="registerForm.get('password').errors?.maxlength">
+						Mot de passe trop long.
+					</nz-form-explain>
+				</div>
+
+			</nz-form-control>
+		</nz-form-item>
+		<nz-form-item>
+			<nz-form-control>
+
+				<!-- password_confirmation input -->
+				<nz-input-group [nzPrefix]="prefixLock">
+					<input type="password" nz-input formControlName="password_confirmation" placeholder="Confirmation du Mot De Passe" />
+				</nz-input-group>
+
+				<!-- password_confirmation validation -->
+				<div *ngIf="registerForm.get('password_confirmation')?.dirty">
+					<nz-form-explain *ngIf="registerForm.get('password_confirmation').errors?.required">
+						Confirmer votre mot de passe.
+					</nz-form-explain>
+					<nz-form-explain *ngIf="registerForm.errors?.misMatch">
+						<span class="error">Confirmation invalide</span>
+					</nz-form-explain>
+				</div>
+
+			</nz-form-control>
+		</nz-form-item>
+		<nz-form-item>
+			<nz-form-control>
+			<a class="register-form-forgot" (click)="openRecover()">Mode de passe oublié</a>
+			<button nz-button class="login-form-button" [nzType]="'primary'">Créer</button>
+				Ou
+			<a (click)="openLogin()" class="link">Se Connecter!</a>
+			</nz-form-control>
+		</nz-form-item>
+	</form>
+	<ng-template #prefixUser><i nz-icon type="user"></i></ng-template>
+	<ng-template #prefixLock><i nz-icon type="lock"></i></ng-template>
+
+	<div class="drawer-footer">
+		<img src="assets/layout/img/drawer-bg.svg" alt="">
+	</div>
+</nz-drawer>
+
+
+<!--
+-------------------------------------------------
+Recover Drawer
+-------------------------------------------------
+-->
+
+<nz-drawer [nzWidth]="'900'" class="recover-drawer" [nzClosable]="false" [nzVisible]="visibleRecover" nzPlacement="right"
+	(nzOnClose)="closeRecover()">
+
+	<span (click)="closeRecover()" class="x">&times;</span>
+	
+	<div class="align-center mt-5">
+		<h4>
+			Mode de passe oublié!
+		</h4>
+		<p class="color-grey txt-size">
+			Récupérer votre mot de passe
+		</p>
+	</div>
+	<form nz-form [formGroup]="recoverForm" class="recover-form" (ngSubmit)="submitRecoverForm()">
+		<span class="error">{{ recoverErrorMsg }}</span>
+		<nz-form-item>
+			<nz-form-control>
+			
+				<!-- email input -->
+				<nz-input-group [nzPrefix]="prefixUser">
+					<input type="email" nz-input formControlName="recoverEmail" placeholder="Email" />
+				</nz-input-group>
+
+				<!-- email validation -->
+				<div *ngIf="recoverForm.get('recoverEmail')?.dirty">
+					<nz-form-explain *ngIf="recoverForm.get('recoverEmail').errors?.required">
+						Saisissez une adresse email.
+					</nz-form-explain>
+					<nz-form-explain *ngIf="recoverForm.get('recoverEmail').errors?.email">
+						Saisissez une adresse email valide.
+					</nz-form-explain>
+					<nz-form-explain *ngIf="recoverForm.get('recoverEmail').errors?.maxlength">
+						Email trop long.
+					</nz-form-explain>
+				</div>
+
+			</nz-form-control>
+		</nz-form-item>
+		<nz-form-item>
+			<nz-form-control>
+				<button nz-button class="recover-form-button" [nzType]="'primary'">Récupérer</button>
+					Ou
+				<a (click)="openLogin()" class="link">Se connecter!</a>
+			</nz-form-control>
+		</nz-form-item>
+	</form>
+	<ng-template #prefixUser><i nz-icon type="user"></i></ng-template>
+	<ng-template #prefixLock><i nz-icon type="lock"></i></ng-template>
+
+	<div class="drawer-footer">
+		<img src="assets/layout/img/drawer-bg.svg" alt="">
+	</div>
+</nz-drawer>

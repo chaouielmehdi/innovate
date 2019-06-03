@@ -1,0 +1,178 @@
+
+
+/*
+-------------------------------------------------
+Cards.css
+-------------------------------------------------
+*/
+.card{
+    padding: 0;
+    margin: .5em !important;
+    margin-top: 3em !important;
+    width: 20rem;
+    
+}
+
+.card{
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+    text-align:left;
+    border: none;
+    background: #fff;
+    box-shadow: 0 3px 6px rgba(142,159,189,0.16), 0 3px 6px rgba(142,159,189,0.23);
+    /*transition: 50ms;*/
+    transition-property: box-shadow;
+    transition-timing-function: ease-out;
+    transition-delay: 50ms;
+}
+.card:hover{
+    box-shadow: 0 5px 30px rgba(142,159,189,0.4), 0 3px 6px rgba(142,159,189,0.4);
+}
+.card-img{
+    height: 200px;
+    width: 100%;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+.card-heading{
+    color: #000;
+    font-size: 1em !important;
+    font-weight: bold;
+}
+.card-paragraph{
+    font-size: .75em;
+}
+.card-footer{
+    border: none !important;
+    border-radius: 0px !important;
+    background: rgba(55,125,255,.16);
+    height: 3em;
+    width: 100% !important;
+}
+.badge{
+    margin: .5em;
+    padding: .5em;
+    font-weight: lighter;
+}
+
+/* BADGES  :=> Copy in ROOT CSS*/
+.badge-success{
+    background-color: rgba(0,201,167,.16);
+    color: rgb(0,201,167) !important;
+}
+.badge-danger{
+    background-color: rgba(222,68,55,.16);
+    color: rgb(222,68,55) !important;
+}
+.badge-primary{
+    background-color: rgba(55,125,255,.16);
+    color: rgb(55,125,255) !important;
+}
+/* End Badges*/
+
+.add-to-cart{
+    margin: 0;
+    padding: .2em;
+    display: block;
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+    background-color: white;
+}
+.add-to-cart i{
+    float: center;
+    font-size: .9em;
+    color: rgb(55,125,255);
+}
+
+
+
+/*
+-------------------------------------------------
+This.css
+-------------------------------------------------
+*/
+
+
+/* Carousel.css */
+.carousel-indicators li{
+	cursor: pointer;
+}
+.carousel-item img{
+	max-height: 350px;
+}
+
+
+/* Product description card */
+.card-custom{
+	padding: 0;
+	padding: 1.5em;
+	background-color: rgba(55,125,255,.05);
+	box-shadow: none;
+}
+.card-custom-heading{
+	font-size: 1.5em !important;
+}
+.card-custom-paragraph{
+	color: #000;/* #BDBDBD */
+	font-weight: 2em;
+	font-size: 1em;
+}
+.card-custom:hover{
+	box-shadow: none;
+}
+.price-custom{
+	font-size: 1.2em;
+	line-height: 1.5em;
+	color: rgb(55,125,255);
+}
+.custom-button{
+	background-color: #fff;
+	color: #000;
+	border: none;
+}
+.custom-button:hover, .custom-button:active, .custom-button:focus{
+	background-color: rgba(0,201,167,.16);
+}
+.price-button, .price-button:hover, .price-button:focus, .price-button:active{
+	margin: 0;
+	padding-left: 11px;
+	padding-right: 11px;
+	background-color: rgba(55,125,255,.16) !important;
+	color: rgb(55,125,255) !important;
+	border: none !important;
+}
+.quantity-label{
+	margin-right: 15px;
+	color: rgba(0, 0, 0, 0.65);
+}
+.card-custom-footer{ 
+	width: auto;
+	background-color: rgba(0,201,167,.16);
+	cursor: pointer;
+}
+.custom-link{
+	color: rgb(0,201,167) !important;
+	text-decoration: none !important;
+}
+
+.card-custom-footer:hover > a, .card-custom-footer:focus a {
+	color: rgba(0, 201, 167, .5) !important;
+}
+
+/* Similar products cards and utils */
+.card-similar{
+	width: 15rem !important;
+}
+.card-similar-img{
+	height: 150px;
+	background-size: 100%;
+	background-repeat: no-repeat;
+}
+
+/*
+-------------------------------------------------
+Media queries
+-------------------------------------------------
+*/
+

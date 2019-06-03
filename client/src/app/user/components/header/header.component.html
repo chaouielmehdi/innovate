@@ -1,0 +1,84 @@
+<div class="wrapper">
+	<nav>
+		<ul>
+			<li *ngIf="!loggedIn">
+				<a routerLinkActive="active" routerLink="/home">
+					{{ appName }}
+				</a>
+			</li>
+			<li *ngIf="loggedIn">
+				<a routerLinkActive="active" routerLink="/dashboard">
+					{{ appName }}
+				</a>
+			</li>
+			<li>
+				<a routerLinkActive="active" routerLink="/products">
+					Produits
+				</a>
+			</li>
+			<li *ngIf="!loggedIn">
+				<a routerLinkActive="active" routerLink="/contact">
+					Contact
+				</a>
+			</li>
+			<li *ngIf="loggedIn">
+				<a routerLinkActive="active" routerLink="/support">
+					Support
+				</a>
+			</li>
+			<li>
+				<a routerLinkActive="" routerLink="/">
+					<i class="search-icon" nz-icon type="search"></i>
+				</a>
+			</li>
+			<li *ngIf="loggedIn">
+				<a (click)="openMenu()">
+					<i nz-icon nzType="bars" nzTheme="outline" class="user-icon-header"></i>
+					<!-- <span class="user-icon-badge badge badge-pill badge-success">&nbsp;</span>		 -->
+				</a>
+			</li>
+		</ul>
+	</nav>
+
+	<!------------------ mini-menu ------------------>
+
+	<!-- <div *ngIf="loggedIn" (click)="openMenu()" class="little-menu">
+		<div class="header">
+			<div class="row">
+				<div class="user-icon-div col-2">
+					<nz-badge [nzCount]="2">	
+						<i nz-icon type="user" class="user-icon"></i>
+					</nz-badge>
+				</div>
+				<div class="username col-7">
+					<span class="category">Hotel</span>
+				</div>
+				
+			</div>
+		</div>
+		<div class="body">
+			<div class="menu-item">
+				<i class="fas fa-shopping-cart menu-item-icon"></i>
+				<span class="menu-item-legend">Mon Panier</span>
+			</div>
+			<div class="menu-item">
+				<i class="fas fa-user-circle menu-item-icon"></i>
+				<span class="menu-item-legend">Mon Profile</span>
+			</div>
+			<div class="menu-item">
+				<i class="fas fa-history menu-item-icon"></i>
+				<span class="menu-item-legend">Mon Historique</span>
+			</div>
+			<hr>
+			<div class="menu-item">
+				<i class="fas fa-headset menu-item-icon"></i>
+				<span class="menu-item-legend">Support</span>
+			</div>
+			<div class="menu-item">
+				<i class="fas fa-clipboard-list menu-item-icon"></i>
+				<span class="menu-item-legend">Nouveaux Produits</span>
+			</div>
+		</div>
+
+	</div> -->
+</div>

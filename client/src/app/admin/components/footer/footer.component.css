@@ -1,0 +1,10 @@
+nz-footer{
+	color: #888888;
+    font-size: 80%;
+	font-weight: 400;
+}
+.footer-legend{
+	color: rgba(255, 255, 255, 0.85) !important;
+	font-weight: 300 !important;
+	font-size: 15px;
+}

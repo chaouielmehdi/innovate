@@ -1,0 +1,99 @@
+
+/*
+-------------------------------------------------
+This.css
+-------------------------------------------------
+*/
+.bold-text{
+	color: rgba(0, 0, 0, 0.85);
+	font-weight: 500;
+}
+.bordered{
+	border-width: 1px;
+	border-style: solid;
+	border-color: rgba(0, 0, 0, 0.10);
+}
+.font-s-14{
+	font-size: 14px;
+}
+.font-weight-500{
+	font-weight: 500;
+}
+.trash{
+	padding: 15px;
+	margin: 0;
+}
+.trash:hover i{
+	color: #ff3737bb !important;
+}
+
+
+/*
+-------------------------------------------------
+report-command.css
+-------------------------------------------------
+*/
+.report-card{
+	padding: 7px;
+	color: rgba(0, 0, 0, 0.30);
+	cursor: default;
+	-webkit-transition: font-size 0.2s; /* For Safari 3.1 to 6.0 */
+	transition: font-size 0.2s;
+}
+.report-card-hover{
+	cursor: pointer;
+}
+.report-card-hover:hover{
+	font-size: 15px;
+	color: rgba(0, 0, 0, 0.65);
+}
+.report-card-hover:hover i{
+	color: #ffc400 !important;
+}
+
+.report-card-active{
+	padding: 7px;
+	font-size: 15px;
+	color: rgba(0, 0, 0, 0.65);
+}
+.report-card-active i{
+	color: #ffc400 !important;
+}
+/*
+-------------------------------------------------
+ProductModal.css
+-------------------------------------------------
+*/
+
+/* Carousel.css */
+.carousel-indicators li{
+	cursor: pointer;
+}
+.carousel-item img{
+	max-height: 350px;
+}
+
+
+/* Product description card */
+.card-custom{
+	padding: 0;
+	padding: 1.5em;
+	background-color: rgba(55,125,255,.05);
+	box-shadow: none;
+}
+.card-custom-heading{
+	font-size: 1.5em !important;
+}
+.card-custom-paragraph{
+	color: #000;/* #BDBDBD */
+	font-weight: 2em;
+	font-size: 1em;
+}
+.card-custom:hover{
+	box-shadow: none;
+}
+.price-custom{
+	font-size: 1.2em;
+	line-height: 1.5em;
+	color: rgb(55,125,255);
+}

@@ -1,0 +1,231 @@
+<div @fade class="root">
+
+	<!--
+	-------------------------------------------------
+	Hero
+	-------------------------------------------------
+	-->
+	<div class="hero">
+		<div class="row">
+			<div class="col-lg-6 hero-text">
+				
+				<h1 class="title">Qui Sommes Nous</h1>
+				
+				<p class="text">
+					{{ appName }}
+					<span class="text-primary">
+						<strong id="text-animation-typing"></strong>
+					</span>
+					<br>Que vous soyez Café, Réstaurant, Hotel, Supermarché ou point de vente,
+					nous vous offrons les produits d'hygiènes avec des meilleurs services, et un garanti de 99%.
+				</p>
+				<div class="mt-4">
+					<button nz-button nzType="primary" (click)="ToConnectClicked()">Se Connecter</button>
+					<nz-anchor [nzAffix]="false" [nzTarget]="">
+						<nz-link nzHref="#productsTag" nzTitle="Nos Produits"></nz-link>
+					</nz-anchor>
+				</div>
+
+			</div>
+			<div class="col-lg-6">
+				<img class="hero-img" src="assets/layout/img/home-img-4.svg" alt="image">
+			</div>
+
+		</div>
+	</div>
+
+
+	<!--
+	-------------------------------------------------
+	What we do
+	-------------------------------------------------
+	-->
+
+	<div class="what-we-do">
+		<div class="row">
+			<div class="col-lg-12 center">
+				<nz-tag [nzColor]="'#00c9a713'" class="what-we-do-tag">Que faisons nous?</nz-tag>
+				<h2 class="what-we-do-title">
+					Innovate vous offre les produits d'hygiènes dont vous avez besoin.
+				</h2>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-6 col-md-6 col-sm-6 center">
+				<img class="hero-icon" width="180px" src="assets/layout/img/home-icon-1.svg" alt="home-icon">
+				<p class="strategy-title">
+					Démarche d'Innovate
+				</p>
+				<p class="strategy-p">
+					Concentrez-vous sur votre travail, et nous allons vous fournir.
+				</p>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-6 center">
+				<img class="hero-icon" width="180px" src="assets/layout/img/home-icon-2.svg" alt="home-icon">
+				<p class="strategy-title">
+					Force d'Innovate
+				</p>
+				<p class="strategy-p">
+					Trouvez les produits que vous voulez chez nous, tout est garanti.
+				</p>
+			</div>
+		</div>
+		<div class="row mt-3">
+			<div class="col-lg-12 col-md-12 col-sm-12 center">
+				<img width="58%" src="assets/layout/img/home-icon-3.svg" alt="home-icon">
+				<p id="productsTag" class="strategy-title mt-4">
+					Simple est surtout garanti.
+				</p>
+				<p class="strategy-p">
+					Commandez et suivez vos commandes.
+				</p>
+			</div>
+		</div>
+	</div>
+
+
+	<!--
+	-------------------------------------------------
+	Products
+	-------------------------------------------------
+	-->
+
+	<div>
+		<div class="row">
+			<div class="col-lg-12 center">
+				<!-- Menu -->
+				<div class="d-flex justify-content-center products-menu">
+					<a [class.active]="activeProductsMenuItem=='all'" class="p-2" (click)="productsMenuChanged('all')">
+						Tout
+					</a>
+					<a [class.active]="activeProductsMenuItem=='Hotel'" class="p-2" (click)="productsMenuChanged('Hotel')">
+						Hôtel
+					</a>
+					<a [class.active]="activeProductsMenuItem=='Cafe'" class="p-2" (click)="productsMenuChanged('Cafe')">
+						Café
+					</a>
+					<a [class.active]="activeProductsMenuItem=='Restaurant'" class="p-2" (click)="productsMenuChanged('Restaurant')">
+						Réstaurant
+					</a>
+					<a [class.active]="activeProductsMenuItem=='Supermarche'" class="p-2" (click)="productsMenuChanged('Supermarche')">
+						Supermarché
+					</a>
+					<a [class.active]="activeProductsMenuItem=='PDV'" class="p-2" (click)="productsMenuChanged('PDV')">
+						Point de vente
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="row d-flex justify-content-center">
+			<!-- Empty -->
+			<nz-empty @fade *ngIf="noData"></nz-empty>
+
+			<!-- Products -->
+			<div @fade class="card-wrapper" *ngFor="let product of productsFiltered">
+				<div class="card mt-5">
+					<!-- Card Image-->
+					<div class="card-img">
+						<img width="100%" src="assets/layout/img/products/{{ product.img }}" alt="image de produit">
+					</div>
+					<!-- Body -->
+					<div class="card-body">
+						<h1 class="card-heading">{{ product.name }}</h1>
+						<p class="card-paragraph">{{ product.desc }}</p>
+						
+						<div class="d-flex justify-content-end">
+							<div *ngIf="product.in_store" class="">
+								<span class="badge badge-success">
+									En stock
+								</span>
+							</div>
+							<div *ngIf="!product.in_store" class="">
+								<span class="badge badge-danger">
+									Non disponible
+								</span>
+							</div>
+							<div *ngIf="product.sold > 0" class="">
+								<span class="badge badge-primary">
+									-{{ product.sold }}%
+								</span>
+							</div>
+						</div>
+					</div>
+					<!-- Footer -->
+					<div class="card-footer">
+						<div class="d-flex justify-content-between">
+							<div class="">
+								<p class="price">
+									<span *ngIf="product.sold > 0" class="price-w-sold">
+										{{ product.price }} <span class="devise">DH</span>
+									</span>
+									{{ product.price - (product.price * product.sold / 100) }} <span class="devise">DH</span>
+								</p>
+							</div>
+							<div *ngIf="!loggedIn" class="text-center">
+								<a
+									nzTitle="Ajouter au panier" nzPlacement="top"
+									nz-tooltip class="add-to-cart"
+									(click)="addToCartClicked(product.id)"
+								>
+									<i class="fa fa-shopping-cart"></i>
+								</a>
+							</div>
+							<div *ngIf="loggedIn" class="text-center">
+								<a nzTitle="Ajouter au panier" nzPlacement="top"
+									nz-tooltip class="add-to-cart"
+									routerLink="/products/product-details/{{product.id}}">
+									<i class="fa fa-shopping-cart"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row d-flex justify-content-center mt-4">
+			<button nz-button nzType="primary" (click)="navigateToProducts()">
+				Plus de produits<i nz-icon type="right"></i>
+			</button>
+		</div>
+	</div>
+
+
+	<!--
+	-------------------------------------------------
+	Infos
+	-------------------------------------------------
+	-->
+	<div class="infos">
+		<div class="row d-flex justify-content-center">
+			<h3>Notre position</h3>
+			<div class="mapouter">
+				<div class="gmap_canvas">
+					<iframe width="100%" height="350" id="gmap_canvas"
+						src="https://maps.google.com/maps?q=35.57621765136719%2C-5.342766761779785&t=&z=13&ie=UTF8&iwloc=&output=embed"
+						frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+					</iframe>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</div>
+
+
+<!--
+-------------------------------------------------
+Connectez vous Modal
+-------------------------------------------------
+-->
+<nz-modal nzWrapClassName="vertical-center-modal"
+	[(nzVisible)]="modalVisible"
+	nzTitle="Rejoignez nous!"
+	(nzOnCancel)="cancelModal()"
+	(nzOnOk)="okModal()"
+	nzOkText="Se connecter"
+	nzCancelText="Annuler"
+>
+	<p>Pour profiter de nos services, veuillez vous connecter!</p>
+</nz-modal>

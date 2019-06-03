@@ -1,0 +1,13 @@
+
+{
+	"id": 5,
+	"name":"Brosse 4",
+	"img": "clean.jpg",
+	"desc":"Lorem ipsum,dolor sit amet consectetur adipisicing elit.",
+	"in_store": false,
+	"price": 120,
+	"sold": 0,
+	"category": "Restaurant",
+	"created_at": "19/12/2018",
+	"updated_at" : "09/05/2013"
+}

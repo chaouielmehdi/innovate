@@ -1,0 +1,67 @@
+[
+	{
+		"id": 1,
+		"img": "clean.jpg",
+		"name": "Brosse 0",
+		"desc": "Lorem ipsum,dolor sit amet consectetur adipisicing elit.",
+		"in_store": true,
+		"price": 120,
+		"sold": 0,
+		"canal": "Hotel",
+		"isViewed": true,
+		"created_at": "19/12/2018",
+		"updated_at": "19/12/2018"
+	},
+	{
+		"id": 2,
+		"img": "clean.jpg",
+		"name": "Brosse 2",
+		"desc": "Lorem ipsum,dolor sit amet consectetur adipisicing elit.",
+		"in_store": true,
+		"price": 30,
+		"sold": 20,
+		"canal": "Cafe",
+		"isViewed": true,
+		"created_at": "19/12/2018",
+		"updated_at": "19/12/2018"
+	},
+	{
+		"id": 3,
+		"img": "clean.jpg",
+		"name": "Brosse 3",
+		"desc": "Lorem ipsum,dolor sit amet consectetur adipisicing elit.",
+		"in_store": false,
+		"price": 100,
+		"sold": 30,
+		"canal": "Restaurant",
+		"isViewed": true,
+		"created_at": "19/12/2018",
+		"updated_at": "19/12/2018"
+	},
+	{
+		"id": 4,
+		"img": "clean.jpg",
+		"name": "Brosse 4",
+		"desc": "Lorem ipsum,dolor sit amet consectetur adipisicing elit.",
+		"in_store": false,
+		"price": 100,
+		"sold": 30,
+		"canal": "Supermarche",
+		"isViewed": true,
+		"created_at": "19/12/2018",
+		"updated_at": "19/12/2018"
+	},
+	{
+		"id": 5,
+		"img": "clean.jpg",
+		"name": "Brosse 5",
+		"desc": "Lorem ipsum,dolor sit amet consectetur adipisicing elit.",
+		"in_store": false,
+		"price": 100,
+		"sold": 30,
+		"canal": "PDV",
+		"isViewed": true,
+		"created_at": "19/12/2018",
+		"updated_at": "19/12/2018"
+	}
+]

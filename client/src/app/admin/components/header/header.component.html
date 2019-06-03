@@ -1,0 +1,42 @@
+<div class="wrapper">
+	<nav>
+		<ul>
+			<li *ngIf="!loggedIn">
+				<a routerLinkActive="active" routerLink="/admin/login">
+					{{ appName }}
+				</a>
+			</li>
+			<li *ngIf="loggedIn">
+				<a routerLinkActive="active" routerLink="/admin/dashboard">
+					{{ appName }}
+				</a>
+			</li>
+			<li *ngIf="loggedIn">
+				<a routerLinkActive="active" routerLink="/admin/commercials">
+					Commercials
+				</a>
+			</li>
+			<li *ngIf="loggedIn">
+				<a routerLinkActive="active" routerLink="/admin/clients">
+					Clients
+				</a>
+			</li>
+			<li *ngIf="loggedIn">
+				<a routerLinkActive="active" routerLink="/admin/products">
+					Produits
+				</a>
+			</li>
+			<li>
+				<a routerLinkActive="" routerLink="/admin">
+					<i class="search-icon" nz-icon type="search"></i>
+				</a>
+			</li>
+			<li *ngIf="loggedIn">
+				<a (click)="openMenu()">
+					<i nz-icon nzType="bars" nzTheme="outline" class="user-icon-header"></i>
+					<!-- <span class="user-icon-badge badge badge-pill badge-success">&nbsp;</span> -->
+				</a>
+			</li>
+		</ul>
+	</nav>
+</div>

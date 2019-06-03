@@ -1,0 +1,22 @@
+
+nz-content{
+	min-height: 100%;
+	min-height: 100vh;
+	padding-top: 65px;
+	position: relative;
+	z-index: 1;
+
+	-webkit-box-shadow: rgb(37, 37, 37) 0 17px 30px 0;
+	-moz-box-shadow: rgb(37, 37, 37) 0 17px 30px 0;
+	box-shadow: rgb(37, 37, 37) 0 17px 30px 0;
+}
+
+app-footer{
+	padding: 25px 0;
+	position: fixed;
+	z-index: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	min-height: 20vw;
+}

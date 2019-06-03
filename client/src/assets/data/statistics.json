@@ -1,0 +1,24 @@
+{
+	"commands": {
+		"count": 13,
+		"delivered": 2,
+		"confirmed": 2,
+		"commanded": 2,
+		"canceled": 4,
+		"notViewedNumber": 2
+	},
+	"cart": {
+		"count": 14,
+		"canceled": 2
+	},
+	"credits": {
+		"count": 1000,
+		"paid": 800
+	},
+	"products": {
+		"notViewedNumber": 4
+	},
+	"support": {
+		"notViewedNumber": 1
+	}
+}

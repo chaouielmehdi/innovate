@@ -1,0 +1,183 @@
+<div @fade class="root">
+	
+	<!-- Component Header -->
+	<div class="row">
+		<div class="col-md-12 d-flex justify-content-center align-items-center mb-2">
+			<div class="mt-2">
+				<h4>Nos Produits</h4>
+			</div>
+		</div>
+	</div>
+	<!-- End Component Header -->
+
+	<!--
+	-------------------------------------------------
+	Products
+	-------------------------------------------------
+	-->
+
+	<div>
+		<div class="row">
+			<div class="col-lg-12 center">
+				<!-- Menu -->
+				<div class="d-flex justify-content-center products-menu">
+					<a [class.active]="activeProductsMenuItem=='all'" class="p-2" (click)="productsMenuChanged('all')">
+						Tout
+					</a>
+					<a [class.active]="activeProductsMenuItem=='Hotel'" class="p-2" (click)="productsMenuChanged('Hotel')">
+						Hôtel
+					</a>
+					<a [class.active]="activeProductsMenuItem=='Cafe'" class="p-2" (click)="productsMenuChanged('Cafe')">
+						Café
+					</a>
+					<a [class.active]="activeProductsMenuItem=='Restaurant'" class="p-2" (click)="productsMenuChanged('Restaurant')">
+						Réstaurant
+					</a>
+					<a [class.active]="activeProductsMenuItem=='Supermarche'" class="p-2" (click)="productsMenuChanged('Supermarche')">
+						Supermarché
+					</a>
+					<a [class.active]="activeProductsMenuItem=='PDV'" class="p-2" (click)="productsMenuChanged('PDV')">
+						Point de vente
+					</a>
+				</div>
+				<!-- Filters -->
+				<div class="d-flex justify-content-center products-filters">
+
+					<!-- Search Input -->
+					<nz-input-group class="search-input-group" [nzSuffix]="suffixIconSearch">
+						<input
+							type="text"
+							placeholder="Produit"
+							nz-input
+							[(ngModel)]="searchInputValue"
+							(ngModelChange)="filterProducts()"
+							(input)="searchOnInput()"
+							[nzAutocomplete]="auto"
+						/>
+						<nz-autocomplete nzBackfill #auto>
+							<nz-auto-option *ngFor="let searchOption of searchOptions" [nzValue]="searchOption">
+							{{ searchOption }}
+							</nz-auto-option>
+						</nz-autocomplete>
+					</nz-input-group>
+					<ng-template #suffixIconSearch>
+						<i nz-icon type="search"></i>
+					</ng-template>
+				</div>
+				
+				<!-- Filters -->
+				<div class="d-flex justify-content-center products-filters">
+					<!-- Price Slider -->
+					<div class="price-slider">
+						<span class="price-slider-label"> Prix :</span>
+						<nz-slider
+							[nzTooltipVisible]="'default'"
+							nzRange
+							[nzStep]="1"
+							[nzMin]="minPrice"
+							[nzMax]="maxPrice"
+							[(ngModel)]="PriceRangeValue"
+							(nzOnAfterChange)="filterProducts()"
+						></nz-slider>
+					</div>
+					
+					<!-- Sort Select -->
+					<nz-select class="select-input-group" [nzSize]="'large'"
+						[(ngModel)]="selectedFilter" (ngModelChange)="filterProducts()">
+						<nz-option *ngFor="let filter of filtersData" [nzValue]="filter" [nzLabel]="filter"></nz-option>
+					</nz-select>
+				</div>
+			</div>
+		</div>
+		<div class="row d-flex justify-content-center">
+			<!-- Empty -->
+			<nz-empty @fade *ngIf="noData"></nz-empty>
+
+			<!-- Products -->
+			<div @fade class="card-wrapper" *ngFor="let product of productsFiltered">
+				<div class="card mt-5">
+					<!-- Card Image-->
+					<div class="card-img">
+						<img width="100%" src="assets/layout/img/products/{{ product.img }}" alt="image de produit">
+					</div>
+					<!-- Body -->
+					<div class="card-body">
+						<h1 class="card-heading">{{ product.name }}</h1>
+						<p class="card-paragraph">{{ product.desc }}</p>
+						
+						<div class="d-flex justify-content-end">
+							<div *ngIf="!product.isViewed" class="">
+								<span class="badge badge-warning">
+									New!
+								</span>
+							</div>
+							<div *ngIf="product.in_store" class="">
+								<span class="badge badge-success">
+									En stock
+								</span>
+							</div>
+							<div *ngIf="!product.in_store" class="">
+								<span class="badge badge-danger">
+									Non disponible
+								</span>
+							</div>
+							<div *ngIf="product.sold > 0" class="">
+								<span class="badge badge-primary">
+									-{{ product.sold }}%
+								</span>
+							</div>
+						</div>
+					</div>
+					<!-- Footer -->
+					<div class="card-footer">
+						<div class="d-flex justify-content-between">
+							<div class="">
+								<p class="price">
+									<span *ngIf="product.sold > 0" class="price-w-sold">
+										{{ product.price }} <span class="devise">DH</span>
+									</span>
+									{{ product.price - (product.price * product.sold / 100) }} <span class="devise">DH</span>
+								</p>
+							</div>
+							<div *ngIf="!loggedIn" class="text-center">
+								<a
+									nzTitle="Ajouter au panier" nzPlacement="top"
+									nz-tooltip class="add-to-cart"
+									(click)="addToCartClicked(product.id)"
+								>
+									<i class="fa fa-shopping-cart"></i>
+								</a>
+							</div>
+							<div *ngIf="loggedIn" class="text-center">
+								<a nzTitle="Ajouter au panier" nzPlacement="top"
+									nz-tooltip class="add-to-cart"
+									routerLink="/products/product-details/{{product.id}}">
+									<i class="fa fa-shopping-cart"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		
+</div>
+
+
+<!--
+-------------------------------------------------
+Connectez vous Modal
+-------------------------------------------------
+-->
+<nz-modal nzWrapClassName="vertical-center-modal"
+	[(nzVisible)]="modalVisible"
+	nzTitle="Rejoignez nous!"
+	(nzOnCancel)="cancelModal()"
+	(nzOnOk)="okModal()"
+	nzOkText="Se connecter"
+	nzCancelText="Annuler"
+>
+	<p>Pour profiter de nos services, veuillez vous connecter!</p>
+</nz-modal>
+	

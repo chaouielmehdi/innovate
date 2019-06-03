@@ -1,0 +1,144 @@
+/* 
+-------------------------------------------------
+products
+-------------------------------------------------
+*/
+.col, .col-lg-4, .col-md-6, .col-sm-12, .col-xs-12{
+	margin :0 !important;
+	padding: 0;
+}
+.center {
+	text-align: center;
+}
+
+.products-menu {
+	color: #77838fe0;
+	font-size: 15px;
+	font-weight: 200;
+}
+
+.products-menu a:hover {
+	color: black;
+}
+
+/* filters */
+.products-filters{
+	margin-top: 20px;
+}
+
+.search-input-group{
+	margin-right: 15px;
+	margin-left: 15px;
+	width: 400px;
+}
+
+.price-slider{
+	margin-right: 20px;
+	margin-left: 20px;
+	width: 180px !important;
+}
+.price-slider-label{
+	color: rgba(0, 0, 0, 0.65);
+}
+
+.select-input-group{
+	margin-right: 20px;
+	margin-left: 20px;
+	width: 180px !important;
+}
+/* End filters */
+
+/* Empty */
+nz-empty{
+	position: relative;
+	margin-top: 50px;
+	margin-bottom: 30px;
+}
+
+
+.active{
+	color: rgb(55,125,255) !important;
+}
+.card-wrapper{
+	position: relative;
+}
+.card{
+	padding: 0;
+	margin: .5em !important;
+	margin-top: 3em !important;
+	width: 20rem;
+	font-family: 'Poppins', sans-serif;
+	box-sizing: border-box;
+	text-align:left;
+	border: none;
+	background: #fff;
+
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+	transition: 200ms;
+	transition-property: box-shadow;
+	transition-timing-function: ease-out;
+	transition-delay: 50ms;
+}
+.card:hover{
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+.card-img{
+	height: 200px;
+	width: 100%;
+	background-size: 100%;
+	background-repeat: no-repeat;
+}
+.card-heading{
+	color: #000;
+	font-size: 1em !important;
+	font-weight: bold;
+}
+.card-paragraph{
+	font-size: .75em;
+}
+.card-footer{
+	border: none !important;
+	border-radius: 0px !important;
+	background: rgba(55,125,255,.16);
+	height: 3em;
+	width: 100% !important;
+}
+.badge{
+	margin: .5em;
+	padding: .5em;
+	font-weight: lighter;
+}
+
+/* BADGES  :=> Copy in ROOT CSS*/
+.badge-primary{
+	background-color: rgba(55,125,255,.16);
+	color: rgb(55,125,255) !important;
+}
+.badge-success{
+	background-color: rgba(0,201,167,.16);
+	color: rgb(0,201,167) !important;
+}
+.badge-warning{
+	background-color: #ffc40029;
+	color: #ffc400 !important;
+}
+.badge-danger{
+	background-color: rgba(222,68,55,.16);
+	color: rgb(222,68,55) !important;
+}
+/* End Badges*/
+
+.add-to-cart{
+	margin: 0;
+	padding: .2em;
+	display: block;
+	width: 30px;
+	height: 30px;
+	border-radius: 30px;
+	background-color: white;
+}
+.add-to-cart i{
+	float: center;
+	font-size: .9em;
+	color: rgb(55,125,255);
+}

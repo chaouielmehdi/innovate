@@ -1,0 +1,400 @@
+
+<div *ngIf="showHtml" @fade class="root">
+
+	<!-- Component Header -->
+	<div class="row">
+		<div class="col-md-12 d-flex justify-content-center align-items-center mb-5">
+			<div class="backward">
+				<button nz-button nzType="default" (click)="backward()">
+					<i class="fas fa-clipboard-list mr-1"></i>
+					Mes Commandes
+				</button>
+			</div>
+
+			<div class="mt-5">
+				<h4>Détails Du Commande</h4>
+			</div>
+
+			<div class="forward">
+				<a routerLink="/dashboard/cart">
+					<button nz-button nzType="primary">
+						<i class="fas fa-shopping-cart mr-1"></i>
+						Mon Panier
+					</button>
+				</a>
+			</div>
+		</div>
+	</div>
+	<!-- End Component Header -->
+	
+	<!-- Command Status -->
+	<div class="row">
+		<div class="col-sm-12 mb-3">
+			<!-- Intact command -->
+			<nz-steps *ngIf="!commandCanceledByAdmin && !commandCanceledByClient" [nzCurrent]="commandStatus" nzStatus="process">
+				<nz-step nzTitle="Commandée" nzDescription="Votre commande a été faite."></nz-step>
+				<nz-step nzTitle="Confirmée" nzDescription="Confirmation par l'admin."></nz-step>
+				<nz-step nzTitle="Livrée" nzDescription="Commande livrée avec succès."></nz-step>
+			</nz-steps>
+
+			<!-- commandCanceledByAdmin -->
+			<nz-steps *ngIf="commandCanceledByAdmin" [nzCurrent]="1" nzStatus="error">
+				<nz-step nzTitle="Commandée" nzDescription="Votre commande a été faite."></nz-step>
+				<nz-step nzTitle="Annulée" nzDescription="Veuillez contacter l'admin."></nz-step>
+				<nz-step nzTitle="Livrée" nzDescription="Commande livrée avec succès."></nz-step>
+			</nz-steps>
+
+			<!-- commandCanceledByClient -->
+			<nz-steps *ngIf="commandCanceledByClient" [nzCurrent]="1" nzStatus="error">
+				<nz-step nzTitle="Commandée" nzDescription="Votre commande a été faite."></nz-step>
+				<nz-step nzTitle="Annulée" nzDescription="Vous avez annulé cette commande."></nz-step>
+				<nz-step nzTitle="Livrée" nzDescription="Commande livrée avec succès."></nz-step>
+			</nz-steps>
+		</div>
+	</div>
+	<!-- End Command Status -->
+
+	<!-- Products Table -->
+	<div class="row">
+		<div class="col-sm-12 mt-5">
+			<div class="float-left bordered mb-2 p-3 font-s-14">
+				<span class="bold-text">Code :</span> {{ command.code }}
+				<br>
+				<span class="bold-text">Commandée le : </span>{{ command.created_at }}
+			</div>
+
+			<nz-table nzTemplateMode nzBordered>
+				<thead>
+					<tr>
+						<th *ngIf="editMode"></th>
+						<th>Produit</th>
+						<th>Prix Unitaire <span class="float-right">x</span></th>
+						<th>Quantité <span class="float-right">=</span></th>
+						<th>Prix Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let commandProductQuantity of command.products_quantities, index as i">
+						<td *ngIf="editMode" class="text-center">
+							<div class="d-flex justify-content-center align-items-center">
+								<a
+									nz-popconfirm
+									[nzCancelText]="'Annuler'"
+									[nzOkText]="'Supprimer'"
+									[nzOkType]="'danger'"
+									nzTitle="Êtes-vous sûr de supprimer ce produit?"
+									(nzOnConfirm)="deleteClicked(commandProductQuantity.product.id)"
+									nzPlacement="topLeft"
+									class="trash"
+								>
+									<i class="fas fa-trash-alt c-pointer c-red"></i>
+								</a>
+							</div>
+						</td>
+						<td>
+							<span (click)="showProductModal(commandProductQuantity.product)" class="c-pointer c-blue hover-blue" >
+								{{ commandProductQuantity.product.name }}
+							</span>
+						</td>
+						<td>
+							<span *ngIf="commandProductQuantity.product.sold > 0" class="price-w-sold">
+								{{ commandProductQuantity.product.price }} <span class="devise">DH</span>
+							</span>
+
+							<span>
+								{{
+									commandProductQuantity.product.price - (commandProductQuantity.product.price * commandProductQuantity.product.sold / 100)
+								}}
+								<span class="devise">DH</span>
+							</span>
+
+							<span class="ml-2" *ngIf="commandProductQuantity.product.sold > 0">
+								(-{{ commandProductQuantity.product.sold }}%)
+							</span>
+
+							<span class="float-right">x</span>
+						</td>
+						<td>
+							<ng-container *ngIf="!editMode; else editQuantity">
+								{{ commandProductQuantity.quantity }}
+								
+								<span class="float-right">=</span>
+							</ng-container>
+							<ng-template #editQuantity>
+								<nz-form-control style="display: inline-block;" nzValidateStatus="{{!commandProductQuantity.quantity ? 'error': ''}}">
+									<nz-input-number [nzMin]="1" (ngModelChange)="refreshPrices($event, commandProductQuantity)" [(ngModel)]="commandProductQuantity.quantity"></nz-input-number>
+								</nz-form-control>
+
+								<span class="float-right mt-2">=</span>
+							</ng-template>
+							
+						</td>
+						<td>{{ commandProductQuantity.price }} Dh</td>
+					</tr>
+					<tr>
+						<td [attr.colspan]="totalColspan"> <span class="float-right font-weight-500">=</span> <span class="float-right font-weight-500 mr-3">Total</span></td>
+						<td class="bg-blue c-blue font-weight-500">{{ command.total_price }} Dh</td>
+					</tr>
+				</tbody>
+			</nz-table>
+			<!-- Menu -->
+			<div *ngIf="!editMode" class="float-right bordered mt-2 p-3 font-s-14">
+				<a *ngIf="showCrudItem('re-command')" class="c-blue hover-blue c-pointer" (click)="editClicked()">
+					<i class="fas fa-power-off"></i> Réétablir
+				</a>
+				
+				<nz-divider *ngIf="showCrudItem('re-command')" class="mr-3 ml-3" nzType="vertical"></nz-divider>
+
+				<a *ngIf="showCrudItem('edit')" class="c-grey hover-grey c-pointer" (click)="editClicked()">
+					<i class="fas fa-edit"></i> Modifier
+				</a>
+
+				<nz-divider *ngIf="showCrudItem('edit')" class="mr-3 ml-3" nzType="vertical"></nz-divider>
+
+				<a
+					*ngIf="showCrudItem('cancel')"
+					class="c-red hover-red c-pointer"
+					nz-popconfirm
+					[nzCancelText]="'Non'"
+					[nzOkText]="'Oui'"
+					[nzOkType]="'danger'"
+					nzTitle="Êtes-vous sûr d'annuler cette command?"
+					(nzOnConfirm)="cancelOk()"
+					nzPlacement="topRight"
+				>
+					<i class="fas fa-power-off"></i> Annuler
+				</a>
+
+				<nz-divider *ngIf="showCrudItem('cancel')" class="mr-3 ml-3" nzType="vertical"></nz-divider>
+
+				<a id="signaler-id" *ngIf="showCrudItem('report')" class="c-yellow hover-yellow c-pointer" (click)="showReportModal()">
+					<i class="fas fa-exclamation-triangle"></i> Signaler
+				</a>
+
+			</div>
+			<!-- End Menu -->
+
+			<!-- Edit Confirmation -->
+			<div *ngIf="editMode" class="float-right mt-1 p-3 font-s-14">
+				<button class="mr-3" nz-button nzType="default" (click)="editCancel()">Annuler</button>
+				<button class="mr-3" nz-button nzType="primary" [nzLoading]="isSaveEditLoading" (click)="editOk()">Sauvegarder</button>
+			</div>
+			<!-- End Edit Confirmation -->
+
+			<!-- Infos message -->
+			<div class="float-left mt-2 font-s-14 c-grey">
+
+				<!-- Canceled by admin -->
+				<p *ngIf="command.status == -2">
+					- Cette commande a été annulée par l'admin.
+					<br>
+					- Vous pouvez signaler cette annulation.
+				</p>
+
+				<!-- Canceled by client -->
+				<p *ngIf="command.status == -1">
+					- Cette commande a été annulée par vous.
+					<br>
+					- Vous pouvez la réétablir.
+				</p>
+
+				<!-- Commanded -->
+				<p *ngIf="command.status == 0">
+					- L'admin n'a pas encore confirmé cette commande.
+					<br>
+					- Vous pouvez la modifier avant la confirmation de l'admin.
+				</p>
+
+				<!-- Confirmed -->
+				<p *ngIf="command.status == 1">
+					- Cette commande a été confirmé par l'admin.
+					<br>
+					- Vous ne pouvez ni la modifier, ni l'annuler.
+				</p>
+
+				<!-- Confirmed -->
+				<p *ngIf="command.status == 2">
+					- Cette commande doit être livrée.
+					<br>
+					- Vous pouvez la signaler si vous ne l'avez pas reçu.
+				</p>
+
+			</div>
+		</div>
+	</div>
+	<!-- End Products Table -->
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- Report modal -->
+<nz-modal
+	[nzStyle]="{ top: '110px' }" [nzFooter]="reportModalFooter"
+	nzTitle="Signaler La Commande" [(nzVisible)]="isReportModalVisible"
+	(nzOnCancel)="handleReportModalCancel()" (nzOnOk)="handleReportModalOk()" 
+>
+	<!-- End Report choices -->
+	<div class="row">
+		<div class="row">
+			<div class="col-sm-12 ml-2">
+				<span *ngIf="alreadyReported" class="c-grey d-block">Vous avez déjà signaler cette commande.</span>
+				<span *ngIf="alreadyReported" class="c-grey d-block mb-2">Une réponse de l'admin vous sera envoyée le plus tôt possible.</span>
+				<span *ngIf="!alreadyReported" class="c-grey d-block mb-2">Veuillez choisir c'est quoi votre problème :</span>
+			</div>
+			<div *ngFor="let reportingItem of reportingItems" class="col-sm-12">
+				<div
+					class="report-card"
+					[class.report-card-hover]="activeReportItem !== reportingItem.value && !alreadyReported"
+					[class.report-card-active]="activeReportItem === reportingItem.value"
+					(click)="chooseReportCartItem(reportingItem.value)"
+				>
+					<i class="fas fa-exclamation-triangle mr-2"></i>
+					{{ reportingItem.name }}
+					<span *ngIf="!alreadyReported">?</span>
+				</div>
+			</div>
+			
+			<div class="col-sm-12">
+				<div
+					class="report-card"
+					[class.report-card-hover]="activeReportItem !== 'other problem' && !alreadyReported"
+					[class.report-card-active]="activeReportItem === 'other problem'"
+					(click)="chooseReportCartItem('other problem')"
+				>
+					<i class="fas fa-exclamation-triangle mr-2"></i>
+					Autre problème
+					<span *ngIf="activeReportItem !== 'other problem' && !alreadyReported">?</span>
+					<span *ngIf="activeReportItem === 'other problem' && !alreadyReported">:</span>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!-- End Report choices -->
+
+	<!-- Report autre -->
+	<div *ngIf="otherProblemItem" class="row d-flex justify-content-center mt-3">
+		<div class="col-sm-12 report-message">
+			<textarea
+				[maxlength]="otherProblemMsgMaxLength"
+				nz-input
+				placeholder="Votre problème en quelques mots..."
+				[(ngModel)]="otherProblemMsg"
+				(ngModelChange)="otherProblemMsgKeyPressed()"
+				[nzAutosize]="{ minRows: 2, maxRows: 6 }"
+				[disabled]="alreadyReported"
+			></textarea>
+			<span class="c-red float-right mt-2" [class.c-red]="otherProblemMsgLength >= 0.8*otherProblemMsgMaxLength">
+				{{ otherProblemMsgLength }}/{{ otherProblemMsgMaxLength }}
+			</span>
+		</div>
+	</div>
+	<!-- End Report autre -->
+	<ng-template #reportModalFooter>
+		<button
+			*ngIf="!alreadyReported"
+			nz-button nzType="default"
+			(click)="handleReportModalCancel()"
+		>
+			Annuler
+		</button>
+		<button
+			*ngIf="!alreadyReported"
+			[nzLoading]="isSendLoading"
+			nz-button nzType="primary"
+			(click)="handleReportModalOk()"
+			[disabled]="activeReportItem === '' || (activeReportItem === 'other problem' && otherProblemMsg === '')"
+		>
+			Envoyer
+		</button>
+		<button
+			*ngIf="alreadyReported"
+			nz-button nzType="primary"
+			(click)="handleReportModalCancel()"
+		>
+			Ok
+		</button>
+	</ng-template>
+</nz-modal>
+<!-- End Report modal -->
+
+
+	
+
+
+
+
+<!-- Product Modal -->
+<nz-modal
+	[nzStyle]="{ top: '40px' }" [nzFooter]="productModalFooter"
+	nzTitle="Détails du produit" [(nzVisible)]="isProductModalVisible"
+	(nzOnCancel)="handleProductModalCancel()" (nzOnOk)="handleProductModalOk()" 
+>
+	<!-- Product Carousel -->
+	<div class="col-lg-12">
+		<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+			<ol class="carousel-indicators">
+				<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+				<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+				<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+			</ol>
+			<div class="carousel-inner">
+				<div class="carousel-item active">
+					<img class="d-block w-100" src="assets/layout/img/products/clean.jpg" alt="First slide">
+				</div>
+				<div class="carousel-item">
+					<img class="d-block w-100" src="assets/layout/img/products/clean.jpg" alt="Second slide">
+				</div>
+				<div class="carousel-item">
+					<img class="d-block w-100" src="assets/layout/img/products/clean.jpg" alt="Third slide">
+				</div>
+			</div>
+			<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="sr-only">Previous</span>
+			</a>
+			<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="sr-only">Next</span>
+			</a>
+		</div>
+	</div>
+
+	<!-- Product Info -->
+	<div class="col-lg-12">
+		<!-- Body -->
+		<div class="card-body">
+			<h1 class="card-heading card-custom-heading">{{ productModal ? productModal.name : 0 }}</h1>
+			
+			<div class="">
+				<p class="price">
+					<span *ngIf="productModal ? productModal.sold > 0 : false" class="price-w-sold">
+						{{ productModal ? productModal.price : 0 }} <span class="devise">DH</span>
+					</span>
+					{{
+						productModal
+						? ( productModal.price - (productModal.price * productModal.sold / 100) )
+						: 0
+					}}
+					<span class="devise">DH</span>
+				</p>
+				<p *ngIf="productModal ? productModal.sold > 0 : false">
+					(Soldé de <span class="c-blue">{{ productModal ? productModal.sold : 0 }}%</span> lors de la commande)
+				</p>
+			</div>
+
+			<p class="card-paragraph card-custom-paragraph">{{ productModal ? productModal.desc : 0 }}</p>
+		</div>
+	</div>
+	<ng-template #productModalFooter>
+		<button nz-button nzType="primary" (click)="handleProductModalOk()">Ok</button>
+	</ng-template>
+</nz-modal>
+<!-- End Product Modal -->

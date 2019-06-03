@@ -1,0 +1,32 @@
+nz-footer{
+	color: #888888;
+    font-size: 80%;
+	font-weight: 400;
+}
+.app-name{
+	color: white;
+	font-size: 1.6rem;
+	font-weight: 500;
+}
+.title{
+	color: white;
+	font-size: 1.15rem;
+	font-weight: 400;
+}
+.element{
+	color: rgba(255, 255, 255, 0.795) !important;
+	font-weight: 300 !important;
+}
+.a-element{
+	color: rgba(255, 255, 255, 0.795) !important;
+	font-weight: 300 !important;
+}
+.a-element:hover{
+	font-weight: 400 !important;
+}
+hr{
+	border-top: 1px solid rgb(116, 116, 116);
+}
+.hr{
+	color: #888888;
+}
