@@ -1,14 +1,15 @@
 # Server
-## current task
-There is no current task right now.
+## current tasks
+- users authentication
+- users registration
 
 ## issues
-There is no current task right now.
+There is no issues right now.
 
 
 # Client
-## current task
-There is no issues right now.
+## current tasks
+- users components quick review
 
 ## issues
 There is no issues right now.
