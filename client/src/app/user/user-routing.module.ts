@@ -76,8 +76,7 @@ const routes: Routes = [
 			{
 				path: 'dashboard/cart',
 				component: CartComponent,
-				// canActivate: [AfterLoginGuard]
-				canActivate: [BeforeLoginGuard]
+				canActivate: [AfterLoginGuard]
 			},
 			{
 				path: 'dashboard/credits',

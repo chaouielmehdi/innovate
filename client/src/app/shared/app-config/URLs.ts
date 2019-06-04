@@ -1,6 +1,5 @@
 
-// General consts
-export const appName: string = 'Innovate';
+// baseUrl
 export const baseUrl: string = 'http://localhost:8000/api/';
 
 
@@ -16,7 +15,7 @@ export const refreshAdminUrl: string 	= 	baseUrl+'auth/refresh';
 
 
 // CURD User
-export const createUserUrl: string 	=	baseUrl+'auth/register';
+export const createUserUrl: string 	=	baseUrl+'auth/user/create';
 export const updateUserUrl: string 	=	baseUrl+'user/update';
 export const getUserUrl: string 	= 	'assets/data/user.json';
 export const deleteUserUrl: string 	=	baseUrl+'user/delete';

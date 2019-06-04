@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { createUserUrl, loginUserUrl } from 'src/app/shared/app-config/consts';
+import { createUserUrl, loginUserUrl } from 'src/app/shared/app-config/URLs';
 
 @Injectable({
   	providedIn: 'root'

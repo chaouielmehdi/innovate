@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../../shared/models/Product';
 import { tap, catchError } from 'rxjs/operators';
-import { getProductsUrl, createProductUrl, updateProductUrl, getProductUrl, deleteProductUrl, getBestProductsUrl } from '../../shared/app-config/consts';
+import { getProductsUrl, createProductUrl, updateProductUrl, getProductUrl, deleteProductUrl, getBestProductsUrl } from '../../shared/app-config/URLs';
 import { handleError } from '../../shared/functions/handle-http-error';
 
 const httpOptions = {

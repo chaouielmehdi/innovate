@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { appName } from 'src/app/shared/app-config/consts';
 import { Product } from 'src/app/shared/models/Product';
 import { Router } from '@angular/router';
 import { DrawerService } from 'src/app/user/services/drawer.service';
 import { ProductService } from 'src/app/user/services/product.service';
 import { fade } from 'src/app/shared/animations/fade';
+import { appName } from 'src/app/shared/app-config/global-config';
 
 declare var Typed: any;
 

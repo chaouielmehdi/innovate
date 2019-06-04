@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { appName } from 'src/app/shared/app-config/consts';
 import { AdminService } from '../../services/admin.service';
 import { DrawerService } from '../../services/drawer.service';
+import { appName } from 'src/app/shared/app-config/global-config';
 
 @Component({
 	selector: 'app-header',

@@ -3,7 +3,7 @@ nz-tag{
 	cursor: default;
 }
 .notViewed-template > td{
-	background: #377dff13;
+	background: rgb(241, 246, 255);
 }
 
 /*

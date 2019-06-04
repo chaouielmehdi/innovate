@@ -4,7 +4,7 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { catchError, tap } from 'rxjs/operators';
 import { TokenService } from './token.service';
-import { createUserUrl, loginUserUrl, logoutUserUrl, refreshUserUrl, getUserUrl, updateUserUrl } from 'src/app/shared/app-config/consts';
+import { createUserUrl, loginUserUrl, logoutUserUrl, refreshUserUrl, getUserUrl, updateUserUrl } from 'src/app/shared/app-config/URLs';
 import { User } from 'src/app/shared/models/User';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';

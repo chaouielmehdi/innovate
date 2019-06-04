@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { Statistics } from '../../shared/models/Statistics';
-import { getStatisticsUrl } from '../../shared/app-config/consts';
+import { getStatisticsUrl } from '../../shared/app-config/URLs';
 import { handleError } from '../../shared/functions/handle-http-error';
 
 @Injectable({

@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { Command } from '../../shared/models/Command';
-import { getCommandsUrl, getCommandUrl, createCommandUrl, updateCommandUrl, deleteCommandUrl, setCommandViewedUrl } from '../../shared/app-config/consts';
+import { getCommandsUrl, getCommandUrl, createCommandUrl, updateCommandUrl, deleteCommandUrl, setCommandViewedUrl } from '../../shared/app-config/URLs';
 import { handleError } from '../../shared/functions/handle-http-error';
 
 const httpOptions = {

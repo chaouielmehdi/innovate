@@ -2,5 +2,5 @@
 - users authentication
 - users registration
 
-# CLient issues and tasks
+# Client issues and tasks
 - users components quick review

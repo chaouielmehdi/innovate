@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { tap, catchError } from 'rxjs/operators';
 import { Cart } from '../../shared/models/Cart';
-import { createCartUrl, updateCartUrl, deleteCartUrl, getCartsUrl } from '../../shared/app-config/consts';
+import { createCartUrl, updateCartUrl, deleteCartUrl, getCartsUrl } from '../../shared/app-config/URLs';
 import { handleError } from '../../shared/functions/handle-http-error';
 
 const httpOptions = {

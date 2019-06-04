@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { createReportUrl } from '../../shared/app-config/consts';
+import { createReportUrl } from '../../shared/app-config/URLs';
 import { Observable } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { handleError } from '../../shared/functions/handle-http-error';

@@ -37,6 +37,12 @@
 					<!-- <span class="user-icon-badge badge badge-pill badge-success">&nbsp;</span>		 -->
 				</a>
 			</li>
+
+			<li *ngIf="!loggedIn">
+				<a (click)="ToConnectClicked()">
+					<i class="far fa-user"></i>
+				</a>
+			</li>
 		</ul>
 	</nav>
 
