@@ -1,15 +1,6 @@
-# Server
-## current tasks
+# Server issues and tasks
 - users authentication
 - users registration
 
-## issues
-There is no issues right now.
-
-
-# Client
-## current tasks
+# CLient issues and tasks
 - users components quick review
-
-## issues
-There is no issues right now.
