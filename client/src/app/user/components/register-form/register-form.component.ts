@@ -147,6 +147,7 @@ export class RegisterFormComponent implements OnInit {
 		this.registerForm.patchValue({
 			password: '',
 			password_confirmation: ''
+			// hehoo
 		});
 	}
 

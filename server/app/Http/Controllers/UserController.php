@@ -33,28 +33,15 @@ class UserController extends Controller
 	 */
     public function create(User $user, Request $request)
     {
-        
-        $validator = Validator::make(request()->all(),$this->createRule());
-        if($validator->fails())
-            return response()->json(["status" => false, $validator->messages()->toArray()], 422);
+        $validation = $this->validateRequest($request->all(), $this->createRule());
+        if($validation != null)
+            return response()->json(['status' => false, 'message' => $validation->toArray()], 422);
 
-        // Create the user
-        $user = new User();
+        $user =$this->createUser($request);
+        if($user == null)
+            return response()->json(['status' => false, 'message' => 'Il y a eu un probleme. Veuillez reessayer !', 500]);
 
-        $user->first_name = request("first_name");
-        $user->last_name = request("last_name");
-        $user->username = request("username");
-        $user->telephone = request("telephone");
-        $user->address = request("address");
-        $user->canal = request("canal");
-        $user->code = $this->setCode(request('canal'));
-        $user->email = request("email");
-        $user->password = Hash::make(request('password'));
-
-        if($user->save())
-            return $this->login($user);
-
-        return response()->json(["status" => false], 500);
+        return $this->login($user);
 	}
     
     
@@ -221,7 +208,7 @@ class UserController extends Controller
             'telephone' => ['required', 'string', 'max:191'],
             'canal' => ['required','string'],
             'address' => ['required', 'string', 'max:191'],
-            'email' => ['required', 'string', 'email', 'max:191'],
+            'email' => ['required', 'string', 'email', 'max:191', 'unique:users'],
             'password' => ['required', 'string', 'max:191', 'min:6', 'confirmed']
         ];
     }
@@ -241,5 +228,27 @@ class UserController extends Controller
             'address' => ['string', 'max:191'],
             'password' => ['string', 'max:191', 'min:6']
         ];
+    }
+
+
+    /**
+     * Create user from request 
+     */
+    public function createUser(Request $request){
+        // Create the user
+        $user = new User();
+
+        $user->first_name = request("first_name");
+        $user->last_name = request("last_name");
+        $user->username = request("username");
+        $user->telephone = request("telephone");
+        $user->address = request("address");
+        $user->canal = request("canal");
+        $user->code = $this->setCode(request('canal'));
+        $user->email = request("email");
+        $user->password = Hash::make(request('password'));
+        if(! $user->save())
+            return null;
+        return $user;
     }
 }

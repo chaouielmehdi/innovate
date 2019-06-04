@@ -1,16 +1,17 @@
 <?php
 
 
-// Login Pages
-Route::post('admin/login','AdminController@login');
-Route::post('commercial/login','AdminController@login');
-// Route::post('user/login','UserController@login');
-Route::post('admin/create', 'AdminController@create');
-Route::post('commercial/create', 'CommercialController@create');
-Route::post('user/create', 'UserController@create');
-
 Route::group(['prefix' => 'auth','middleware' => ['api']],function (){
-	Route::post('user/login','UserController@login');
+    // Login
+    Route::post('user/login','UserController@login');
+    Route::post('admin/login','AdminController@login');
+    Route::post('commercial/login','AdminController@login');
+
+    // Registration
+    Route::post('user/create', 'UserController@create');
+    Route::post('admin/create', 'AdminController@create');
+    Route::post('commercial/create', 'CommercialController@create');
+
 });
 
 // Admin group 
