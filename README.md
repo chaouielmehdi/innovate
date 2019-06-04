@@ -4,5 +4,5 @@
 - **User  registration**: 
   Route: <domain>/api/auth/user/create
 
-# CLient issues and tasks
+# Client issues and tasks
 - users components quick review
