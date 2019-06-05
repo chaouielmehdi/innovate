@@ -35,7 +35,7 @@
 				<nz-form-item class="mt-3">
 					<nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">Email</nz-form-label>
 					<nz-form-control [nzSm]="14" [nzXs]="24">
-						<input nz-input formControlName="email" id="email" />
+						<input disabled="disabled" nz-input formControlName="email" id="email" />
 						<nz-form-explain *ngIf="registerForm.get('email')?.dirty && registerForm.get('email')?.errors">
 							<ng-container *ngIf="registerForm.get('email')?.hasError('required')">
 								Saisissez une adresse email.
