@@ -22,6 +22,7 @@ export class DashboardComponent implements OnInit {
 	General
 	-------------------------------------------------
 	*/
+
 	constructor(
 		private router: Router,
 		private _drawerService: DrawerService,
@@ -31,6 +32,8 @@ export class DashboardComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+
+		// close login drawer on init
 		this._drawerService.closeLogin();
 
 		// send to the product details if the user has clicked to it before connection

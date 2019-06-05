@@ -43,7 +43,7 @@ export class RegisterFormComponent implements OnInit {
 
 	registerForm: FormGroup = this.fb.group({
 		username: new FormControl(
-			'',
+			'test-username',
 			[Validators.required, Validators.maxLength(190)]
 		),
 		canal: new FormControl(
@@ -51,7 +51,7 @@ export class RegisterFormComponent implements OnInit {
 			[Validators.required, Validators.maxLength(190)]
 		),
 		address: new FormControl(
-			'',
+			'test-address',
 			[Validators.required, Validators.maxLength(190)]
 		),
 		email: new FormControl(
@@ -67,11 +67,11 @@ export class RegisterFormComponent implements OnInit {
 			[Validators.required]
 		),
 		phone_number: new FormControl(
-			'',
+			'067373737',
 			[Validators.required, Validators.maxLength(190)]
 		),
 		website: new FormControl(
-			'',
+			'website.com',
 			[Validators.maxLength(190), Validators.pattern('^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$')]
 		)
 	},
@@ -147,7 +147,6 @@ export class RegisterFormComponent implements OnInit {
 		this.registerForm.patchValue({
 			password: '',
 			password_confirmation: ''
-			// hehoo
 		});
 	}
 
