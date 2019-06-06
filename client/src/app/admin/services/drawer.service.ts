@@ -16,7 +16,7 @@ export class DrawerService {
 		private _adminService: AdminService
 	)
 	{
-		this._adminService.authStatus.subscribe(
+		this._adminService.authStatus$.subscribe(
 			(status) => this.loggedIn = status
 		);
 	}

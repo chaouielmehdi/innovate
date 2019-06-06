@@ -35,7 +35,7 @@ export class PageNotFoundComponent implements OnInit {
 		
 
 		// get user status
-		this._userService.authStatus.subscribe(
+		this._userService.authStatus$.subscribe(
 			(status) => this.loggedIn = status
 		);
 		

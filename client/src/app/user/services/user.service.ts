@@ -4,7 +4,7 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { catchError, tap } from 'rxjs/operators';
 import { TokenService } from './token.service';
-import { createUserUrl, loginUserUrl, logoutUserUrl, refreshUserUrl, getUserUrl, updateUserUrl } from 'src/app/shared/app-config/URLs';
+import { createUserUrl, loginUserUrl, logoutUserUrl, refreshUserUrl, getUserUrl, updateUserUrl, createUserLogoUrl } from 'src/app/shared/app-config/URLs';
 import { User } from 'src/app/shared/models/User';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
@@ -21,10 +21,13 @@ const httpOptions = {
 export class UserService {
 	
 	createUserUrl: string = createUserUrl;
+
+	updateUserUrl: string = updateUserUrl;
+
 	loginUserUrl: string = loginUserUrl;
 	logoutUserUrl: string = logoutUserUrl;
-	updateUserUrl: string = updateUserUrl;
 	refreshUserUrl: string = refreshUserUrl;
+
 	getUserUrl: string = getUserUrl;
 
 	// Holds the validation errors coming from the server
@@ -32,7 +35,7 @@ export class UserService {
 
 	// Holds if the user is logged in or not
 	private loggedIn = new BehaviorSubject<boolean>(this._tokenService.isTokenValid());
-	authStatus = this.loggedIn.asObservable();
+	authStatus$ = this.loggedIn.asObservable();
 	
 	/**
 	 * Creates an instance of user service.
@@ -89,7 +92,7 @@ export class UserService {
 	 * Changes auth status
 	 * @param value 
 	 */
-	changeAuthStatus(value) {
+	changeAuthStatus(value: boolean) {
 		this.loggedIn.next(value);
 	}
 
@@ -204,15 +207,27 @@ export class UserService {
 	 * Register-drawer <=> Register-form
 	 * holding values
 	 */
-	email: string = '';
-	password: string = '';
+	email: string = 'mehdi.mc60@gmail.comm';
+	password: string = 'mehdii';
 
-	setEmailPassword(email: string, password: string){
+	// Holds if the Register page is available or not
+	private isRegisterAvailableBehaviorSubject = new BehaviorSubject<boolean>(this.email !== '' && this.password !== '');
+	isRegisterAvailable$ = this.isRegisterAvailableBehaviorSubject.asObservable();
+
+	/**
+	 * change isRegisterAvailable
+	 * @param value 
+	 */
+	changeIsRegisterAvailable(value: boolean) {
+		this.isRegisterAvailableBehaviorSubject.next(value);
+	}
+
+	setEmailPassword(email: string, password: string): void{
 		this.email = email;
 		this.password = password;
 	}
 
-	getEmailPassword(){
+	getEmailPassword(): {email: string, password: string}{
 		return {email: this.email, password: this.password};
 	}
 	

@@ -243,8 +243,7 @@ export class DrawersComponent implements OnInit {
 	initLoginForm(){
 		this.loginForm = this.fb.group({
 			email: ['mehdi.mc60@gmail.com', [Validators.required, Validators.maxLength(190), Validators.email]],
-			password: ['mehdii', [Validators.required, Validators.maxLength(190)]],
-			remember: [true]
+			password: ['mehdii', [Validators.required, Validators.maxLength(190)]]
 		});
 	}
 
@@ -324,12 +323,14 @@ export class DrawersComponent implements OnInit {
 
 		// if registerForm is valid
 		if(!(this.registerForm.invalid && this.registerForm.errors.misMatch)) {
-			// in auth-service set email and password
-			// (to get them in register-form-component)
+			// in user-service, set email and password (to get them in register-form-component)
 			this._userService.setEmailPassword(
 				this.registerForm.get('email').value,
 				this.registerForm.get('password').value
 			);
+
+			// make the register-form-component available
+			this._userService.changeIsRegisterAvailable(true);
 
 			// navigate to register-form
 			this.router.navigateByUrl('/register-form');
@@ -377,8 +378,7 @@ export class DrawersComponent implements OnInit {
 	initRecoverForm(){
 		this.recoverForm = this.fb.group({
 			recoverEmail: ['mehdii.mc60@gmail.com', [Validators.required, Validators.maxLength(190), Validators.email]],
-			recoverPassword: ['mehdii', [Validators.required, Validators.maxLength(190)]],
-			recoverRemember: [true]
+			recoverPassword: ['mehdii', [Validators.required, Validators.maxLength(190)]]
 		});
 	}
 

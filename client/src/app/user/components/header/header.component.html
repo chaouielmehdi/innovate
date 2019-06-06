@@ -38,7 +38,7 @@
 				</a>
 			</li>
 
-			<li *ngIf="!loggedIn">
+			<li *ngIf="!loggedIn && !isRegisterAvailable">
 				<a (click)="ToConnectClicked()">
 					<i class="far fa-user"></i>
 				</a>

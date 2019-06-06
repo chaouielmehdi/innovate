@@ -16,8 +16,8 @@ export class HeaderComponent implements OnInit {
 	// -------------------------------------------------
 	
 	appName: string = appName;
-
 	loggedIn: boolean = false;
+	isRegisterAvailable: boolean = false;
   
 	constructor(
 		private _userService: UserService,
@@ -26,14 +26,23 @@ export class HeaderComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		this._userService.authStatus.subscribe(
+		// set loggedIn attr
+		this._userService.authStatus$.subscribe(
 			(status) => this.loggedIn = status
+		);
+
+		// set isRegisterAvailable attr to show the login drawer button or not
+		// this.isRegisterAvailable = this._userService.isRegisterAvailable();
+		this._userService.isRegisterAvailable$.subscribe(
+			(status) => this.isRegisterAvailable = status
 		);
 	}
 
 	openMenu(){
 		this._drawerService.openMenu();
 	}
+
+
 
 
 

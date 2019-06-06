@@ -31,7 +31,7 @@ export class AdminService {
 
 	// Holds if the admin is logged in or not
 	private loggedIn = new BehaviorSubject<boolean>(this._tokenService.isTokenValid());
-	authStatus = this.loggedIn.asObservable();
+	authStatus$ = this.loggedIn.asObservable();
 	
 	/**
 	 * Creates an instance of admin service.
@@ -81,14 +81,14 @@ export class AdminService {
 		
 		this._tokenService.handle(admin.access_token);
 
-		this.changeAuthStatus(true);
+		this.changeauthStatus$(true);
 	}
 
 	/**
 	 * Changes auth status
 	 * @param value 
 	 */
-	changeAuthStatus(value) {
+	changeauthStatus$(value) {
 		this.loggedIn.next(value);
 	}
 	
@@ -122,7 +122,7 @@ export class AdminService {
 	logoutClient() {
 		this._tokenService.remove();
 
-		this.changeAuthStatus(false);
+		this.changeauthStatus$(false);
 
 		this.router.navigateByUrl('/admin/login');
 	}

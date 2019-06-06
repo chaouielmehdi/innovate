@@ -26,7 +26,7 @@ export class ProductsComponent implements OnInit {
 
 	ngOnInit() {
 		// Fill in the loggedIn variable
-		this._userService.authStatus.subscribe(
+		this._userService.authStatus$.subscribe(
 			(status) => {
 				this.loggedIn = status;
 			});

@@ -4,8 +4,9 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { passwordConfirmationValidator } from 'src/app/shared/functions/password-confirmation-validator';
 import { UserService } from 'src/app/user/services/user.service';
 import { Router } from '@angular/router';
-import { NzMessageService } from 'ng-zorro-antd';
+import { NzMessageService, UploadFile } from 'ng-zorro-antd';
 import { fade } from 'src/app/shared/animations/fade';
+import { createUserLogoUrl } from 'src/app/shared/app-config/URLs';
 
 @Component({
 	selector: 'app-register-form',
@@ -31,16 +32,21 @@ export class RegisterFormComponent implements OnInit {
 	ngOnInit() {
 		this._drawerService.closeRegister();
 
-		// from the auth-service
+		// Sets email and password (from the user-service)
 		this.setEmailPassword();
 	}
+
+	ngOnDestroy() {
+		this._userService.changeIsRegisterAvailable(false);
+	}
+
 
 	/*
 	-------------------------------------------------
 	Form
 	-------------------------------------------------
 	*/
-
+	
 	registerForm: FormGroup = this.fb.group({
 		username: new FormControl(
 			'test-username',
@@ -60,7 +66,7 @@ export class RegisterFormComponent implements OnInit {
 		),
 		password: new FormControl(
 			'',
-			[Validators.required, Validators.maxLength(190)]
+			[Validators.required, Validators.maxLength(190), Validators.minLength(6)]
 		),
 		password_confirmation: new FormControl(
 			'',
@@ -81,21 +87,22 @@ export class RegisterFormComponent implements OnInit {
 
 	passwordVisible: boolean = false;
 
-	// from the auth-service
+	/**
+	 * Sets email and password (from the user-service)
+	 */
 	setEmailPassword(): void {
 		var emailFromUserService: string = this._userService.getEmailPassword().email;
 		var passwordFromUserService: string = this._userService.getEmailPassword().password;
-
-		// verify if the email and password have been set
-		if(emailFromUserService === '' && passwordFromUserService === '') {
-			this.router.navigateByUrl('/home');
-		}
-		else {
+		
+		if(emailFromUserService !== '' && passwordFromUserService !== ''){
 			this.registerForm.patchValue({
 				email: emailFromUserService,
 				password: passwordFromUserService,
 				password_confirmation: passwordFromUserService
 			});
+		}
+		else{
+			this.router.navigateByUrl('/home');
 		}
 
 	}
@@ -149,5 +156,28 @@ export class RegisterFormComponent implements OnInit {
 			password_confirmation: ''
 		});
 	}
+
+
+
+
+	// logo input
+	
+	createUserLogoUrl: string = createUserLogoUrl;
+
+	showUploadList = {
+		showPreviewIcon: true,
+		showRemoveIcon: true,
+		hidePreviewIconInNonImage: true
+	};
+
+	fileList = [];
+	previewImage: string | undefined = '';
+	previewVisible = false;
+
+	handlePreview = (file: UploadFile) => {
+		this.previewImage = file.url || file.thumbUrl;
+		this.previewVisible = true;
+	};
+
 
 }

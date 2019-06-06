@@ -2,3 +2,13 @@
 .register-form {
 	width: 600px;
 }
+
+
+.upload-plus {
+	font-size: 32px;
+	color: #999;
+}
+.ant-upload-text {
+	margin-top: 8px;
+	color: #666;
+}

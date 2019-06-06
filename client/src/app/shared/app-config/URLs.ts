@@ -16,6 +16,8 @@ export const refreshAdminUrl: string 	= 	baseUrl+'auth/refresh';
 
 // CURD User
 export const createUserUrl: string 	=	baseUrl+'auth/user/create';
+export const createUserLogoUrl: string 	=	baseUrl+'auth/user/createLogo';
+
 export const updateUserUrl: string 	=	baseUrl+'user/update';
 export const getUserUrl: string 	= 	'assets/data/user.json';
 export const deleteUserUrl: string 	=	baseUrl+'user/delete';

@@ -186,13 +186,10 @@ Login Drawer
 		</nz-form-item>
 		<nz-form-item>
 			<nz-form-control>
-			<label nz-checkbox formControlName="remember">
-				<span>Souvenir de moi</span>
-			</label>
-			<a class="login-form-forgot" (click)="openRecover()">Mode de passe oublié</a>
-			<button nz-button class="login-form-button" [nzType]="'primary'">Se Connecter</button>
-				Ou
-			<a (click)="openRegister()" class="link">Créer Votre Compte!</a>
+				<a class="login-form-forgot" (click)="openRecover()">Mode de passe oublié</a>
+				<button nz-button class="login-form-button" [nzType]="'primary'">Se Connecter</button>
+					Ou
+				<a (click)="openRegister()" class="link">Créer Votre Compte!</a>
 			</nz-form-control>
 		</nz-form-item>
 	</form>

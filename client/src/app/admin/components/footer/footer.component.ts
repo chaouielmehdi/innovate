@@ -20,7 +20,7 @@ export class FooterComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		this._userService.authStatus.subscribe(
+		this._userService.authStatus$.subscribe(
 			(status) => this.loggedIn = status
 		);
 	}

@@ -24,7 +24,7 @@ export class HeaderComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		this._adminService.authStatus.subscribe(
+		this._adminService.authStatus$.subscribe(
 			(status) => this.loggedIn = status
 		);
 	}
