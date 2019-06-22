@@ -207,6 +207,7 @@ export class CartComponent implements OnInit {
 	-------------------------------------------------
 	*/
 	isCommandDisabled: boolean = true;
+	isDeleteDisabled: boolean = true;
 	checkedData: Array<{dataId: number, isChecked: boolean}> = [];
 	isAllDisplayDataChecked: boolean = false;
 	isIndeterminate: boolean = false;
@@ -219,7 +220,8 @@ export class CartComponent implements OnInit {
 
 	check(id: number) {
 		var isCommandDisabled: boolean = true;
-
+		var isDeleteDisabled: boolean = true;
+		
 		this.checkedData.forEach((c) => {
 			// check or uncheck box
 			if (c.dataId === id) {
@@ -229,13 +231,76 @@ export class CartComponent implements OnInit {
 			// disable command button
 			if(c.isChecked){
 				isCommandDisabled = false;
+				isDeleteDisabled = false;
 			}
 		});
 		
 		this.isCommandDisabled = isCommandDisabled;
+		this.isDeleteDisabled = isDeleteDisabled;
 	}
 
 
+
+
+
+
+
+	/*
+	-------------------------------------------------
+	Command and Delete
+	-------------------------------------------------
+	*/
+	// the carts element selected to be commanded or deleted
+	cartSelected: Cart[] = [];
+
+	setCartSelected(): void{
+		// Empty the cartSelected
+		this.cartSelected = [];
+		
+		// Fill the cartSelected
+		this.checkedData.forEach((checkedData) => {
+			if(checkedData.isChecked){
+				this.cartSelected.push(
+					this.cartElements.find((cartElement) => {
+						return (cartElement.id === checkedData.dataId && cartElement.product.in_store);
+					})
+				);
+			}
+		});
+	}
+
+	commandClicked(): void {
+		// Verify if the User account is validated or not
+		if(!this.user.is_verified_account) {
+			// message the user (you can't)
+			this.message.create('error', `Votre compte n'a pas été encore validé!`);
+		}
+		else {
+			// Ok you can command
+			this.setCartSelected();
+	
+			this._cartService.setCartSelected(this.cartSelected);
+	
+			this.router.navigateByUrl('/dashboard/command-form');
+		}
+	}
+
+
+	deleteClicked(): void {
+		// Verify if the User account is validated or not
+		if(!this.user.is_verified_account) {
+			// message the user (you can't)
+			this.message.create('error', `Votre compte n'a pas été encore validé!`);
+		}
+		else {
+			// Ok you can command
+			this.setCartSelected();
+	
+			this._cartService.setCartSelected(this.cartSelected);
+	
+			this.router.navigateByUrl('/dashboard/command-form');
+		}
+	}
 
 
 
@@ -283,53 +348,6 @@ export class CartComponent implements OnInit {
 				this.user = new User();
 				console.log("error : ", error);
 			});
-	}
-
-
-
-
-
-
-
-	
-
-	/*
-	-------------------------------------------------
-	Command
-	-------------------------------------------------
-	*/
-	cartSelected: Cart[] = [];
-
-	setCartSelected(): void{
-		// Empty the cartSelected
-		this.cartSelected = [];
-		
-		// Fill the cartSelected
-		this.checkedData.forEach((checkedData) =>{
-			if(checkedData.isChecked){
-				this.cartSelected.push(
-					this.cartElements.find((cartElement) =>{
-						return cartElement.id === checkedData.dataId;
-					})
-				);
-			}
-		});
-	}
-
-	commandClicked(): void {
-		// Verify if the User account is validated or not
-		if(!this.user.is_verified_account) {
-			// message the user (you can't)
-			this.message.create('error', `Votre compte n'a pas été encore validé!`);
-		}
-		else {
-			// Ok you can command
-			this.setCartSelected();
-	
-			this._cartService.setCartSelected(this.cartSelected);
-	
-			this.router.navigateByUrl('/dashboard/command-form');
-		}
 	}
 
 

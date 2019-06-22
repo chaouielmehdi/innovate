@@ -19,10 +19,15 @@
 	</div>
 	
 	<!-- End Component Header -->
-	<div class="center">
+	<div class="actions">
 		<button (click)="commandClicked()" [disabled]="isCommandDisabled" nz-button nzType="primary">
 			Commander
 		</button>
+		<button (click)="deleteClicked()" [disabled]="isDeleteDisabled" nz-button nzType="primary">
+			Supprimer
+		</button>
+	</div>
+	<div class="center">
 		<nz-table #filterTable [nzData]="listOfDisplayData" [nzScroll]="{ x: '500px' }" nzBordered>
 			<thead (nzSortChange)="sort($event)" nzSingleSort>
 				<tr>
@@ -30,7 +35,7 @@
 						nzLeft="0px"
 						nzWidth="20px"
 					>
-					<!-- ------ -->
+						<!-- ------ -->
 					</th>
 					<th
 						nzWidth="300px"
