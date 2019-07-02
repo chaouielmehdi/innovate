@@ -208,13 +208,15 @@ export class CartComponent implements OnInit {
 	*/
 	isCommandDisabled: boolean = true;
 	isDeleteDisabled: boolean = true;
-	checkedData: Array<{dataId: number, isChecked: boolean}> = [];
+	checkedData: Array<{id: number, isChecked: boolean}> = [];
+	countCheckedData: number = 0;
 	isAllDisplayDataChecked: boolean = false;
 	isIndeterminate: boolean = false;
 
 	initCheckedData(){
+		this.checkedData = [];
 		this.cartElements.forEach((cartElement) => {
-			this.checkedData.push( {dataId: cartElement.id, isChecked: false} );
+			this.checkedData.push( {id: cartElement.id, isChecked: false} );
 		});
 	}
 
@@ -224,12 +226,17 @@ export class CartComponent implements OnInit {
 		
 		this.checkedData.forEach((c) => {
 			// check or uncheck box
-			if (c.dataId === id) {
+			if (c.id === id) {
 				c.isChecked = !c.isChecked;
+
+				// update countCheckedData
+				if(c.isChecked) this.countCheckedData++;
+				else this.countCheckedData--;
 			}
 
 			// disable command button
 			if(c.isChecked){
+				// update isCommandDisabled and isDeleteDisabled
 				isCommandDisabled = false;
 				isDeleteDisabled = false;
 			}
@@ -262,11 +269,13 @@ export class CartComponent implements OnInit {
 			if(checkedData.isChecked){
 				this.cartSelected.push(
 					this.cartElements.find((cartElement) => {
-						return (cartElement.id === checkedData.dataId && cartElement.product.in_store);
+						return (cartElement.id === checkedData.id && cartElement.product.in_store);
 					})
 				);
 			}
 		});
+
+
 	}
 
 	commandClicked(): void {
@@ -293,12 +302,29 @@ export class CartComponent implements OnInit {
 			this.message.create('error', `Votre compte n'a pas été encore validé!`);
 		}
 		else {
-			// Ok you can command
-			this.setCartSelected();
-	
-			this._cartService.setCartSelected(this.cartSelected);
-	
-			this.router.navigateByUrl('/dashboard/command-form');
+			// Ok you can delete
+			this.checkedData.forEach((data) => {
+				if(data.isChecked) {
+					this._cartService.deleteCartServer(data.id).subscribe(
+						(cart) => {
+							if(cart != null){
+								this.cartElements.filter((cartElement) => {
+									return cartElement.id !== cart.id;
+								});
+								
+								// reinitialize data
+								this.initTableData();
+								this.initCheckedData();
+							}
+							else {
+								this.message.create('error', `Impossible de supprimer!`);
+							}
+						},
+						(error) => {
+							console.log("error : ", error);
+						});
+				}
+			});
 		}
 	}
 

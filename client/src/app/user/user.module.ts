@@ -26,6 +26,7 @@ import { ProductsComponent } from './components/products/products.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { InterceptorService } from './services/interceptor.service';
+import { ModalsComponent } from './components/modals/modals.component';
 
 @NgModule({
 	declarations: [
@@ -47,7 +48,8 @@ import { InterceptorService } from './services/interceptor.service';
 		CreditsComponent,
 		ProfileFormComponent,
 		DrawersComponent,
-		PageNotFoundComponent
+		PageNotFoundComponent,
+		ModalsComponent
 	],
 	imports: [
 		CommonModule,

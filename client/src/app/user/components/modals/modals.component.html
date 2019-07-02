@@ -1,0 +1,16 @@
+
+<!--
+-------------------------------------------------
+connectFirstModal
+-------------------------------------------------
+-->
+<nz-modal nzWrapClassName="vertical-center-modal"
+	[(nzVisible)]="connectFirstModal"
+	nzTitle="Rejoignez nous!"
+	(nzOnCancel)="cancelModal()"
+	(nzOnOk)="okModal()"
+	nzOkText="Se connecter"
+	nzCancelText="Annuler"
+>
+	<p>Pour profiter de nos services, veuillez vous connecter!</p>
+</nz-modal>

@@ -207,8 +207,8 @@ export class UserService {
 	 * Register-drawer <=> Register-form
 	 * holding values
 	 */
-	email: string = 'mehdi.mc60@gmail.comm';
-	password: string = 'mehdii';
+	email: string = '';
+	password: string = '';
 
 	// Holds if the Register page is available or not
 	private isRegisterAvailableBehaviorSubject = new BehaviorSubject<boolean>(this.email !== '' && this.password !== '');

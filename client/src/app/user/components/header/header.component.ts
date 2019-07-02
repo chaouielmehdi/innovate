@@ -24,7 +24,7 @@ export class HeaderComponent implements OnInit {
 		private _drawerService: DrawerService,
 		private _productService: ProductService
 	) { }
-
+	
 	ngOnInit() {
 		// set loggedIn attr
 		this._userService.authStatus$.subscribe(

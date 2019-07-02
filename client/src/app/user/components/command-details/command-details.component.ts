@@ -238,7 +238,7 @@ export class CommandDetailsComponent implements OnInit {
 				(p) => {
 					return p.product.id !== id;
 				});
-
+				
 			this.command.total_price = calCommandTotPrice(this.command);
 		}
 	}

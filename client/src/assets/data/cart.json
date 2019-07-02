@@ -27,9 +27,9 @@
 		{
 			"id": 6,
 			"img": "clean.jpg",
-			"name": "Brosse jj",
+			"name": "Brosse B",
 			"desc": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa placeat mollitia esse officia, ad alias sunt provident! Nobis, odio maxime!",
-			"in_store": false,
+			"in_store": true,
 			"price": 100,
 			"sold": 60,
 			"category": "restaurant",

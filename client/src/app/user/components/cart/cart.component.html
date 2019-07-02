@@ -19,13 +19,18 @@
 	</div>
 	
 	<!-- End Component Header -->
-	<div class="actions">
-		<button (click)="commandClicked()" [disabled]="isCommandDisabled" nz-button nzType="primary">
+	<div class="actions mb-2">
+		<button class="mr-2" (click)="commandClicked()" [disabled]="isCommandDisabled" nz-button nzType="primary">
+			<i class="fas fa-clipboard-list mr-1"></i>
 			Commander
 		</button>
-		<button (click)="deleteClicked()" [disabled]="isDeleteDisabled" nz-button nzType="primary">
+		<button class="mr-2" (click)="deleteClicked()" [disabled]="isDeleteDisabled" nz-button nzType="danger">
+			<i class="fas fa-trash-alt mr-1"></i>
 			Supprimer
 		</button>
+		<p class="d-inline c-grey">
+			({{ countCheckedData }} / {{ checkedData.length }})
+		</p>
 	</div>
 	<div class="center">
 		<nz-table #filterTable [nzData]="listOfDisplayData" [nzScroll]="{ x: '500px' }" nzBordered>
@@ -92,22 +97,9 @@
 					<td
 						nzLeft="0px"
 						nzShowCheckbox
-						[nzDisabled]="data.product.in_store"
+						[nzDisabled]="!data.product.in_store"
 						(nzCheckedChange)="check(data.id)"
 					>
-						<div class="d-inline ml-2">
-							<a
-								nz-popconfirm
-								[nzCancelText]="'Annuler'"
-								[nzOkText]="'Supprimer'"
-								[nzOkType]="'danger'"
-								nzTitle="Êtes-vous sûr de supprimer ce produit ?"
-								(nzOnConfirm)="deleteClicked(commandProductQuantity.product.id)"
-								nzPlacement="topLeft"
-							>
-								<i class="fas fa-trash-alt c-pointer c-red"></i>
-							</a>
-						</div>
 					</td>
 					<td>
 						<span
@@ -115,7 +107,7 @@
 							class="c-pointer c-blue hover-blue"
 						>
 							{{ data.product.name }}
-							<nz-tag *ngIf="data.product.in_store" [nzColor]="'#ff373713'" class="c-red ml-2">
+							<nz-tag *ngIf="!data.product.in_store" [nzColor]="'#ff373713'" class="c-red ml-2">
 								Non disponible
 							</nz-tag>
 						</span>

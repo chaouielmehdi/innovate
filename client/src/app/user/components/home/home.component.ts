@@ -48,6 +48,17 @@ export class HomeComponent implements OnInit {
 		el.scrollIntoView( {behavior:"smooth"} );
 	}
 
+
+
+
+
+
+
+
+
+
+
+
 	// -------------------------------------------------
 	// Products
 	// -------------------------------------------------
@@ -93,6 +104,17 @@ export class HomeComponent implements OnInit {
 				});
 	}
 
+
+
+
+
+
+
+
+
+
+
+	
 	// -------------------------------------------------
 	// Menu
 	// -------------------------------------------------
@@ -107,6 +129,16 @@ export class HomeComponent implements OnInit {
 	}
 
 
+
+
+
+
+
+
+
+
+
+	
 
 	// -------------------------------------------------
 	// Search Filter
@@ -138,40 +170,5 @@ export class HomeComponent implements OnInit {
 		this.noData = this.productsFiltered.length == 0;
 	}
 
-
-	// Modal
-	modalVisible = false;
-
-	addToCartClicked(id: number): void {
-		// set the id in product service to show the details after connection
-		this._productService.setId(id);
-		
-		// show the modal
-		this.modalVisible = true;
-	}
-
-	okModal(): void {
-		this.modalVisible = false;
-		this.openLogin();
-	}
-
-	cancelModal(): void {
-		this.modalVisible = false;
-	}
-
-	navigateToProducts() {
-		this.router.navigateByUrl('products');
-	}
-
-	ToConnectClicked(){
-		this._drawerService.openLogin();
-
-		// to not redirect user to product details if he already clicked on add to cart
-		this._productService.setId(-1);
-	}
-
-	openLogin(){
-		this._drawerService.openLogin();
-	}
 
 }
