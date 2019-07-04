@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { passwordConfirmationValidator } from 'src/app/shared/functions/password-confirmation-validator';
 import { User } from 'src/app/shared/models/User';
 import { Statistics } from 'src/app/shared/models/Statistics';
-import { StatisticsService } from '../../services/statistics.service';
+import { StatisticService } from '../../services/statistics.service';
 
 @Component({
 	selector: 'app-drawers',
@@ -22,15 +22,10 @@ export class DrawersComponent implements OnInit {
 		private _userService: UserService,
 		private _tokenService: TokenService,
 		private _drawerService: DrawerService,
-		private _statisticService: StatisticsService
+		private _statisticService: StatisticService
 	) { }
 
 	ngOnInit() {
-		// Forms initialization
-		this.initLoginForm();
-		this.initRegisterForm();
-		this.initRecoverForm();
-
 		// Subscription to the DrawerService
 		// login Drawer
 		this._drawerService.loginEventEmitter.subscribe(visibleLogin => {
@@ -50,6 +45,12 @@ export class DrawersComponent implements OnInit {
 			this.visibleMenu = visibleMenu;
 		});
 
+
+		// Forms initialization
+		this.initLoginForm();
+		this.initRegisterForm();
+		this.initRecoverForm();
+		
 		// Get User
 		this.getUser();
 
@@ -103,10 +104,20 @@ export class DrawersComponent implements OnInit {
 
 
 
-	// -------------------------------------------------
-	// Menu Drawer
-	// -------------------------------------------------
+	
 
+
+
+
+
+
+	
+
+	/*
+	-------------------------------------------------
+	Menu Drawer
+	-------------------------------------------------
+	*/
 	visibleMenu = false;
 
 	openMenu(): void {
@@ -131,6 +142,17 @@ export class DrawersComponent implements OnInit {
 		this.closeMenu();
 	}
 
+
+
+
+	
+
+
+
+
+
+
+	
 	/*
 	-------------------------------------------------
 	Statistics
@@ -217,12 +239,22 @@ export class DrawersComponent implements OnInit {
 
 
 
+	
+
+
+
+
+
+
+	
 	// -------------------------------------------------
 	// Login
 	// -------------------------------------------------
 	
 	// Login Drawer
 	visibleLogin: boolean = false;
+	connectLoader: boolean = false;
+	
 
 	openLogin(): void {
 		this.visibleRegister = false;
@@ -254,6 +286,9 @@ export class DrawersComponent implements OnInit {
 		}
 
 		if(!this.loginForm.invalid) {
+			// turn the button's loader on
+			this.connectLoader = true;
+	
 			this._userService.loginServer(this.loginForm)
 				.subscribe(
 					(user) => {
@@ -269,8 +304,11 @@ export class DrawersComponent implements OnInit {
 					(error) => {
 						this.loginErrorMsg = "Aïe! une erreur c'est produite";
 						console.error(error);
-					}
-				);
+					},
+					() => {
+						// turn the button's loader off
+						this.connectLoader = false;
+					});
 		}
 	}
 
@@ -281,12 +319,24 @@ export class DrawersComponent implements OnInit {
 	}
 	
 
+
+
+
+	
+
+
+
+
+
+
+	
 	// -------------------------------------------------
 	// Register
 	// -------------------------------------------------
 	
 	// Register Drawer
 	visibleRegister: boolean = false;
+	createAccountLoader: boolean = false;
 
 	openRegister(): void {
 		this.visibleLogin = false;
@@ -316,6 +366,9 @@ export class DrawersComponent implements OnInit {
 	}
 
 	submitRegisterForm(): void {
+		// turn the button's loader on
+		this.createAccountLoader = true;
+
 		for (const i in this.registerForm.controls) {
 			this.registerForm.controls[i].markAsDirty();
 			this.registerForm.controls[i].updateValueAndValidity();
@@ -342,6 +395,9 @@ export class DrawersComponent implements OnInit {
 				this.registerForm.controls[ key ].updateValueAndValidity();
 			}
 		}
+
+		// turn the button's loader off
+		this.createAccountLoader = false;
 	}
 
 	cleanRegisterPwd(){
@@ -352,12 +408,24 @@ export class DrawersComponent implements OnInit {
 	}
 
 
+
+
+	
+
+
+
+
+
+
+	
+
 	// -------------------------------------------------
 	// Recover
 	// -------------------------------------------------
 	
 	// Recover Drawer
 	visibleRecover: boolean = false;
+	RecoverLoader: boolean = false;
 
 	openRecover(): void {
 		this.visibleRegister = false;
@@ -389,6 +457,9 @@ export class DrawersComponent implements OnInit {
 		}
 		/*
 		if(!this.recoverForm.invalid) {
+			// turn the button's loader on
+			this.RecoverLoader = true;
+
 			this._userService.recover(this.recoverForm)
 				.subscribe(
 					(user) => {
@@ -405,8 +476,12 @@ export class DrawersComponent implements OnInit {
 					(error) => {
 						this.recoverErrorMsg = "Aïe! une erreur c'est produite";
 						console.error(error);
-					}
-				);
+					},
+					() => {
+
+						// turn the button's loader off
+						this.RecoverLoader = false;
+					});
 		}
 		else {
 			// show the errors
@@ -431,7 +506,4 @@ export class DrawersComponent implements OnInit {
 
 		this.router.navigateByUrl('/dashboard');
 	}
-
-
-
 }

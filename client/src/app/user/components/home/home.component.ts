@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/shared/models/Product';
 import { Router } from '@angular/router';
-import { DrawerService } from 'src/app/user/services/drawer.service';
 import { ProductService } from 'src/app/user/services/product.service';
 import { fade } from 'src/app/shared/animations/fade';
 import { appName } from 'src/app/shared/app-config/global-config';
+import { ModalService } from '../../services/modal.service';
+import { DrawerService } from '../../services/drawer.service';
 
 declare var Typed: any;
 
@@ -24,8 +25,9 @@ export class HomeComponent implements OnInit {
 
 	constructor(
 		private router: Router,
-		private _drawerService: DrawerService,
-		private _productService: ProductService
+		private _modalService: ModalService,
+		private _productService: ProductService,
+		private _drawerService: DrawerService
 	) {}
 
 	ngOnInit() {
@@ -43,7 +45,7 @@ export class HomeComponent implements OnInit {
 	}
 
 	scrollTo(id) {
-		console.log(`scrolling to ${id}`);
+		console.log(`scrolling to ${id} ------------------------------------`);
 		let el = document.getElementById(id);
 		el.scrollIntoView( {behavior:"smooth"} );
 	}
@@ -104,7 +106,33 @@ export class HomeComponent implements OnInit {
 				});
 	}
 
+	navigateToProducts() {
+		this.router.navigateByUrl('products');
+	}
 
+	
+
+	// -------------------------------------------------
+	// ConnectFirstModal
+	// -------------------------------------------------
+	/**
+	 * To connect btn clicked
+	 * It uses the drawerService to open loginDrawer
+	 */
+	ToConnectClicked(){
+		this._drawerService.openLogin();
+
+		// to not redirect user to product details if he already clicked on add to cart
+		this._productService.setId(-1);
+	}
+
+	addToCartClicked(id: number): void {
+		// show the modal
+		this._modalService.openConnectFirstModal();
+
+		// set the id in product service to show the details after connection
+		this._productService.setId(id);
+	}
 
 
 

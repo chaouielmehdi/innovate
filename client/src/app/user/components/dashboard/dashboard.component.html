@@ -22,7 +22,7 @@
 				<div *ngIf="!user.is_verified_update || !user.is_verified_account" class="col-lg-12 d-flex justify-content-center align-items-center">
 					<span class="c-red">
 						Vous pouvez
-						<span class="c-grey hover-grey c-pointer" routerLink="/support">contacter</span>
+						<span class="c-grey hover-grey cursor-pointer" routerLink="/support">contacter</span>
 						l'admin pour plus de détails
 					</span>
 				</div>
@@ -134,7 +134,7 @@
 	<div class="main">
 		<div class="row center">
 			<div class="col-lg-6 d-flex justify-content-center align-items-center">
-				<a routerLink="/dashboard/commands">
+				<a routerLink="/commands">
 					<nz-card class="dashboard-card">
 
 						<nz-badge [nzCount]="statistics.commands.notViewedNumber">
@@ -169,7 +169,7 @@
 				</a>
 			</div>
 			<div class="col-lg-6 d-flex justify-content-center align-items-center">
-				<a routerLink="/dashboard/cart">
+				<a routerLink="/cart">
 					<nz-card class="dashboard-card">
 						<i class="fas fa-shopping-cart dashboard-card-icon"></i>
 						<nz-divider nzText="Mon Panier" nzOrientation="left"></nz-divider>
@@ -193,7 +193,7 @@
 				</a>
 			</div>
 			<div class="col-lg-6 d-flex justify-content-center align-items-center">
-				<a routerLink="/dashboard/credits">
+				<a routerLink="/credits">
 					<nz-card class="dashboard-card">
 						<i class="fas fa-coins dashboard-card-icon"></i>
 						<nz-divider nzText="Mes Crédits" nzOrientation="left"></nz-divider>

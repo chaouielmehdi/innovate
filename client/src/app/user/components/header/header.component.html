@@ -28,7 +28,7 @@
 			</li>
 			<li>
 				<a routerLinkActive="" routerLink="/">
-					<i class="search-icon" nz-icon type="search"></i>
+					<i class="search-icon" nz-icon type="search" class="pr-3 pl-3"></i>
 				</a>
 			</li>
 			<li *ngIf="loggedIn">
@@ -39,7 +39,7 @@
 			</li>
 
 			<li *ngIf="!loggedIn && !isRegisterAvailable">
-				<a (click)="ToConnectClicked()">
+				<a (click)="ToConnectClicked()" class="pr-3 pl-3">
 					<i class="far fa-user"></i>
 				</a>
 			</li>

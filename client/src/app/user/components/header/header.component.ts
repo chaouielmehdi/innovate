@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, HostBinding } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { appName } from 'src/app/shared/app-config/global-config';
 import { UserService } from 'src/app/user/services/user.service';
 import { DrawerService } from 'src/app/user/services/drawer.service';
@@ -46,6 +46,12 @@ export class HeaderComponent implements OnInit {
 
 
 
+
+
+	/**
+	 * To connect btn clicked
+	 * It uses the drawerService to open loginDrawer
+	 */
 	ToConnectClicked(){
 		this._drawerService.openLogin();
 

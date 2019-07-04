@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ProductService } from 'src/app/user/services/product.service';
 import { User } from 'src/app/shared/models/User';
 import { fade } from 'src/app/shared/animations/fade';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
 	selector: 'app-products',
@@ -18,9 +19,8 @@ export class ProductsComponent implements OnInit {
 	loggedIn: boolean = false;
 
 	constructor(
-		private router: Router,
 		private _userService: UserService,
-		private _drawerService: DrawerService,
+		private _modalService: ModalService,
 		private _productService: ProductService
 	) { }
 
@@ -291,34 +291,19 @@ export class ProductsComponent implements OnInit {
 
 
 	// -------------------------------------------------
-	// Modal
+	// ConnectFirstModal
 	// -------------------------------------------------
-
-	modalVisible: boolean = false;
+	/**
+	 * To connect btn clicked
+	 * It uses the drawerService to open loginDrawer
+	 */
 
 	addToCartClicked(id: number): void {
+		// show the modal
+		this._modalService.openConnectFirstModal();
+
 		// set the id in product service to show the details after connection
 		this._productService.setId(id);
-		
-		// show the modal
-		this.modalVisible = true;
-	}
-
-	okModal(): void {
-		this.modalVisible = false;
-		this.openLogin();
-	}
-
-	cancelModal(): void {
-		this.modalVisible = false;
-	}
-
-	navigateToProducts() {
-		this.router.navigateByUrl('products-list');
-	}
-
-	openLogin(){
-		this._drawerService.openLogin();
 	}
 
 

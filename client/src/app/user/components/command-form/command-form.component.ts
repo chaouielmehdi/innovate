@@ -8,6 +8,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { CommandService } from 'src/app/user/services/command.service';
 import { calCommandTotPrice, calTotPrice } from 'src/app/shared/functions/price-calculators';
 import { fade } from 'src/app/shared/animations/fade';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
 	selector: 'app-command-form',
@@ -26,7 +27,8 @@ export class CommandFormComponent implements OnInit {
 		private router: Router,
 		private message: NzMessageService,
 		private _cartService: CartService,
-		private _commandService: CommandService
+		private _commandService: CommandService,
+		private _modalService: ModalService
 	) { }
 
 	ngOnInit() {
@@ -34,7 +36,7 @@ export class CommandFormComponent implements OnInit {
 
 		// Verify if there is cartSelected
 		if(this.cartSelected.length === 0){
-			this.router.navigateByUrl("/dashboard/cart");
+			this.router.navigateByUrl("/cart");
 		}
 		else {
 			this.setCommand();
@@ -54,7 +56,7 @@ export class CommandFormComponent implements OnInit {
 		this.cartSelected = this._cartService.getCartSelected();
 
 		if(this.cartSelected.length == 0){
-			this.router.navigateByUrl('/dashboard/cart')
+			this.router.navigateByUrl('/cart')
 		}
 	}
 
@@ -138,14 +140,14 @@ export class CommandFormComponent implements OnInit {
 	// command loader
 	isCommandLoading: boolean = false;
 
-	// Command clicked
+	/**
+	 * Command clicked
+	 * 0 - validation
+	 * 1 - Post to the server the new command
+	 * 2 - Delete carts
+	 * 3 - Navigate to commands
+	 */
 	toCommand(){
-		/**
-		 * 0 - validation
-		 * 1 - Post to the server the new command
-		 * 2 - Delete carts
-		 * 3 - Navigate to commands
-		 */
 		// command loader
 		this.isCommandLoading = true;
 		
@@ -187,7 +189,7 @@ export class CommandFormComponent implements OnInit {
 												this.message.create('success', `Votre commande a été faite.`);
 												
 												// 3 - Navigate to commands
-												this.router.navigateByUrl("/dashboard/commands");
+												this.router.navigateByUrl("/commands");
 											}
 											else {
 												this.message.create('error', `Informations érronées! réessayez s'il vous plaît!`);
@@ -207,39 +209,40 @@ export class CommandFormComponent implements OnInit {
 					(error) => {
 						this.message.create('error', `Aïe! une erreur c'est produite!`);
 						console.error(error);
-					}
-				);
+					},
+					() => {
+						// command loader
+						this.isCommandLoading = false;
+					});
 		}
-		// command loader
-		this.isCommandLoading = false;
 	}
 
 	// cancel clicked
 	cancelCommand(){
-		this.router.navigateByUrl("/dashboard/cart");
+		this.router.navigateByUrl("/cart");
 	}
+
+	
+
+
+
+
+
 
 	/*
 	-------------------------------------------------
 	ProductModal
 	-------------------------------------------------
 	*/
-
 	isProductModalVisible: boolean = false;
-	productModal: Product;
 
 	showProductModal(productModal: Product): void {
-		this.isProductModalVisible = true;
-		this.productModal = productModal;
+		// user the modalService to open product modal
+		this._modalService.openProductModal(productModal);
 	}
-  
-	handleProductModalOk(): void {
-	  	this.isProductModalVisible = false;
-	}
-  
-	handleProductModalCancel(): void {
-	 	this.isProductModalVisible = false;
-	}
+
+
+
 
 
 
@@ -251,7 +254,7 @@ export class CommandFormComponent implements OnInit {
 
 
 	backward(): void{
-		this.router.navigateByUrl('/dashboard/commands');
+		this.router.navigateByUrl('/commands');
 	}
 
 }

@@ -59,7 +59,7 @@ Menu Drawer
 			</a>
 		</div>
 		<div class="menu-item">
-			<a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/dashboard/commands" (click)="menuItemClicked()">
+			<a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/commands" (click)="menuItemClicked()">
 		
 				<i class="fas fa-clipboard-list menu-item-icon mar-l"></i>
 				<span class="menu-item-legend">Mes Commandes</span>
@@ -70,7 +70,7 @@ Menu Drawer
 			</a>
 		</div>
 		<div class="menu-item">
-			<a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/dashboard/cart" (click)="menuItemClicked()">
+			<a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/cart" (click)="menuItemClicked()">
 		
 				<i class="fas fa-shopping-cart menu-item-icon smaller"></i>
 				<span class="menu-item-legend">Mon Panier</span>
@@ -78,7 +78,7 @@ Menu Drawer
 			</a>
 		</div>
 		<div class="menu-item">
-			<a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/dashboard/credits" (click)="menuItemClicked()">
+			<a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/credits" (click)="menuItemClicked()">
 		
 				<i class="fas fa-coins menu-item-icon"></i>
 				<span class="menu-item-legend">Mes Crédits</span>
@@ -187,7 +187,7 @@ Login Drawer
 		<nz-form-item>
 			<nz-form-control>
 				<a class="login-form-forgot" (click)="openRecover()">Mode de passe oublié</a>
-				<button nz-button class="login-form-button" [nzType]="'primary'">Se Connecter</button>
+				<button nz-button class="login-form-button" [nzType]="'primary'" [nzLoading]="connectLoader">Se Connecter</button>
 					Ou
 				<a (click)="openRegister()" class="link">Créer Votre Compte!</a>
 			</nz-form-control>
@@ -292,7 +292,7 @@ register Drawer
 		<nz-form-item>
 			<nz-form-control>
 			<a class="register-form-forgot" (click)="openRecover()">Mode de passe oublié</a>
-			<button nz-button class="login-form-button" [nzType]="'primary'">Créer</button>
+			<button nz-button class="login-form-button" [nzType]="'primary'" [nzLoading]="createAccountLoader">Créer</button>
 				Ou
 			<a (click)="openLogin()" class="link">Se Connecter!</a>
 			</nz-form-control>
@@ -353,7 +353,7 @@ Recover Drawer
 		</nz-form-item>
 		<nz-form-item>
 			<nz-form-control>
-				<button nz-button class="recover-form-button" [nzType]="'primary'">Récupérer</button>
+				<button nz-button class="recover-form-button" [nzType]="'primary'" [nzLoading]="RecoverLoader">Récupérer</button>
 					Ou
 				<a (click)="openLogin()" class="link">Se connecter!</a>
 			</nz-form-control>

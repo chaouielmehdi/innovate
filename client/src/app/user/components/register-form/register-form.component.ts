@@ -86,6 +86,7 @@ export class RegisterFormComponent implements OnInit {
 	});
 
 	passwordVisible: boolean = false;
+	registerLoader: boolean = false;
 
 	/**
 	 * Sets email and password (from the user-service)
@@ -128,6 +129,9 @@ export class RegisterFormComponent implements OnInit {
 
 		// if registerForm valid
 		if(isRegisterFormValid){
+			// turn the button's loader on
+			this.registerLoader = true;
+
 			this._userService.registerServer(this.registerForm)
 				.subscribe(
 					(user) => {
@@ -138,15 +142,24 @@ export class RegisterFormComponent implements OnInit {
 							this._userService.loginClient(user);
 						}
 						else {
-							this.message.create('error', `Email déjà pris! Essayez avec un autre email.`);
+							this.message.create('error', `Informations érronées! réessayez s'il vous plaît!`);
 							this.cleanRegisterPwd();
+							this.scrollTo('email');
 						}
 					},
 					(error) => {
 						this.message.create('error', `Aïe! une erreur c'est produite!`);
+						this.scrollTo('email');
 						console.error(error);
+					},
+					() => {
+						// turn the button's loader off
+						this.registerLoader = false;
 					}
 				);
+		}
+		else {
+			this.scrollTo('email');
 		}
 	}
 
@@ -155,6 +168,12 @@ export class RegisterFormComponent implements OnInit {
 			password: '',
 			password_confirmation: ''
 		});
+	}
+	
+	scrollTo(id) {
+		console.log(`scrolling to ${id}`);
+		let el = document.getElementById(id);
+		el.scrollIntoView( {behavior: "smooth"} );
 	}
 
 

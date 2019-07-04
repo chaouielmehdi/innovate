@@ -7,6 +7,7 @@ import { User } from 'src/app/shared/models/User';
 import { UserService } from 'src/app/user/services/user.service';
 import { NzMessageService } from 'ng-zorro-antd';
 import { fade } from 'src/app/shared/animations/fade';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
 	selector: 'app-cart',
@@ -25,7 +26,8 @@ export class CartComponent implements OnInit {
 		private router: Router,
 		private message: NzMessageService,
 		private _cartService: CartService,
-		private _userService: UserService
+		private _userService: UserService,
+		private _modalService: ModalService
 	) { }
 
 	ngOnInit() {
@@ -259,6 +261,8 @@ export class CartComponent implements OnInit {
 	*/
 	// the carts element selected to be commanded or deleted
 	cartSelected: Cart[] = [];
+	commandLoader: boolean = false;
+	deleteLoader: boolean = false;
 
 	setCartSelected(): void{
 		// Empty the cartSelected
@@ -279,6 +283,9 @@ export class CartComponent implements OnInit {
 	}
 
 	commandClicked(): void {
+		// turn the button's loader on
+		this.commandLoader = true;
+
 		// Verify if the User account is validated or not
 		if(!this.user.is_verified_account) {
 			// message the user (you can't)
@@ -290,8 +297,11 @@ export class CartComponent implements OnInit {
 	
 			this._cartService.setCartSelected(this.cartSelected);
 	
-			this.router.navigateByUrl('/dashboard/command-form');
+			this.router.navigateByUrl('/command-form');
 		}
+
+		// turn the button's loader off
+		this.commandLoader = false;
 	}
 
 
@@ -305,6 +315,9 @@ export class CartComponent implements OnInit {
 			// Ok you can delete
 			this.checkedData.forEach((data) => {
 				if(data.isChecked) {
+					// turn the button's loader on
+					this.deleteLoader = true;
+			
 					this._cartService.deleteCartServer(data.id).subscribe(
 						(cart) => {
 							if(cart != null){
@@ -322,10 +335,15 @@ export class CartComponent implements OnInit {
 						},
 						(error) => {
 							console.log("error : ", error);
+						},
+						() =>{
+							// turn the button's loader off
+							this.deleteLoader = false;
 						});
 				}
 			});
 		}
+		
 	}
 
 
@@ -384,26 +402,17 @@ export class CartComponent implements OnInit {
 
 	
 
+
 	/*
 	-------------------------------------------------
 	ProductModal
 	-------------------------------------------------
 	*/
-
 	isProductModalVisible: boolean = false;
-	productModal: Product;
 
 	showProductModal(productModal: Product): void {
-		this.isProductModalVisible = true;
-		this.productModal = productModal;
-	}
-  
-	handleProductModalOk(): void {
-	  	this.isProductModalVisible = false;
-	}
-  
-	handleProductModalCancel(): void {
-	 	this.isProductModalVisible = false;
+		// user the modalService to open product modal
+		this._modalService.openProductModal(productModal);
 	}
 
 

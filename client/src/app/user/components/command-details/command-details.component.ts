@@ -8,6 +8,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { PageNotFoundService } from 'src/app/user/services/page-not-found.service';
 import { ReportService } from 'src/app/user/services/report.service';
 import { fade } from 'src/app/shared/animations/fade';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
 	selector: 'app-command-details',
@@ -26,7 +27,7 @@ export class CommandDetailsComponent implements OnInit {
 	products_quantitiesTotPrice: Array<number> = [];
 	commandTotal_price: number = 0;
 
-	// to prevent html to be shown util checking the id validity
+	// to prevent html to be shown util checking the command id validity
 	showHtml: boolean = false;
 
 	constructor(
@@ -35,7 +36,8 @@ export class CommandDetailsComponent implements OnInit {
 		private message: NzMessageService,
 		private _pageNotFoundService: PageNotFoundService,
 		private _commandService: CommandService,
-		private _reportService: ReportService
+		private _reportService: ReportService,
+		private _modalService: ModalService
 	) { }
 
 	ngOnInit() {
@@ -122,6 +124,11 @@ export class CommandDetailsComponent implements OnInit {
 				return false;
 		}
 	}
+
+
+
+
+
 
 
 	/*
@@ -243,7 +250,6 @@ export class CommandDetailsComponent implements OnInit {
 		}
 	}
 
-
 	// cancelCommand
 	cancelOk(): void{
 		// validation
@@ -268,7 +274,7 @@ export class CommandDetailsComponent implements OnInit {
 							// to refresh some elements
 							this.totalColspan = 3;
 							this.editMode = false;
-							this.router.navigateByUrl('/dashboard/commands');
+							this.router.navigateByUrl('/commands');
 						}
 						else {
 							this.message.create('error', `Vous ne pouvez pas annuler cette commande.`);
@@ -284,12 +290,17 @@ export class CommandDetailsComponent implements OnInit {
 	}
 
 
+
+
+
+
+
+
 	/*
 	-------------------------------------------------
 	ReportModal
 	-------------------------------------------------
 	*/
-
 	isReportModalVisible: boolean = false;
 	alreadyReported: boolean = false;
 	activeReportItem: string = '';
@@ -347,14 +358,12 @@ export class CommandDetailsComponent implements OnInit {
 		}
 	}
 
-
 	handleReportModalCancel(): void {
 	 	this.isReportModalVisible = false;
 	}
 	
 	handleReportModalOk(): void {
-
-		// send loader
+		// turn send loader on
 		this.isSendLoading = true;
 		
 		// send to service
@@ -374,14 +383,17 @@ export class CommandDetailsComponent implements OnInit {
 					(error) => {
 						this.message.create('error', `Aïe! une erreur c'est produite!`);
 						console.error(error);
-					}
-				);
+					},
+					() => {
+						// turn send loader off
+						this.isSendLoading = false;
+					});
 		}
-		
-		// send loader
-		this.isSendLoading = false;
 	}
 
+	/**
+	 * ⚠️function never used
+	 */
 	otherProblemMsgKeyPressed(){
 		this.otherProblemMsgLength = this.otherProblemMsg.length;
 
@@ -389,30 +401,32 @@ export class CommandDetailsComponent implements OnInit {
 			
 		}
 	}
-  
+
+
+
+
+
 
 	
+	
+
 	/*
 	-------------------------------------------------
 	ProductModal
 	-------------------------------------------------
 	*/
-
 	isProductModalVisible: boolean = false;
-	productModal: Product;
 
 	showProductModal(productModal: Product): void {
-		this.isProductModalVisible = true;
-		this.productModal = productModal;
+		// user the modalService to open product modal
+		this._modalService.openProductModal(productModal);
 	}
-  
-	handleProductModalOk(): void {
-	  	this.isProductModalVisible = false;
-	}
-  
-	handleProductModalCancel(): void {
-	 	this.isProductModalVisible = false;
-	}
+
+
+
+
+
+
 
 
 	/*
@@ -420,12 +434,7 @@ export class CommandDetailsComponent implements OnInit {
 	Backward
 	-------------------------------------------------
 	*/
-
-
 	backward(): void{
-		this.router.navigateByUrl('/dashboard/commands');
+		this.router.navigateByUrl('/commands');
 	}
-
-
-
 }

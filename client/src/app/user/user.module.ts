@@ -11,7 +11,6 @@ import { SupportComponent } from './components/support/support.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { CommandsComponent } from './components/commands/commands.component';
 import { CommandDetailsComponent } from './components/command-details/command-details.component';
-import { CommandReportComponent } from './components/command-report/command-report.component';
 import { CartComponent } from './components/cart/cart.component';
 import { CommandFormComponent } from './components/command-form/command-form.component';
 import { CreditsComponent } from './components/credits/credits.component';
@@ -42,7 +41,6 @@ import { ModalsComponent } from './components/modals/modals.component';
 		ProductDetailsComponent,
 		CommandsComponent,
 		CommandDetailsComponent,
-		CommandReportComponent,
 		CommandFormComponent,
 		CartComponent,
 		CreditsComponent,

@@ -9,6 +9,8 @@ body {
 	text-align: left;
 	background-color: #fff !important;
 }
+
+
 /*
 -------------------------------------------------
 ComponentsWrapper.css
@@ -94,13 +96,19 @@ Backgrounds.css
 	background-color: #fafafa;
 }
 
+
+
 /*
 -------------------------------------------------
 Cursor.css
 -------------------------------------------------
 */
-.c-pointer{
+.cursor-pointer{
 	cursor: pointer !important;
+}
+
+.cursor-default{
+	cursor: default;
 }
 
 
@@ -138,7 +146,14 @@ CommonBetweenComponents.css
 	font-size: .6em;
 }
 
-/* ant design overriding */
+
+
+
+/*
+-------------------------------------------------
+ant design overriding
+-------------------------------------------------
+*/
 .ant-alert{
 	color: #ff3737;
 }

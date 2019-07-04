@@ -1,5 +1,6 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { UserService } from './user.service';
+import { Product } from 'src/app/shared/models/Product';
 
 @Injectable({
   	providedIn: 'root'
@@ -26,23 +27,55 @@ export class ModalService {
 
 
 
-	/**
-	 * connectFirstModal
-	 */
-	connectFirstModal: boolean = false;
 
-	@Output() loginEventEmitter: EventEmitter<boolean> = new EventEmitter();
+
+
+	/**
+	 * ConnectFirstModal
+	 */
+	isConnectFirstModalVisible: boolean = false;
+
+	@Output() connectFirstModalEventEmitter: EventEmitter<boolean> = new EventEmitter();
 	
-	openLogin() {
+	openConnectFirstModal() {
 		if(!this.loggedIn) {
-			this.connectFirstModal = true;
-			this.loginEventEmitter.emit(this.connectFirstModal);
+			this.isConnectFirstModalVisible = true;
+			this.connectFirstModalEventEmitter.emit(this.isConnectFirstModalVisible);
 		}
 	}
 
-	closeLogin() {
-		this.connectFirstModal = false;
-		this.loginEventEmitter.emit(this.connectFirstModal);
+	closeConnectFirstModal() {
+		this.isConnectFirstModalVisible = false;
+		this.connectFirstModalEventEmitter.emit(this.isConnectFirstModalVisible);
+	}
+
+
+
+
+
+
+
+
+
+	/**
+	 * ProductModal
+	 */
+	isProductModalVisible: boolean = false;
+	productModal: Product;
+
+	@Output() productModalEventEmitter: EventEmitter<{visible: boolean, product: Product}> = new EventEmitter();
+	
+	openProductModal(productModal: Product) {
+
+		this.isProductModalVisible = true;
+		this.productModal = productModal;
+		
+		this.productModalEventEmitter.emit({visible: this.isProductModalVisible, product: productModal});
+	}
+
+	closeProductModal() {
+		this.isProductModalVisible = false;
+		this.productModalEventEmitter.emit({visible: this.isProductModalVisible, product: this.productModal});
 	}
 
 }

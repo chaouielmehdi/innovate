@@ -49,7 +49,7 @@ export class PageNotFoundComponent implements OnInit {
 		switch (this.pageName) {
 			case 'Commande':
 				this.backward.btnName = 'Commandes';
-				this.backward.btnUrl = '/dashboard/commands';
+				this.backward.btnUrl = '/commands';
 				this.backward.btnIcon = 'fas fa-clipboard-list';
 				break;
 			

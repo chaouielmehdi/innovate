@@ -4,6 +4,7 @@ import { CommandService } from 'src/app/user/services/command.service';
 import { Product } from 'src/app/shared/models/Product';
 import { Router } from '@angular/router';
 import { fade } from 'src/app/shared/animations/fade';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
 	selector: 'app-commands',
@@ -20,13 +21,20 @@ export class CommandsComponent implements OnInit {
 	*/
 	constructor(
 		private router: Router,
-		private _commandService: CommandService
+		private _commandService: CommandService,
+		private _modalService: ModalService
 	) { }
 
 	ngOnInit() {
 		// Get Commands list
 		this.getCommands();
 	}
+
+
+
+
+
+
 
 
 	/*
@@ -80,6 +88,11 @@ export class CommandsComponent implements OnInit {
 
 
 
+
+
+
+
+
 	/*
 	-------------------------------------------------
 	Table
@@ -103,7 +116,6 @@ export class CommandsComponent implements OnInit {
 		// default sort (by updated_at)
 		this.sort({key: null, value: null});
 	}
-
 
 	// Data
 	listOfData: Command[] = [];
@@ -178,6 +190,13 @@ export class CommandsComponent implements OnInit {
 	}
 
 
+
+
+
+
+
+
+
 	/*
 	-------------------------------------------------
 	statistics
@@ -222,27 +241,33 @@ export class CommandsComponent implements OnInit {
 
 
 	
+
+
+	
+
+
+
+
+
 	/*
 	-------------------------------------------------
 	ProductModal
 	-------------------------------------------------
 	*/
-
 	isProductModalVisible: boolean = false;
-	productModal: Product;
 
 	showProductModal(productModal: Product): void {
-		this.isProductModalVisible = true;
-		this.productModal = productModal;
+		// user the modalService to open product modal
+		this._modalService.openProductModal(productModal);
 	}
-  
-	handleProductModalOk(): void {
-	  	this.isProductModalVisible = false;
-	}
-  
-	handleProductModalCancel(): void {
-	 	this.isProductModalVisible = false;
-	}
+
+
+
+
+
+
+
+
 
 
 	/*
@@ -250,8 +275,6 @@ export class CommandsComponent implements OnInit {
 	Backward
 	-------------------------------------------------
 	*/
-
-
 	toDashboard(): void{
 		this.router.navigateByUrl('/dashboard');
 	}

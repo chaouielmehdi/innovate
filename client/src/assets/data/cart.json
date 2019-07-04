@@ -8,7 +8,7 @@
 			"img": "clean.jpg",
 			"name": "Brosse A",
 			"desc": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Culpa placeat mollitia esse officia, ad alias sunt provident! Nobis, odio maxime!",
-			"in_store": true,
+			"in_store": false,
 			"price": 200,
 			"sold": 40,
 			"category": "restaurant",

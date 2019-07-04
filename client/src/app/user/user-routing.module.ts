@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CommandsComponent } from './components/commands/commands.component';
 import { CommandDetailsComponent } from './components/command-details/command-details.component';
-import { CommandReportComponent } from './components/command-report/command-report.component';
 import { CommandFormComponent } from './components/command-form/command-form.component';
 import { CartComponent } from './components/cart/cart.component';
 import { CreditsComponent } from './components/credits/credits.component';
@@ -54,37 +53,32 @@ const routes: Routes = [
 				canActivate: [AfterLoginGuard]
 			},
 			{
-				path: 'dashboard/commands',
+				path: 'commands',
 				component: CommandsComponent,
 				canActivate: [AfterLoginGuard]
 			},
 			{
-				path: 'dashboard/command-details/:id',
+				path: 'command-details/:id',
 				component: CommandDetailsComponent,
 				canActivate: [AfterLoginGuard]
 			},
 			{
-				path: 'dashboard/command-report/:id',
-				component: CommandReportComponent,
-				canActivate: [AfterLoginGuard]
-			},
-			{
-				path: 'dashboard/command-form',
+				path: 'command-form',
 				component: CommandFormComponent,
 				canActivate: [AfterLoginGuard]
 			},
 			{
-				path: 'dashboard/cart',
+				path: 'cart',
 				component: CartComponent,
 				canActivate: [AfterLoginGuard]
 			},
 			{
-				path: 'dashboard/credits',
+				path: 'credits',
 				component: CreditsComponent,
 				canActivate: [AfterLoginGuard]
 			},
 			{
-				path: 'products/product-details/:id',
+				path: 'product-details/:id',
 				component: ProductDetailsComponent,
 				canActivate: [AfterLoginGuard]
 			},

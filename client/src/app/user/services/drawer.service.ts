@@ -7,7 +7,7 @@ import { UserService } from './user.service';
 export class DrawerService {
 	
 	loggedIn: boolean = false;
-
+	
 	/**
 	 * Creates an instance of drawer service.
 	 * @param _userService 

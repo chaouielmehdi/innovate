@@ -101,9 +101,13 @@ export class ProfileFormComponent implements OnInit {
 			{value: '', disabled: true},
 			[Validators.required, Validators.email, Validators.maxLength(190)]
 		),
-		password: new FormControl(
+		oldPassword: new FormControl(
 			'',
 			[Validators.required, Validators.maxLength(190)]
+		),
+		password: new FormControl(
+			'',
+			[Validators.required, Validators.maxLength(190), Validators.minLength(6)]
 		),
 		password_confirmation: new FormControl(
 			'',
@@ -122,9 +126,13 @@ export class ProfileFormComponent implements OnInit {
 		validator: passwordConfirmationValidator
 	});
 
+	oldPasswordVisible: boolean = false;
 	passwordVisible: boolean = false;
+	editLoader: boolean = false;
 
-	// from the auth-service
+	/**
+	 * setFormData from the auth-service
+	 */
 	setFormData(): void {
 		this.userForm.patchValue({
 			username: this.user.name,
@@ -140,6 +148,7 @@ export class ProfileFormComponent implements OnInit {
 	}
 
 	submitUserForm(){
+
 		// show the errors
 		for (const key in this.userForm.controls) {
 			this.userForm.controls[ key ].markAsDirty();
@@ -160,6 +169,9 @@ export class ProfileFormComponent implements OnInit {
 
 		// if userForm valid
 		if(isUserFormValid){
+			// turn the button's loader on
+			this.editLoader = true;
+			
 			this._userService.updateUserServer(this.userForm)
 				.subscribe(
 					(user) => {
@@ -169,21 +181,38 @@ export class ProfileFormComponent implements OnInit {
 						else {
 							this.message.create('error', `Informations érronées! réessayez s'il vous plaît!`);
 							this.cleanFormPwd();
+							this.scrollTo('email');
 						}
 					},
 					(error) => {
 						this.message.create('error', `Aïe! une erreur c'est produite!`);
+						this.scrollTo('email');
 						console.error(error);
+					},
+					() => {
+						// turn the button's loader off
+						this.editLoader = false;
 					}
 				);
+		}
+		else {
+			this.scrollTo('email');
 		}
 	}
 
 	cleanFormPwd(){
 		this.userForm.patchValue({
+			oldPassword: '',
 			password: '',
 			password_confirmation: ''
 		});
 	}
+
+	scrollTo(id) {
+		console.log(`scrolling to ${id}`);
+		let el = document.getElementById(id);
+		el.scrollIntoView( {behavior: "smooth"} );
+	}
+
 
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DrawerService } from 'src/app/user/services/drawer.service';
-import { StatisticsService } from 'src/app/user/services/statistics.service';
+import { StatisticService } from 'src/app/user/services/statistics.service';
 import { User } from 'src/app/shared/models/User';
 import { UserService } from 'src/app/user/services/user.service';
 import { ProductService } from 'src/app/user/services/product.service';
@@ -26,7 +26,7 @@ export class DashboardComponent implements OnInit {
 	constructor(
 		private router: Router,
 		private _drawerService: DrawerService,
-		private _statisticService: StatisticsService,
+		private _statisticService: StatisticService,
 		private _userService: UserService,
 		private _productService: ProductService
 	) { }
@@ -40,7 +40,7 @@ export class DashboardComponent implements OnInit {
 		var idProduct: number = this._productService.getId();
 
 		if(idProduct > 0){
-			this.router.navigateByUrl('/products/product-details/'+idProduct);
+			this.router.navigateByUrl('/product-details/'+idProduct);
 		}
 		else {
 			// Get statistics

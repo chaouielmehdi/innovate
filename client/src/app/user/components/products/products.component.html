@@ -4,7 +4,10 @@
 	<div class="row">
 		<div class="col-md-12 d-flex justify-content-center align-items-center mb-2">
 			<div class="mt-2">
-				<h4>Nos Produits</h4>
+				<h4>
+					<i class="fas fa-box-open"></i>
+					Nos Produits
+				</h4>
 			</div>
 		</div>
 	</div>
@@ -151,7 +154,7 @@
 							<div *ngIf="loggedIn" class="text-center">
 								<a nzTitle="Ajouter au panier" nzPlacement="top"
 									nz-tooltip class="add-to-cart"
-									routerLink="/products/product-details/{{product.id}}">
+									routerLink="/product-details/{{product.id}}">
 									<i class="fa fa-shopping-cart"></i>
 								</a>
 							</div>
@@ -163,21 +166,4 @@
 	</div>
 		
 </div>
-
-
-<!--
--------------------------------------------------
-Connectez vous Modal
--------------------------------------------------
--->
-<nz-modal nzWrapClassName="vertical-center-modal"
-	[(nzVisible)]="modalVisible"
-	nzTitle="Rejoignez nous!"
-	(nzOnCancel)="cancelModal()"
-	(nzOnOk)="okModal()"
-	nzOkText="Se connecter"
-	nzCancelText="Annuler"
->
-	<p>Pour profiter de nos services, veuillez vous connecter!</p>
-</nz-modal>
 	

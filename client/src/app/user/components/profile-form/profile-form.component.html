@@ -50,9 +50,39 @@
 				</nz-form-item>
 				<!-- End email form control -->
 
+				<!-- oldPassword form control -->
+				<nz-form-item class="mt-3">
+					<nz-form-label [nzSm]="6" [nzXs]="24" nzFor="oldPassword" nzRequired>Ancien MDP</nz-form-label>
+					<nz-form-control [nzSm]="14" [nzXs]="24">
+						<nz-input-group [nzSuffix]="oldPwdEyeTemplate">
+							<input
+								nz-input
+								[type]="oldPasswordVisible ? 'text' : 'password'"
+								id="oldPassword"
+								formControlName="oldPassword"
+							/>
+						</nz-input-group>
+						<ng-template #oldPwdEyeTemplate>
+							<i nz-icon class="cursor-pointer" [nzType]="oldPasswordVisible ? 'eye' : 'eye-invisible'" (click)="oldPasswordVisible = !oldPasswordVisible"></i>
+						</ng-template>
+
+						<nz-form-explain
+							*ngIf="userForm.get('oldPassword')?.dirty && userForm.get('oldPassword')?.errors"
+						>
+							<ng-container *ngIf="userForm.get('oldPassword')?.hasError('required')">
+								Saisissez l'ancien mot de passe.
+							</ng-container>
+							<ng-container *ngIf="userForm.get('oldPassword')?.hasError('maxlength')">
+								Mot de passe trop long.
+							</ng-container>
+						</nz-form-explain>
+					</nz-form-control>
+				</nz-form-item>
+				<!-- End oldPassword form control -->
+
 				<!-- password form control -->
 				<nz-form-item class="mt-3">
-					<nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Mot De Passe</nz-form-label>
+					<nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Nouveau MDP</nz-form-label>
 					<nz-form-control [nzSm]="14" [nzXs]="24">
 						<nz-input-group [nzSuffix]="eyeTemplate">
 							<input
@@ -63,17 +93,20 @@
 							/>
 						</nz-input-group>
 						<ng-template #eyeTemplate>
-							<i nz-icon class="c-pointer" [nzType]="passwordVisible ? 'eye' : 'eye-invisible'" (click)="passwordVisible = !passwordVisible"></i>
+							<i nz-icon class="cursor-pointer" [nzType]="passwordVisible ? 'eye' : 'eye-invisible'" (click)="passwordVisible = !passwordVisible"></i>
 						</ng-template>
 
 						<nz-form-explain
 							*ngIf="userForm.get('password')?.dirty && userForm.get('password')?.errors"
 						>
 							<ng-container *ngIf="userForm.get('password')?.hasError('required')">
-								Saisissez un mot de passe.
+								Saisissez un nouveau mot de passe.
 							</ng-container>
 							<ng-container *ngIf="userForm.get('password')?.hasError('maxlength')">
 								Mot de passe trop long.
+							</ng-container>
+							<ng-container *ngIf="userForm.get('password')?.hasError('minlength')">
+								Mot de passe doit être au minimum de 6 caractères.
 							</ng-container>
 						</nz-form-explain>
 					</nz-form-control>
@@ -82,7 +115,7 @@
 
 				<!-- password_confirmation form control -->
 				<nz-form-item class="mt-3">
-					<nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password_confirmation" nzRequired>Confirmation</nz-form-label>
+					<nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password_confirmation" nzRequired>Confirmation MDP</nz-form-label>
 					<nz-form-control [nzSm]="14" [nzXs]="24">
 						<input nz-input type="password" formControlName="password_confirmation" id="password_confirmation" />
 						<nz-form-explain
@@ -199,10 +232,10 @@
 				<!-- submit button -->
 				<nz-form-item nz-row>
 					<nz-form-control [nzSpan]="14" [nzOffset]="6">
-						<button nz-button nzType="primary">Modifier</button>
 						<a routerLink="/dashboard">
-							<button nz-button class="ml-4">Annuler</button>
+							<button nz-button>Annuler</button>
 						</a>
+						<button nz-button nzType="primary" class="ml-4 float-right" [nzLoading]="editLoader">Modifier</button>
 					</nz-form-control>
 				</nz-form-item>
 				<!-- End submit button -->

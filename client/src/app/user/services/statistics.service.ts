@@ -9,7 +9,7 @@ import { handleError } from '../../shared/functions/handle-http-error';
 @Injectable({
   	providedIn: 'root'
 })
-export class StatisticsService {
+export class StatisticService {
 
 	private getStatisticsUrl: string = getStatisticsUrl;
 
