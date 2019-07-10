@@ -54,7 +54,7 @@ export class DrawersComponent implements OnInit {
 						admin.name,
 						admin.email,
 						admin.password,
-						admin.phone_number,
+						admin.phone,
 						admin.email_verified_at,
 						admin.logoUrl,
 						admin.access_token,

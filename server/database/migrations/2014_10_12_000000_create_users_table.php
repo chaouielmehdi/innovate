@@ -14,18 +14,18 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('code')->nullable();
-            $table->string('username')->nullable();
-            $table->string('first_name')->nullable();
-            $table->string('last_name')->nullable();
-            $table->string('canal')->nullable();
-            $table->string('telephone')->nullable();
-            $table->string('address')->nullable();
-            $table->integer('status')->default(0); // 0: Account created, 1: Account validated by admin, 2: Account update waiting for admin aproval
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+			$table->bigIncrements('id');
+			$table->string('email')->unique();
             $table->string('password');
+            $table->string('code');
+            $table->string('username');
+            $table->string('logo')->nullable();
+            $table->string('canal');
+            $table->string('address');
+            $table->string('phone');
+            $table->string('website')->nullable();
+            $table->integer('status')->default(0); // 0: Account created, 1: Account validated by admin, 2: Account updated waiting for admin approval
+            $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

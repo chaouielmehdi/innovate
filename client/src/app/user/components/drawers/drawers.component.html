@@ -203,13 +203,21 @@ Login Drawer
 
 
 
+
+
+
+
+
+
+
+
 <!--
 -------------------------------------------------
 register Drawer
 -------------------------------------------------
 -->
 
-<nz-drawer [nzWidth]="'900'" class="register-drawer" [nzClosable]="false" [nzVisible]="visibleRegister" nzPlacement="right"
+<nz-drawer [nzWidth]="'1900'" class="register-drawer" [nzClosable]="false" [nzVisible]="visibleRegister" nzPlacement="right"
 	(nzOnClose)="closeRegister()">
 
 	<span (click)="closeRegister()" class="x">&times;</span>
@@ -227,25 +235,33 @@ register Drawer
 	<form nz-form [formGroup]="registerForm" class="register-form" (ngSubmit)="submitRegisterForm()">
 		<span class="error">{{ registerErrorMsg }}</span>
 		<nz-form-item>
-			<nz-form-control>
-				
-			<!-- email input -->
-			<nz-input-group [nzPrefix]="prefixUser">
-				<input type="email" nz-input formControlName="email" placeholder="Email" />
-			</nz-input-group>
+			<nz-form-control [nzValidateStatus]="registerEmailValidateStatus">
+					
+				<!-- email input -->
+				<nz-input-group [nzPrefix]="prefixUser">
+					<input type="email" nz-input formControlName="email" placeholder="Email" (ngModelChange)="lightlyValidateRegisterForm()"/>
+				</nz-input-group>
 
-			<!-- email validation -->
-			<div *ngIf="registerForm.get('email')?.dirty">
-				<nz-form-explain *ngIf="registerForm.get('email').errors?.required">
-					Saisissez une adresse email.
-				</nz-form-explain>
-				<nz-form-explain *ngIf="registerForm.get('email').errors?.email">
-					Saisissez une adresse email valide.
-				</nz-form-explain>
-				<nz-form-explain *ngIf="registerForm.get('email').errors?.maxlength">
-					Email trop long.
-				</nz-form-explain>
-			</div>
+				<!-- email validation -->
+				<div *ngIf="registerForm.get('email')?.dirty">
+					<nz-form-explain *ngIf="registerForm.get('email').errors?.required">
+						Saisissez une adresse email.
+					</nz-form-explain>
+					<nz-form-explain *ngIf="registerForm.get('email').errors?.email">
+						Saisissez une adresse email valide.
+					</nz-form-explain>
+					<nz-form-explain *ngIf="registerForm.get('email').errors?.maxlength">
+						Email trop long.
+					</nz-form-explain>
+
+					<!-- BackEnd Errors -->
+					<nz-form-explain *ngIf="!backEndRegisterResponse.status && backEndRegisterResponse?.errors?.email">
+						<ng-container *ngFor="let emailError of backEndRegisterResponse.errors.email">
+							<span class="c-red d-block">{{ emailError }}</span>
+						</ng-container>
+					</nz-form-explain>
+					<!-- End BackEnd Errors -->
+				</div>
 
 			</nz-form-control>
 		</nz-form-item>
@@ -264,6 +280,9 @@ register Drawer
 					</nz-form-explain>
 					<nz-form-explain *ngIf="registerForm.get('password').errors?.maxlength">
 						Mot de passe trop long.
+					</nz-form-explain>
+					<nz-form-explain *ngIf="registerForm.get('password').errors?.minlength">
+						Minimum 6 caractères.
 					</nz-form-explain>
 				</div>
 
@@ -292,7 +311,7 @@ register Drawer
 		<nz-form-item>
 			<nz-form-control>
 			<a class="register-form-forgot" (click)="openRecover()">Mode de passe oublié</a>
-			<button nz-button class="login-form-button" [nzType]="'primary'" [nzLoading]="createAccountLoader">Créer</button>
+			<button nz-button class="login-form-button" [nzType]="'primary'" [nzLoading]="isRegisterLoading">Créer</button>
 				Ou
 			<a (click)="openLogin()" class="link">Se Connecter!</a>
 			</nz-form-control>
@@ -307,53 +326,81 @@ register Drawer
 </nz-drawer>
 
 
+
+
+
+
+
+
+
+
+
 <!--
 -------------------------------------------------
-Recover Drawer
+recover Drawer
 -------------------------------------------------
 -->
 
-<nz-drawer [nzWidth]="'900'" class="recover-drawer" [nzClosable]="false" [nzVisible]="visibleRecover" nzPlacement="right"
+<nz-drawer [nzWidth]="'1900'" class="recover-drawer" [nzClosable]="false" [nzVisible]="visibleRecover" nzPlacement="right"
 	(nzOnClose)="closeRecover()">
 
 	<span (click)="closeRecover()" class="x">&times;</span>
 	
 	<div class="align-center mt-5">
 		<h4>
-			Mode de passe oublié!
+			Créer un compte
 		</h4>
 		<p class="color-grey txt-size">
-			Récupérer votre mot de passe
+			Rejoignez nous,
+			<br>
+			et profiter de nos services.
 		</p>
 	</div>
 	<form nz-form [formGroup]="recoverForm" class="recover-form" (ngSubmit)="submitRecoverForm()">
 		<span class="error">{{ recoverErrorMsg }}</span>
 		<nz-form-item>
-			<nz-form-control>
-			
+			<nz-form-control [nzValidateStatus]="recoverEmailValidateStatus">
+					
 				<!-- email input -->
 				<nz-input-group [nzPrefix]="prefixUser">
-					<input type="email" nz-input formControlName="recoverEmail" placeholder="Email" />
+					<input type="email" nz-input formControlName="email" placeholder="Email" (ngModelChange)="lightlyValidateRecoverForm()"/>
 				</nz-input-group>
 
 				<!-- email validation -->
-				<div *ngIf="recoverForm.get('recoverEmail')?.dirty">
-					<nz-form-explain *ngIf="recoverForm.get('recoverEmail').errors?.required">
+				<div *ngIf="recoverForm.get('email')?.dirty">
+					<nz-form-explain *ngIf="recoverForm.get('email').errors?.required">
 						Saisissez une adresse email.
 					</nz-form-explain>
-					<nz-form-explain *ngIf="recoverForm.get('recoverEmail').errors?.email">
+					<nz-form-explain *ngIf="recoverForm.get('email').errors?.email">
 						Saisissez une adresse email valide.
 					</nz-form-explain>
-					<nz-form-explain *ngIf="recoverForm.get('recoverEmail').errors?.maxlength">
+					<nz-form-explain *ngIf="recoverForm.get('email').errors?.maxlength">
 						Email trop long.
 					</nz-form-explain>
+
+					<!-- BackEnd Errors -->
+					<nz-form-explain
+					*ngIf="
+						!recoverForm.get('email').errors?.required
+						&&
+						!recoverForm.get('email').errors?.email
+						&&
+						!backEndRecoverResponse.status
+						&&
+						backEndRecoverResponse?.errors?.email
+					">
+						<ng-container *ngFor="let emailError of backEndRecoverResponse.errors.email">
+							<span class="c-red d-block">{{ emailError }}</span>
+						</ng-container>
+					</nz-form-explain>
+					<!-- End BackEnd Errors -->
 				</div>
 
 			</nz-form-control>
 		</nz-form-item>
 		<nz-form-item>
 			<nz-form-control>
-				<button nz-button class="recover-form-button" [nzType]="'primary'" [nzLoading]="RecoverLoader">Récupérer</button>
+				<button nz-button class="recover-form-button" [nzType]="'primary'" [nzLoading]="isRecoverLoading">Récupérer</button>
 					Ou
 				<a (click)="openLogin()" class="link">Se connecter!</a>
 			</nz-form-control>

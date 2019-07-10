@@ -29,9 +29,9 @@
 
 
 				<div class="profile-photo d-flex justify-content-center align-items-center">
-					<span *ngIf="!user.logoUrl" class="profile-legend">{{user.name | slice:0:1}}{{user.canal | slice:0:1}}</span>
-					<span *ngIf="user.logoUrl">
-						<img width="100px" style="border-radius: 50%;" src="{{user.logoUrl}}" alt="">
+					<span *ngIf="!user.logo" class="profile-legend">{{user.name | slice:0:1}}{{user.canal | slice:0:1}}</span>
+					<span *ngIf="user.logo">
+						<img width="100px" style="border-radius: 50%;" src="{{user.logo}}" alt="">
 					</span>
 					
 					<span class="profile-photo-icon">

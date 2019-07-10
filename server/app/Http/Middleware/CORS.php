@@ -16,7 +16,7 @@ class CORS
     public function handle($request, Closure $next)
     {
         header('Access-Control-Allow-Origin : http://localhost:4200');
-        header('Access-Control-Allow-Headers : Content-type, X-Auth-Token, Authorization, Origin');
+        header('Access-Control-Allow-Headers : Content-type, X-Auth-Token, Authorization, Origin, x-requested-with');
         return $next($request);
     }
 }

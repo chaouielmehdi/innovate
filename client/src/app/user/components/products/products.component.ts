@@ -7,6 +7,7 @@ import { ProductService } from 'src/app/user/services/product.service';
 import { User } from 'src/app/shared/models/User';
 import { fade } from 'src/app/shared/animations/fade';
 import { ModalService } from '../../services/modal.service';
+import { userLogoBaseUrl } from 'src/app/shared/app-config/URLs';
 
 @Component({
 	selector: 'app-products',
@@ -249,6 +250,7 @@ export class ProductsComponent implements OnInit {
 
 	// User attr
 	user: User = new User();
+	userLogoBaseUrl: string = userLogoBaseUrl;
 
 	// Get User
 	getUser() {
@@ -262,12 +264,12 @@ export class ProductsComponent implements OnInit {
 						user.address,
 						user.email,
 						user.password,
-						user.phone_number,
+						user.phone,
 						user.email_verified_at,
 						user.is_verified_account,
 						user.is_verified_update,
 						user.website,
-						user.logoUrl,
+						userLogoBaseUrl+user.logo,
 						user.access_token,
 						user.created_at,
 						user.updated_at

@@ -1,21 +1,37 @@
 <?php
 
+// Auth
+Route::group(['prefix' => 'auth', 'middleware' => ['api']], function (){
+    // User
+    Route::post('user/login', 'UserController@login');
+	Route::get('user/logout', 'UserController@logout');
+	Route::post('user/uploadLogo', 'UserController@uploadLogo');
+	Route::post('user/lightlyValidate', 'UserController@lightlyValidate'); // used to validate th form asynchronously
+	Route::post('user/userEmailExists', 'UserController@userEmailExists'); // used in recover password (good case : email exist)
+	Route::post('user/recover', 'UserController@recover'); // used in recover
+	Route::post('user/create', 'UserController@create');
 
-Route::group(['prefix' => 'auth','middleware' => ['api']],function (){
-    // Login
-    Route::post('user/login','UserController@login');
-    Route::post('admin/login','AdminController@login');
-    Route::post('commercial/login','AdminController@login');
-
-    // Registration
-    Route::post('user/create', 'UserController@create');
-    Route::post('admin/create', 'AdminController@create');
+    // Admin
+	Route::post('admin/create', 'AdminController@create');
+	Route::post('admin/login', 'AdminController@login');
+	
+    // Commercial
     Route::post('commercial/create', 'CommercialController@create');
-
+    Route::post('commercial/login', 'AdminController@login');
 });
 
+
+// User group 
+Route::group(['prefix' => 'user', 'middleware' => ['api', 'assign.guard:admins', 'jwt.auth']], function () {
+	Route::post('update'		, 'UserController@update');
+    Route::post('index'			, 'UserController@index');
+    Route::post('me'			, 'UserController@me');
+    Route::post('delete'		, 'UserController@delete');
+});
+
+
 // Admin group 
-Route::group(['prefix' => 'admin','middleware' => ['api', 'assign.guard:admins','jwt.auth']],function ()
+Route::group(['prefix' => 'admin','middleware' => ['api', 'assign.guard:admins', 'jwt.auth']], function ()
 {
     Route::post('index'            , 'AdminController@index'            );
     Route::post('me'               , 'AdminController@me'               );
@@ -38,16 +54,6 @@ Route::group(['prefix' => 'commercial','middleware' => ['api', 'assign.guard:com
     Route::post('/update'           , 'CommercialController@update'      );
 });
 
-// User group 
-Route::group(['prefix' => 'user','middleware' => ['api', 'assign.guard:users','jwt.auth']],function ()
-{
-    //Route::post('create', 'UserController@create');
-    Route::post('index'            , 'UserController@index'            );
-    Route::post('me'               , 'UserController@me'               );
-    Route::post('delete'           , 'UserController@delete'           );
-    Route::post('update'           , 'UserController@update'           );
-});
-
 
 // Product Group
 Route::group(['prefix' => 'product', 'middleware' => 'api'], function() {
@@ -56,7 +62,8 @@ Route::group(['prefix' => 'product', 'middleware' => 'api'], function() {
     Route::post('create'           , 'ProductController@create'        ); // Create new Product
 });
 
-// Commande Group
+
+// Command Group
 Route::group(['prefix' => 'commande', 'middleware' => 'api'], function() {
     Route::post('create'           , 'CommandeController@create'        ); // Create new Product
 });

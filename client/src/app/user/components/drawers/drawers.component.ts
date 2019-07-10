@@ -8,6 +8,9 @@ import { passwordConfirmationValidator } from 'src/app/shared/functions/password
 import { User } from 'src/app/shared/models/User';
 import { Statistics } from 'src/app/shared/models/Statistics';
 import { StatisticService } from '../../services/statistics.service';
+import { BackEndResponse } from 'src/app/shared/models/BackEndResponse';
+import { NzMessageService } from 'ng-zorro-antd';
+import { userLogoBaseUrl } from 'src/app/shared/app-config/URLs';
 
 @Component({
 	selector: 'app-drawers',
@@ -19,6 +22,7 @@ export class DrawersComponent implements OnInit {
 	constructor(
 		private fb: FormBuilder,
 		private router: Router,
+		private message: NzMessageService,
 		private _userService: UserService,
 		private _tokenService: TokenService,
 		private _drawerService: DrawerService,
@@ -38,7 +42,9 @@ export class DrawersComponent implements OnInit {
 		});
 
 		// recover Drawer
-		// TODO
+		this._drawerService.recoverEventEmitter.subscribe(visibleRecover => {
+			this.visibleRecover = visibleRecover;
+		});
 
 		// menu Drawer
 		this._drawerService.menuEventEmitter.subscribe(visibleMenu => {
@@ -68,6 +74,7 @@ export class DrawersComponent implements OnInit {
 
 	// User attr
 	user: User = new User();
+	userLogoBaseUrl: string = userLogoBaseUrl;
 
 	// Get User
 	getUser() {
@@ -81,12 +88,12 @@ export class DrawersComponent implements OnInit {
 						user.address,
 						user.email,
 						user.password,
-						user.phone_number,
+						user.phone,
 						user.email_verified_at,
 						user.is_verified_account,
 						user.is_verified_update,
 						user.website,
-						user.logoUrl,
+						userLogoBaseUrl+user.logo,
 						user.access_token,
 						user.created_at,
 						user.updated_at
@@ -112,45 +119,6 @@ export class DrawersComponent implements OnInit {
 
 
 	
-
-	/*
-	-------------------------------------------------
-	Menu Drawer
-	-------------------------------------------------
-	*/
-	visibleMenu = false;
-
-	openMenu(): void {
-		this.visibleMenu = true;
-	}
-	
-	closeMenu(): void {
-		this.visibleMenu = false;
-	}
-	
-	toProfileForm(){
-		this.closeMenu();
-		this.router.navigateByUrl('/profile-form');
-	}
-
-	logout() {
-		this.closeMenu();
-		this._userService.logoutClient();
-	}
-
-	menuItemClicked(){
-		this.closeMenu();
-	}
-
-
-
-
-	
-
-
-
-
-
 
 	
 	/*
@@ -288,7 +256,7 @@ export class DrawersComponent implements OnInit {
 		if(!this.loginForm.invalid) {
 			// turn the button's loader on
 			this.connectLoader = true;
-	
+
 			this._userService.loginServer(this.loginForm)
 				.subscribe(
 					(user) => {
@@ -321,7 +289,6 @@ export class DrawersComponent implements OnInit {
 
 
 
-
 	
 
 
@@ -336,7 +303,7 @@ export class DrawersComponent implements OnInit {
 	
 	// Register Drawer
 	visibleRegister: boolean = false;
-	createAccountLoader: boolean = false;
+	isRegisterLoading: boolean = false;
 
 	openRegister(): void {
 		this.visibleLogin = false;
@@ -357,7 +324,7 @@ export class DrawersComponent implements OnInit {
 	initRegisterForm() {
 		this.registerForm = this.fb.group({
 			email: ['mehdi.mc60@gmail.com', [Validators.required, Validators.maxLength(190), Validators.email]],
-			password: ['mehdii', [Validators.required, Validators.maxLength(190)]],
+			password: ['mehdii', [Validators.required, Validators.maxLength(190), Validators.minLength(6)]],
 			password_confirmation: ['mehdii', [Validators.required]]
 		},
 		{
@@ -367,15 +334,28 @@ export class DrawersComponent implements OnInit {
 
 	submitRegisterForm(): void {
 		// turn the button's loader on
-		this.createAccountLoader = true;
+		this.isRegisterLoading = true;
 
 		for (const i in this.registerForm.controls) {
 			this.registerForm.controls[i].markAsDirty();
 			this.registerForm.controls[i].updateValueAndValidity();
 		}
 
+		// validation
+		var isRegisterFormValid: boolean =
+			!(
+				// front-end validation
+				this.registerForm.get('email').invalid ||
+				this.registerForm.get('password').invalid ||
+				this.registerForm.get('password_confirmation').invalid ||
+				this.registerForm.errors.misMatch ||
+
+				// back-end validation
+				!this.backEndRegisterResponse.status
+			);
+
 		// if registerForm is valid
-		if(!(this.registerForm.invalid && this.registerForm.errors.misMatch)) {
+		if(isRegisterFormValid) {
 			// in user-service, set email and password (to get them in register-form-component)
 			this._userService.setEmailPassword(
 				this.registerForm.get('email').value,
@@ -388,16 +368,9 @@ export class DrawersComponent implements OnInit {
 			// navigate to register-form
 			this.router.navigateByUrl('/register-form');
 		}
-		else {
-			// show the errors
-			for (const key in this.registerForm.controls) {
-				this.registerForm.controls[ key ].markAsTouched();
-				this.registerForm.controls[ key ].updateValueAndValidity();
-			}
-		}
 
 		// turn the button's loader off
-		this.createAccountLoader = false;
+		this.isRegisterLoading = false;
 	}
 
 	cleanRegisterPwd(){
@@ -406,6 +379,58 @@ export class DrawersComponent implements OnInit {
 			password_confirmation: ''
 		});
 	}
+
+	/*
+	-------------------------------------------------
+	lightlyValidateRegisterForm
+	(backend only validation)
+	(used to validate th form asynchronously)
+	-------------------------------------------------
+	*/
+	backEndRegisterResponse: BackEndResponse = new BackEndResponse(true);
+	emailValidateStatus: string = '';
+
+	lightlyValidateRegisterForm(){
+		this.emailValidateStatus = 'validating';
+		this._userService.lightlyValidate(this.registerForm).subscribe(
+			(backEndRegisterResponse) => {
+				if(backEndRegisterResponse != null) {
+					this.backEndRegisterResponse = backEndRegisterResponse;
+					
+					// set the emailValidateStatus
+					if(this.registerForm.get('email').invalid){
+						this.emailValidateStatus = 'error';
+					}
+					else if(this.backEndRegisterResponse.hasOwnProperty("errors")){
+						if(this.backEndRegisterResponse.errors.hasOwnProperty("email")){
+							this.emailValidateStatus = 'error';
+						}
+						else {
+							this.emailValidateStatus = 'success';
+						}
+					}
+					else {
+						this.emailValidateStatus = 'success';
+					}
+				}
+				else {
+					// default value
+					this.backEndRegisterResponse = new BackEndResponse(true);
+					this.emailValidateStatus = 'warning';
+				}
+			},
+			(error) => {
+				// default value
+				this.backEndRegisterResponse = new BackEndResponse(true);
+				this.emailValidateStatus = 'warning';
+				console.error(error);
+			});
+	}
+
+
+
+
+
 
 
 
@@ -425,17 +450,17 @@ export class DrawersComponent implements OnInit {
 	
 	// Recover Drawer
 	visibleRecover: boolean = false;
-	RecoverLoader: boolean = false;
+	isRecoverLoading: boolean = false;
 
 	openRecover(): void {
-		this.visibleRegister = false;
 		this.visibleLogin = false;
+		this.visibleRecover = false;
 		this.visibleRecover = true;
 	}
 
 	closeRecover(): void {
-		this.visibleRegister = false;
 		this.visibleLogin = false;
+		this.visibleRecover = false;
 		this.visibleRecover = false;
 	}
 	
@@ -443,67 +468,173 @@ export class DrawersComponent implements OnInit {
 	recoverForm: FormGroup;
 	recoverErrorMsg: string = '';
 
-	initRecoverForm(){
+	initRecoverForm() {
 		this.recoverForm = this.fb.group({
-			recoverEmail: ['mehdii.mc60@gmail.com', [Validators.required, Validators.maxLength(190), Validators.email]],
-			recoverPassword: ['mehdii', [Validators.required, Validators.maxLength(190)]]
+			email: ['mehdi.mc60@gmail.com', [Validators.required, Validators.maxLength(190), Validators.email]]
 		});
 	}
-
+	
 	submitRecoverForm(): void {
+		// turn the button's loader on
+		this.isRegisterLoading = true;
+
 		for (const i in this.recoverForm.controls) {
 			this.recoverForm.controls[i].markAsDirty();
 			this.recoverForm.controls[i].updateValueAndValidity();
 		}
-		/*
-		if(!this.recoverForm.invalid) {
-			// turn the button's loader on
-			this.RecoverLoader = true;
 
-			this._userService.recover(this.recoverForm)
-				.subscribe(
-					(user) => {
-						if(user != null) {
-							this.recoverErrorMsg = '';
-							this.recover(user);
-							this.router.navigateByUrl('dashboard');
+		// validation
+		var isRecoverFormValid: boolean =
+			!(
+				// front-end validation
+				this.recoverForm.get('email').invalid ||
+
+				// back-end validation
+				!this.backEndRecoverResponse.status
+			);
+
+		// if recoverForm is valid
+		if(isRecoverFormValid) {
+			// send the email
+			this._userService.recover(this.registerForm).subscribe(
+				(backEndRegisterResponse) => {
+					if(backEndRegisterResponse != null) {
+						this.backEndRegisterResponse = backEndRegisterResponse;
+						
+						// set the emailValidateStatus
+						if(this.registerForm.get('email').invalid){
+							this.emailValidateStatus = 'error';
+						}
+						else if(this.backEndRegisterResponse.hasOwnProperty("errors")){
+							if(this.backEndRegisterResponse.errors.hasOwnProperty("email")){
+								this.emailValidateStatus = 'error';
+							}
+							else {
+								this.emailValidateStatus = 'success';
+							}
 						}
 						else {
-							this.recoverErrorMsg = 'Email ou mot de passe invalide';
-							this.cleanRecoverPwd();
+							this.emailValidateStatus = 'success';
 						}
-					},
-					(error) => {
-						this.recoverErrorMsg = "Aïe! une erreur c'est produite";
-						console.error(error);
-					},
-					() => {
-
-						// turn the button's loader off
-						this.RecoverLoader = false;
-					});
+					}
+					else {
+						// default value
+						this.backEndRegisterResponse = new BackEndResponse(true);
+						this.emailValidateStatus = 'warning';
+					}
+				},
+				(error) => {
+					// default value
+					this.backEndRegisterResponse = new BackEndResponse(true);
+					this.emailValidateStatus = 'warning';
+					console.error(error);
+				},
+				() => {
+					// turn the button's loader off
+					this.isRegisterLoading = false;
+				});
 		}
-		else {
-			// show the errors
-			for (const key in this.recoverForm.controls) {
-				this.recoverForm.controls[ key ].markAsTouched();
-				this.recoverForm.controls[ key ].updateValueAndValidity();
-			}
-		}
-		*/
 	}
 
 	cleanRecoverPwd(){
 		this.recoverForm.patchValue({
-			recoverPassword: ''
+			password: '',
+			password_confirmation: ''
 		});
 	}
 
-	recover(user){
-		this._tokenService.handle(user.access_token);
+	/*
+	-------------------------------------------------
+	lightlyValidateRecoverForm
+	(backend only validation)
+	(used to validate th form asynchronously)
+	the opposite of registerForm (good case : email exist)
+	-------------------------------------------------
+	*/
+	backEndRecoverResponse: BackEndResponse = new BackEndResponse(true);
+	recoverEmailValidateStatus: string = '';
 
-		this._userService.changeAuthStatus(true);
+	lightlyValidateRecoverForm(){
+		this.recoverEmailValidateStatus = 'validating';
+		this._userService.userEmailExists(this.recoverForm).subscribe(
+			(backEndRecoverResponse) => {
+				if(backEndRecoverResponse != null) {
+					this.backEndRecoverResponse = backEndRecoverResponse;
+					
+					console.log(this.backEndRecoverResponse);
+					if(this.backEndRecoverResponse.status){
+						this.recoverEmailValidateStatus = 'success';
+					}
+					else {
+						this.recoverEmailValidateStatus = 'error';
+					}
+				}
+				else {
+					// default value
+					this.backEndRecoverResponse = new BackEndResponse(true);
+					this.recoverEmailValidateStatus = 'warning';
+				}
+			},
+			(error) => {
+				// default value
+				this.backEndRecoverResponse = new BackEndResponse(true);
+				this.recoverEmailValidateStatus = 'warning';
+				console.error(error);
+			});
+	}
 
-		this.router.navigateByUrl('/dashboard');
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*
+	-------------------------------------------------
+	Menu Drawer
+	-------------------------------------------------
+	*/
+	visibleMenu = false;
+
+	openMenu(): void {
+		this.visibleMenu = true;
+	}
+	
+	closeMenu(): void {
+		this.visibleMenu = false;
+	}
+	
+	toProfileForm(){
+		this.closeMenu();
+		this.router.navigateByUrl('/profile-form');
+	}
+
+	logout() {
+		this.closeMenu();
+		
+		this._userService.logoutServer().subscribe(
+			(response) => {
+				if(response != null){
+					this._userService.logoutClient();
+				}
+				else {
+					this.message.create('error', `Aïe! une erreur c'est produite!`);
+				}
+			},
+			(error) => {
+				this.message.create('error', `Aïe! une erreur c'est produite!`);
+				console.error(error);
+			});
+	}
+
+	menuItemClicked(){
+		this.closeMenu();
 	}
 }

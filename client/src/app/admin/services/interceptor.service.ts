@@ -36,7 +36,7 @@ export class InterceptorService implements HttpInterceptor {
 			}
 		});
 		
-		console.log("AdminTokenInterceptorService => request = ", request);
+		//console.log("AdminTokenInterceptorService => request = ", request);
 
 		return next.handle(request);
 	}

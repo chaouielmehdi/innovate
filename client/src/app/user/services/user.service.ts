@@ -4,10 +4,11 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { catchError, tap } from 'rxjs/operators';
 import { TokenService } from './token.service';
-import { createUserUrl, loginUserUrl, logoutUserUrl, refreshUserUrl, getUserUrl, updateUserUrl, createUserLogoUrl } from 'src/app/shared/app-config/URLs';
+import { createUserUrl, loginUserUrl, logoutUserUrl, refreshUserUrl, getUserUrl, updateUserUrl, lightlyValidateUrl, recoverUserUrl, userEmailExistsUrl } from 'src/app/shared/app-config/URLs';
 import { User } from 'src/app/shared/models/User';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
+import { BackEndResponse } from 'src/app/shared/models/BackEndResponse';
 
 const httpOptions = {
 	headers: new HttpHeaders({
@@ -19,8 +20,11 @@ const httpOptions = {
 	providedIn: 'root'
 })
 export class UserService {
-	
+
+	lightlyValidateUrl: string = lightlyValidateUrl
 	createUserUrl: string = createUserUrl;
+	userEmailExistsUrl: string = userEmailExistsUrl;
+	recoverUserUrl: string = recoverUserUrl;
 
 	updateUserUrl: string = updateUserUrl;
 
@@ -57,7 +61,47 @@ export class UserService {
 
 
 
-	
+
+
+	/**
+	 * lightly validate a user form
+	 * (backend only validation)
+	 * (used to validate th form asynchronously)
+	 * @param form 
+	 * @returns response$
+	 */
+	lightlyValidate(form: FormGroup): Observable<BackEndResponse> {
+		console.log(`userService => trying to lightlyValidate : `, form.value);
+		
+		return this.http.post(this.lightlyValidateUrl, form.value, httpOptions).pipe(
+			tap((formValidation) => console.log(`userService => lightlyValidate = `, formValidation)),
+			catchError(this.handleError(`userService => form hasn't been lightlyValidated`, null))
+		);
+	}
+
+	/**
+	 * Registers server side
+	 * @param form 
+	 * @returns user$
+	 */
+	registerServer(form: FormGroup): Observable<User> {
+		console.log(`userService => trying to registerServer : `, form.value);
+		
+		return this.http.post(this.createUserUrl, form.value, httpOptions).pipe(
+			tap((user: User) => console.log(`userService => registered user = `, user)),
+			catchError(this.handleError(`userService => user not registered`, null))
+		);
+	}
+
+
+
+
+
+
+
+
+
+
 
 	/**
 	 * Logins server side
@@ -69,7 +113,7 @@ export class UserService {
 
 		return this.http.post(this.loginUserUrl, form.value, httpOptions).pipe(
 			tap((user: User) => console.log(`userService => logged user = `, user)),
-			catchError(this.handleError(`userService => user not logged in`, null))
+			catchError(this.handleError(`userService => user not logged in`))
 		);
 	}
 	
@@ -103,16 +147,17 @@ export class UserService {
 
 
 
+
 	/**
 	 * Logouts server side
 	 * @returns server$
 	 */
-	logoutServer(): Observable<User> {
+	logoutServer(): Observable<BackEndResponse> {
 		console.log(`userService => trying to logoutServer`);
-
-		return this.http.get(this.logoutUserUrl).pipe(
-			tap((user: User) => console.log(`userService => logout user = `, user)),
-			catchError(this.handleError(`userService => user not logout`, null))
+		
+		return this.http.get<BackEndResponse>(this.logoutUserUrl).pipe(
+			tap((backEndResponse) => console.log(`userService => logoutServer = `, backEndResponse)),
+			catchError(this.handleError(`userService => logoutServer`, null))
 		);
 	}
 
@@ -133,21 +178,44 @@ export class UserService {
 
 
 
-	
+
+
 
 	/**
-	 * Registers server side
+	 * userEmailExists server side
 	 * @param form 
 	 * @returns server$
 	 */
-	registerServer(form: FormGroup): Observable<User> {
-		console.log(`userService => trying to registerServer : `, form.value);
+	userEmailExists(form: FormGroup): Observable<BackEndResponse> {
+		console.log(`userService => trying to userEmailExists : `, form.value);
 		
-		return this.http.post(this.createUserUrl, form.value, httpOptions).pipe(
-			tap((user: User) => console.log(`userService => registered user = `, user)),
-			catchError(this.handleError(`userService => user not registered`, null))
+		return this.http.post(this.userEmailExistsUrl, form.value, httpOptions).pipe(
+			tap((backEndResponse) => console.log(`userService => userEmailExists = `, backEndResponse)),
+			catchError(this.handleError(`userService => userEmailExists`, null))
 		);
 	}
+
+	/**
+	 * recover server side
+	 * @param form 
+	 * @returns server$
+	 */
+	recover(form: FormGroup): Observable<BackEndResponse> {
+		console.log(`userService => trying to recover : `, form.value);
+		
+		return this.http.post(this.recoverUserUrl, form.value, httpOptions).pipe(
+			tap((backEndResponse) => console.log(`userService => recover = `, backEndResponse)),
+			catchError(this.handleError(`userService => recover`, null))
+		);
+	}
+	
+
+
+
+
+
+
+
 
 
 	
@@ -178,19 +246,19 @@ export class UserService {
 
 
 
-	
+
 
 
 
 	/**
-	 * Updates user server
+	 * Updates user service
 	 * @param form 
-	 * @returns  
+	 * @returns user server 
 	 */
-	updateUserServer(form: FormGroup) {
+	updateUserServer(form: FormGroup): Observable<User> {
 		console.log("userService => trying to updateUserServer : ", form.value);
 		
-		return this.http.put(this.updateUserUrl, form.value, httpOptions).pipe(
+		return this.http.post(this.updateUserUrl, form.value, httpOptions).pipe(
 			tap((user: User) => console.log(`userService => updated user = `, user)),
 			catchError(this.handleError(`userService => user not updated`, null))
 		);
@@ -201,7 +269,7 @@ export class UserService {
 
 
 
-	
+
 
 	/**
 	 * Register-drawer <=> Register-form

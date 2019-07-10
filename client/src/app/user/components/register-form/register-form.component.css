@@ -3,8 +3,14 @@
 	width: 600px;
 }
 
+#email{
+    color: rgba(0, 0, 0, 0.25);
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+    opacity: 1;
+}
 
-.upload-plus {
+.upload-icon {
 	font-size: 32px;
 	color: #999;
 }

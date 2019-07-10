@@ -78,6 +78,35 @@ export class DrawerService {
 	}
 
 
+
+
+
+
+
+
+	
+
+	/**
+	 * recover drawer service
+	 */
+	
+	visibleRecover: boolean = false;
+
+	@Output() recoverEventEmitter: EventEmitter<boolean> = new EventEmitter();
+	
+	openRecover() {
+		if(!this.loggedIn) {
+			this.visibleRecover = true;
+			this.recoverEventEmitter.emit(this.visibleRecover);
+		}
+	}
+
+	closeRecover() {
+		this.visibleRecover = false;
+		this.recoverEventEmitter.emit(this.visibleRecover);
+	}
+
+
 	
 
 

@@ -22,7 +22,7 @@ export class TokenService {
 	 * Handles token service
 	 * @param token 
 	 */
-	handle(token: string): void{
+	handle(token: string): void {
 		this.set(token);
 
 		console.log(this.isTokenValid());

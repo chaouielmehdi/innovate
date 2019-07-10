@@ -7,7 +7,7 @@ export class Admin {
 		public name?: string,
 		public email?: string,
 		public password?: string,
-		public phone_number?: string,
+		public phone?: string,
 		public email_verified_at?: Date,
 		public logoUrl?: string,
 		public access_token?: string,

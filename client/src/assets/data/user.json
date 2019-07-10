@@ -5,12 +5,12 @@
 	"address" : "Adresse 1 Rue 3",
 	"email" : "mehdi.mc60@gmail.com",
 	"password" : "mehdii",
-	"phone_number" : "674747474",
+	"phone" : "674747474",
 	"email_verified_at" : "",
 	"is_verified_account": true,
 	"is_verified_update": true,
 	"website": "www.website.com",
-	"logoUrl": "https://cdn.shopifycloud.com/hatchful-web/assets/2adcef6c1f7ab8a256ebdeba7fceb19f.png",
+	"logo": "1851931675.jpg",
 	"created_at" : "09/05/2013",
 	"updated_at" : "09/05/2013"
 }

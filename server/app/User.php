@@ -13,7 +13,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'username', 'first_name', 'last_name', 'canal', 'telephone', 'address', 'status','email', 'password'
+        'email', 'password', 'username', 'logo', 'canal', 'address', 'phone', 'status'
     ];
     /**
      * The attributes that should be hidden for arrays.
@@ -25,16 +25,14 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     /**
-     * Update User from Upate User Instance
+     * Update User from Update User Instance
      * @param UpdateUser instance
      */
     public function updateFromUpdateUser($object){
-        $this->first_name = $object->first_name;
-        $this->last_name = $object->last_name;
         $this->username = $object->username;
         $this->canal = $object->canal;
         $this->address = $object->address;
-        $this->telephone = $object->telephone;
+        $this->phone = $object->phone;
         $this->status = 1;
         return $this->save();
     }
