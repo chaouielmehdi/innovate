@@ -3,11 +3,12 @@ import { Product } from 'src/app/shared/models/Product';
 import { Router } from '@angular/router';
 import { CartService } from 'src/app/user/services/cart.service';
 import { Cart } from 'src/app/shared/models/Cart';
-import { User } from 'src/app/shared/models/User';
+import { User, accountCreatedStatus } from 'src/app/shared/models/User';
 import { UserService } from 'src/app/user/services/user.service';
 import { NzMessageService } from 'ng-zorro-antd';
 import { fade } from 'src/app/shared/animations/fade';
 import { ModalService } from '../../services/modal.service';
+import { userLogoBaseURL } from 'src/app/shared/app-config/URLs';
 
 @Component({
 	selector: 'app-cart',
@@ -286,8 +287,8 @@ export class CartComponent implements OnInit {
 		// turn the button's loader on
 		this.commandLoader = true;
 
-		// Verify if the User account is validated or not
-		if(!this.user.is_verified_account) {
+		// the User account is not validated
+		if(this.user.status !== accountCreatedStatus) {
 			// message the user (you can't)
 			this.message.create('error', `Votre compte n'a pas été encore validé!`);
 		}
@@ -306,8 +307,8 @@ export class CartComponent implements OnInit {
 
 
 	deleteClicked(): void {
-		// Verify if the User account is validated or not
-		if(!this.user.is_verified_account) {
+		// the User account is not validated
+		if(this.user.status !== accountCreatedStatus) {
 			// message the user (you can't)
 			this.message.create('error', `Votre compte n'a pas été encore validé!`);
 		}
@@ -368,21 +369,21 @@ export class CartComponent implements OnInit {
 				if(user != null) {
 					this.user = new User(
 						user.id,
-						user.name,
-						user.canal,
-						user.address,
 						user.email,
 						user.password,
+						user.code,
+						user.username,
+						userLogoBaseURL+user.logo,
+						user.canal,
+						user.address,
 						user.phone,
-						user.email_verified_at,
-						user.is_verified_account,
-						user.is_verified_update,
 						user.website,
-						user.logo,
+						user.status,
+						user.email_verified_at,
 						user.access_token,
 						user.created_at,
-						user.updated_at
-					)
+						user.updated_at,
+					);
 				}
 				else {
 					this.user = new User();

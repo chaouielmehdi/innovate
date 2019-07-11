@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { DrawerService } from 'src/app/user/services/drawer.service';
 import { StatisticService } from 'src/app/user/services/statistics.service';
-import { User } from 'src/app/shared/models/User';
+import { User, accountUpdatedStatus } from 'src/app/shared/models/User';
 import { UserService } from 'src/app/user/services/user.service';
 import { ProductService } from 'src/app/user/services/product.service';
 import { Router } from '@angular/router';
 import { fade } from 'src/app/shared/animations/fade';
 import { Statistics } from 'src/app/shared/models/Statistics';
-import { userLogoBaseUrl } from 'src/app/shared/app-config/URLs';
+import { userLogoBaseURL } from 'src/app/shared/app-config/URLs';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
 	selector: 'app-dashboard',
@@ -26,6 +27,7 @@ export class DashboardComponent implements OnInit {
 
 	constructor(
 		private router: Router,
+		private message: NzMessageService,
 		private _drawerService: DrawerService,
 		private _statisticService: StatisticService,
 		private _userService: UserService,
@@ -33,7 +35,6 @@ export class DashboardComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-
 		// close login drawer on init
 		this._drawerService.closeLogin();
 
@@ -60,7 +61,8 @@ export class DashboardComponent implements OnInit {
 
 	// User attr
 	user: User = new User();
-	userLogoBaseUrl: string = userLogoBaseUrl;
+	userLogoBaseURL: string = userLogoBaseURL;
+	userHasLogo: boolean = false;
 
 	// Get User
 	getUser() {
@@ -69,21 +71,24 @@ export class DashboardComponent implements OnInit {
 				if(user != null){
 					this.user = new User(
 						user.id,
-						user.name,
-						user.canal,
-						user.address,
 						user.email,
 						user.password,
+						user.code,
+						user.username,
+						userLogoBaseURL+user.logo,
+						user.canal,
+						user.address,
 						user.phone,
-						user.email_verified_at,
-						user.is_verified_account,
-						user.is_verified_update,
 						user.website,
-						userLogoBaseUrl+user.logo,
+						user.status,
+						user.email_verified_at,
 						user.access_token,
 						user.created_at,
-						user.updated_at
+						user.updated_at,
 					);
+
+					this.userHasLogo = user.logo === null? false : true;
+					console.log(user.logo)
 				}
 				else {
 					this.user = new User();
@@ -287,6 +292,25 @@ export class DashboardComponent implements OnInit {
 			= Math.floor((this.statistics.credits.paid
 			/ this.statistics.credits.count) * 100);
 		
+	}
+
+
+
+
+	/* 
+	-------------------------------------------------
+	Edit profile
+	-------------------------------------------------
+	*/
+
+	editClicked(){
+		// if he already update his account
+		if(this.user.status == accountUpdatedStatus){
+			this.message.create('warning', `Vous avez déjà une demande de modification de profile!`);
+		}
+		else{
+			this.router.navigateByUrl('/profile-form');
+		}
 	}
 
 }

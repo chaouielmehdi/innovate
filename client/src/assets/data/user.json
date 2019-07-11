@@ -1,16 +1,16 @@
 {
 	"id" : 0,
-	"name" : "Cafe X",
-	"canal" : "Cafe",
-	"address" : "Adresse 1 Rue 3",
 	"email" : "mehdi.mc60@gmail.com",
 	"password" : "mehdii",
+	"code" : "C-HSDMDEFNLL",
+	"username" : "Cafe X",
+	"logo" : "1851931675.jpg",
+	"canal" : "Cafe",
+	"address" : "Adresse 1 Rue 3",
 	"phone" : "674747474",
+	"website" : "www.website.com",
+	"status" : 0,
 	"email_verified_at" : "",
-	"is_verified_account": true,
-	"is_verified_update": true,
-	"website": "www.website.com",
-	"logo": "1851931675.jpg",
 	"created_at" : "09/05/2013",
 	"updated_at" : "09/05/2013"
 }

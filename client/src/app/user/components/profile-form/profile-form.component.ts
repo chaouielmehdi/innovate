@@ -3,11 +3,11 @@ import { DrawerService } from 'src/app/user/services/drawer.service';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { passwordConfirmationValidator } from 'src/app/shared/functions/password-confirmation-validator';
 import { UserService } from 'src/app/user/services/user.service';
-import { User } from 'src/app/shared/models/User';
+import { User, accountUpdatedStatus } from 'src/app/shared/models/User';
 import { NzMessageService, UploadFile } from 'ng-zorro-antd';
 import { fade } from 'src/app/shared/animations/fade';
 import { Observable, Observer } from 'rxjs';
-import { createUserLogoUrl, userLogoBaseUrl } from 'src/app/shared/app-config/URLs';
+import { userCreateLogoUrl, userLogoBaseURL } from 'src/app/shared/app-config/URLs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -45,7 +45,7 @@ export class ProfileFormComponent implements OnInit {
 	-------------------------------------------------
 	*/
 	user: User = new User();
-	userLogoBaseUrl: string = userLogoBaseUrl;
+	userLogoBaseURL: string = userLogoBaseURL;
 
 	// Get User
 	getUser() {
@@ -54,21 +54,33 @@ export class ProfileFormComponent implements OnInit {
 				if(user != null){
 					this.user = new User(
 						user.id,
-						user.name,
-						user.canal,
-						user.address,
 						user.email,
 						user.password,
+						user.code,
+						user.username,
+						userLogoBaseURL+user.logo,
+						user.canal,
+						user.address,
 						user.phone,
-						user.email_verified_at,
-						user.is_verified_account,
-						user.is_verified_update,
 						user.website,
-						userLogoBaseUrl+user.logo,
+						user.status,
+						user.email_verified_at,
 						user.access_token,
 						user.created_at,
-						user.updated_at
-					)
+						user.updated_at,
+					);
+
+					// if he already update his account
+					if(this.user.status == accountUpdatedStatus){
+						this.router.navigateByUrl('/dashboard');
+	
+						this.message.create('warning', `Vous avez déjà une demande de modification de profile!`);
+					}
+
+					// if he userHasLogo
+					if(user.logo !== null){
+						this.setUserLogo();
+					}
 				}
 				else {
 					this.user = new User();
@@ -80,7 +92,6 @@ export class ProfileFormComponent implements OnInit {
 			},
 			() => {
 				this.setFormData();
-				this.setUserLogo();
 			});
 	}
 
@@ -145,7 +156,7 @@ export class ProfileFormComponent implements OnInit {
 			oldPassword: 'mehdii',
 			password: 'mehdii',
 			password_confirmation: 'mehdii',
-			username: this.user.name,
+			username: this.user.username,
 			canal: this.user.canal,
 			address: this.user.address,
 			phone: this.user.phone,
@@ -253,7 +264,7 @@ export class ProfileFormComponent implements OnInit {
 	previewVisible = false;
 
 	isLoadingLogo: boolean = false;
-	logoUrl: string = createUserLogoUrl;
+	logoUrl: string = userCreateLogoUrl;
 	errorLogo: string = '';
 
 	// logoName after storing the logo in the backend

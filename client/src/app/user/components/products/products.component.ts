@@ -7,7 +7,7 @@ import { ProductService } from 'src/app/user/services/product.service';
 import { User } from 'src/app/shared/models/User';
 import { fade } from 'src/app/shared/animations/fade';
 import { ModalService } from '../../services/modal.service';
-import { userLogoBaseUrl } from 'src/app/shared/app-config/URLs';
+import { userLogoBaseURL } from 'src/app/shared/app-config/URLs';
 
 @Component({
 	selector: 'app-products',
@@ -250,7 +250,7 @@ export class ProductsComponent implements OnInit {
 
 	// User attr
 	user: User = new User();
-	userLogoBaseUrl: string = userLogoBaseUrl;
+	userLogoBaseURL: string = userLogoBaseURL;
 
 	// Get User
 	getUser() {
@@ -259,20 +259,20 @@ export class ProductsComponent implements OnInit {
 				if(user != null){
 					this.user = new User(
 						user.id,
-						user.name,
-						user.canal,
-						user.address,
 						user.email,
 						user.password,
+						user.code,
+						user.username,
+						userLogoBaseURL+user.logo,
+						user.canal,
+						user.address,
 						user.phone,
-						user.email_verified_at,
-						user.is_verified_account,
-						user.is_verified_update,
 						user.website,
-						userLogoBaseUrl+user.logo,
+						user.status,
+						user.email_verified_at,
 						user.access_token,
 						user.created_at,
-						user.updated_at
+						user.updated_at,
 					);
 
 					// show product of the user canal

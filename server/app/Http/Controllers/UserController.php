@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Illuminate\Support\Str;
@@ -18,16 +19,50 @@ class UserController extends Controller {
      * @return void
      */
     public function __construct() {
-       $this->middleware('assign.guard:users', ['except' => ['login', 'index', 'create', 'uploadLogo']]);
+		//$this->middleware('assign.guard:users', ['except' => ['login', 'index', 'create', 'uploadLogo']]);
+		$this->middleware('auth')->except(
+			['login', 'logout', 'me', 'create', 'update', 'uploadLogo', 'exists', 'recover', 'asyncValidate']
+		);
     }
 
+
+
+
+
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Create User methods
+    |--------------------------------------------------------------------------
+	*/
+
+	/**
+	 * upload a user's logo image
+     * @return \Illuminate\Http\JsonResponse
+	 */
+    public function uploadLogo(Request $request){
+		// validate the user's logo image
+		$this->validate($request, [
+			'user-logo' => 'image|mimes:png,jpg,jpeg,bmp|max:5120'
+		]);
+		
+		// store the user's logo image in public/images/logos
+		$logo = $request->file('user-logo');
+		$newName = rand().'.'.$logo->getClientOriginalExtension();
+		$logo->move(public_path('images/logos'), $newName);
+		
+		return response()->json(['status' => true, 'logoName' => $newName]);
+	}
+	
     /**
      * User Creation light validation Rule
 	 * (backend only validation)
 	 * (used to validate th form asynchronously)
      * @return @mixed
      */
-    public function lightRules(){
+    public function creationLightRules(){
         return [
             'email' => ['unique:users'],
             'username' => ['unique:users']
@@ -40,10 +75,10 @@ class UserController extends Controller {
 	 * (used to validate th form asynchronously)
      * @return \Illuminate\Http\JsonResponse
 	 */
-    public function lightlyValidate(Request $request){
-        $validation = $this->validateRequest($request->all(), $this->lightRules());
+    public function asyncValidate(Request $request){
+        $validation = $this->validateRequest($request->all(), $this->creationLightRules());
 		if($validation != null){
-            return response()->json(['status' => false, 'errors' => $validation->toArray()], 401);
+            return response()->json(['status' => false, 'errors' => $validation->toArray()]);
 		}
 		return response()->json(['status' => true], 200);
 	}
@@ -53,7 +88,7 @@ class UserController extends Controller {
 	 * (to be sure before store in the DB)
      * @return @mixed
      */
-    public function heavyRules(){
+    public function creationHeavyRules(){
         return [
             'email' => ['required', 'string', 'email', 'max:191', 'unique:users'],
             'password' => ['required', 'string', 'max:191', 'min:6', 'confirmed'],
@@ -66,20 +101,30 @@ class UserController extends Controller {
         ];
 	}
 
+    /*
+     * Set User Code (used in create method)
+     * @param String User canal
+     * @return String User code
+     */
+    protected function setCode($canal){
+        return  unique_random('users', 'code', 10, strtoupper(substr($canal,0,1)));
+    }
+
+
 	/**
 	 * Create a user from a request
      * @return \Illuminate\Http\JsonResponse
 	 */
     public function create(Request $request){
 		// heavilyValidate the form
-        $validation = $this->validateRequest($request->all(), $this->heavyRules());
+        $validation = $this->validateRequest($request->all(), $this->creationHeavyRules());
 		if($validation != null){
-            return response()->json(['status' => false], 422); // Unprocessable Entity
+            return response()->json(['status' => false, 'errors' => $validation->toArray()], 422);
 		}
 		
         // Create the user
         $user = new User();
-
+		
         $user->email = request('email');
         $user->password = Hash::make(request('password'));
         $user->code = $this->setCode(request('canal'));
@@ -98,6 +143,17 @@ class UserController extends Controller {
         return response()->json(['status' => false], 500); // internal error
 	}
 
+
+
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Login User methods
+    |--------------------------------------------------------------------------
+	*/
+
     /**
      * Get a JWT via given credentials.
      * @return \Illuminate\Http\JsonResponse
@@ -111,9 +167,20 @@ class UserController extends Controller {
 		
         return $this->respondWithToken($token);
 	}
+
+
+
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Logout User methods
+    |--------------------------------------------------------------------------
+	*/
 	
     /**
-     * Log the user out (Invalidate the token).
+     * Log the user out
      * @return \Illuminate\Http\JsonResponse
      */
     public function logout(){
@@ -122,38 +189,32 @@ class UserController extends Controller {
 		return response()->json(['status' => true], 200);
     }
 
-	/**
-	 * upload a user's logo image
-     * @return \Illuminate\Http\JsonResponse
-	 */
-    public function uploadLogo(Request $request){
-		// validate the user's logo image
-		$this->validate($request, [
-			'user-logo' => 'required|image|mimes:png,jpg,jpeg,bmp|max:5120'
-		]);
-		
-		// store the user's logo image
-		$logo = $request->file('user-logo');
-		$newName = rand().'.'.$logo->getClientOriginalExtension();
-		$logo->move(public_path('images/logos'), $newName);
-		
-		return response()->json(['logoName' => $newName]);
-	}
 	
-	
+
+
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Recover User methods
+    |--------------------------------------------------------------------------
+	*/
 	/**
-	 * if userEmailExists to recover password
+	 * if exists to recover password
 	 * (backend only validation)
-	 * (used to validate th form asynchronously)
+	 * (used to validate the form asynchronously)
      * @return \Illuminate\Http\JsonResponse
 	 */
-    public function userEmailExists(Request $request){
+    public function exists(Request $request){
 		$emailExists = User::where('email' , request('email'))->first();
 		
+		// yes email exists
 		if($emailExists != null){
             return response()->json(['status' => true], 200);
 		}
 
+		// no email doesn't exist
 		return response()->json([
 			'status' => false,
 			'errors' => [
@@ -198,38 +259,102 @@ class UserController extends Controller {
 
 
 
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Update User methods
+    |--------------------------------------------------------------------------
+	*/
+
+    /**
+     * User Update heavy validation Rule
+	 * (to be sure before store in the DB)
+     * @return @mixed
+     */
+    public function updateHeavyRules(){
+        return [
+            'password' => ['string', 'max:191', 'min:6', 'confirmed'],
+            'logo' => ['string', 'max:191'],
+            'canal' => ['string'],
+            'address' => ['string', 'max:191'],
+            'phone' => ['string', 'max:191'],
+            'website' => ['string', 'max:191']
+        ];
+	}
     /**
      * Update an User.
 	 * @param  Request
 	 * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request){
-		$userToUpdate = User::
-			where('email', request('email'))
-			->where('password', Hash::make(request('oldPassword')))
-			->first();
-
+		// email exists in 'update_users' table
+		$userToUpdate = DB::table('update_users')->get()->first();
+		
+		// user exists in 'update_users' table
+		// (user already update his account and admin didn't confirm yet)
         if($userToUpdate != null){
-            return response()->json(['status' => false], 407);
+			return response()->json(['status' => false], 401);
 		}
-		return response()->json(['status' => false], 409);
+		
+		// email exists in 'users' table
+		$userToUpdate = User::where('email' , request('email'))->first();
+
+		// user doesn't exist
+        if($userToUpdate == null){
+			return response()->json(['status' => false], 401);
+		}
+		// oldPassword doesn't match
+		else if(!Hash::check(request('oldPassword'), $userToUpdate->password)){
+			return response()->json(['status' => false], 401);
+		}
 		
 		// heavilyValidate the form
-        $validation = $this->validateRequest($request->all(), $this->heavyRules());
+        $validation = $this->validateRequest($request->all(), $this->updateHeavyRules());
 		if($validation != null){
-            return response()->json(['status' => false, $validator->messages()->toArray()], 422); // Unprocessable Entity
+            return response()->json(['status' => false, 'errors' => $validation->toArray()], 422);
+		}
+		
+		// Update the userToUpdate in 'Users' table
+		// set status = 2 (user update his account and wait for admin confirmation)
+		DB::table('users')
+			->where('email', $userToUpdate->email)
+			->update(['status' => 2]);
+		
+        // Create the userToUpdate in 'update_users' table
+		$created = DB::table('update_users')->insert([
+			'id' => $userToUpdate->id,						// the old one
+			'email' => $userToUpdate->email,				// the old one
+			'password' => Hash::make(request('password')),
+			'code' => $userToUpdate->code,					// the old one
+			'logo' => request('logo'),
+			'username' => $userToUpdate->username,			// the old one
+			'canal' => request('canal'),
+			'address' => request('address'),
+			'phone' => request('phone'),
+			'website' => request('website')
+		]);
+
+        if($created){
+			return response()->json($userToUpdate);
 		}
 
-        // Now user has to wait for the modifications to be validated by Admin
-        $userToUpdate->status = 2;
-
-        if(UpdateUser::create($request, $userToUpdate) && $userToUpdate->save()){
-            return response()->json(['status' => true], 201);
-        }
-		return response()->json(['status' => false], 500);
-    
+		// error in saving in DB
+		return response()->json(['status' => false], 500); // internal error
 	}
 
+
+
+
+
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Delete User methods
+    |--------------------------------------------------------------------------
+	*/
 	
     /**
 	 *  delete a user
@@ -247,6 +372,18 @@ class UserController extends Controller {
     }
 
 
+
+
+
+
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Get User methods
+    |--------------------------------------------------------------------------
+	*/
     /**
      * Get the authenticated User.
      * @return \Illuminate\Http\JsonResponse
@@ -284,51 +421,23 @@ class UserController extends Controller {
      * Get all users
      * @return \Illuminate\Http\JsonResponse
      */ 
-    public function index(){ 
+    public function allUsers(){ 
         return response()->json(
             User::all()
         );
     }
 
-
     /*
      * Get one user with email
      * @return \Illuminate\Http\JsonResponse
-     */ 
-    public function user(User $users, Request $request){
+     */
+    public function getUser(Request $request){
         // Suppose that email is sent with request
-        $user = $users::where('email' , request("email"))->first();
+        $user = $users::where('email', request('email'))->first();
         
         return response()->json(
             $user
         );
-    }
-
-
-    /*
-     * Set User Code 
-     * @param String User canal
-     * @return String User code
-     */
-    protected function setCode($canal){
-        return  unique_random('users', 'code', 10, strtoupper(substr($canal,0,1)));
-    }
-
-    /**
-     * User Update validation Rule
-     * @return @mixed
-     */
-    public function updateRule(){
-        return [
-            'oldPassword' => ['string', 'max:191', 'min:6'],
-            'password' => ['string', 'max:191', 'min:6', 'confirmed'],
-            'logo' => ['string', 'max:191'],
-            'username' => ['string', 'max:191','unique:users'],
-            'canal' => ['string'],
-            'address' => ['string', 'max:191'],
-            'phone' => ['string', 'max:191'],
-            'website' => ['string', 'max:191']
-        ];
     }
 
 }

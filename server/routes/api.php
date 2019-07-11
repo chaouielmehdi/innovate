@@ -1,16 +1,37 @@
 <?php
 
+// User group
+Route::group(
+	[
+		'prefix' => 'user',
+		'middleware' => ['api']
+	],
+	function() {
+		// used to validate the form asynchronously
+		Route::post('asyncValidate'	, 'UserController@asyncValidate');
+
+		// used in recover password to validate the form asynchronously 
+		// positive respond : email exists
+		Route::post('exists'			, 'UserController@exists');
+
+		Route::post('uploadLogo'		, 'UserController@uploadLogo');
+		Route::post('create'			, 'UserController@create');
+		Route::post('login'				, 'UserController@login');
+		Route::get ('logout'			, 'UserController@logout');
+		Route::post('recover'			, 'UserController@recover');
+
+		Route::get ('me'				, 'UserController@me');
+		Route::post('update'			, 'UserController@update');
+		Route::post('delete'			, 'UserController@delete');
+	}
+);
+
+
+
+
+
 // Auth
 Route::group(['prefix' => 'auth', 'middleware' => ['api']], function (){
-    // User
-    Route::post('user/login', 'UserController@login');
-	Route::get('user/logout', 'UserController@logout');
-	Route::post('user/uploadLogo', 'UserController@uploadLogo');
-	Route::post('user/lightlyValidate', 'UserController@lightlyValidate'); // used to validate th form asynchronously
-	Route::post('user/userEmailExists', 'UserController@userEmailExists'); // used in recover password (good case : email exist)
-	Route::post('user/recover', 'UserController@recover'); // used in recover
-	Route::post('user/create', 'UserController@create');
-
     // Admin
 	Route::post('admin/create', 'AdminController@create');
 	Route::post('admin/login', 'AdminController@login');
@@ -18,15 +39,6 @@ Route::group(['prefix' => 'auth', 'middleware' => ['api']], function (){
     // Commercial
     Route::post('commercial/create', 'CommercialController@create');
     Route::post('commercial/login', 'AdminController@login');
-});
-
-
-// User group 
-Route::group(['prefix' => 'user', 'middleware' => ['api', 'assign.guard:admins', 'jwt.auth']], function () {
-	Route::post('update'		, 'UserController@update');
-    Route::post('index'			, 'UserController@index');
-    Route::post('me'			, 'UserController@me');
-    Route::post('delete'		, 'UserController@delete');
 });
 
 

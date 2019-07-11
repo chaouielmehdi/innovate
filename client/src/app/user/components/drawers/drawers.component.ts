@@ -10,7 +10,7 @@ import { Statistics } from 'src/app/shared/models/Statistics';
 import { StatisticService } from '../../services/statistics.service';
 import { BackEndResponse } from 'src/app/shared/models/BackEndResponse';
 import { NzMessageService } from 'ng-zorro-antd';
-import { userLogoBaseUrl } from 'src/app/shared/app-config/URLs';
+import { userLogoBaseURL } from 'src/app/shared/app-config/URLs';
 
 @Component({
 	selector: 'app-drawers',
@@ -45,7 +45,7 @@ export class DrawersComponent implements OnInit {
 		this._drawerService.recoverEventEmitter.subscribe(visibleRecover => {
 			this.visibleRecover = visibleRecover;
 		});
-
+		
 		// menu Drawer
 		this._drawerService.menuEventEmitter.subscribe(visibleMenu => {
 			this.visibleMenu = visibleMenu;
@@ -74,7 +74,7 @@ export class DrawersComponent implements OnInit {
 
 	// User attr
 	user: User = new User();
-	userLogoBaseUrl: string = userLogoBaseUrl;
+	userLogoBaseURL: string = userLogoBaseURL;
 
 	// Get User
 	getUser() {
@@ -83,21 +83,23 @@ export class DrawersComponent implements OnInit {
 				if(user != null){
 					this.user = new User(
 						user.id,
-						user.name,
-						user.canal,
-						user.address,
 						user.email,
 						user.password,
+						user.code,
+						user.username,
+						userLogoBaseURL+user.logo,
+						user.canal,
+						user.address,
 						user.phone,
-						user.email_verified_at,
-						user.is_verified_account,
-						user.is_verified_update,
 						user.website,
-						userLogoBaseUrl+user.logo,
+						user.status,
+						user.email_verified_at,
 						user.access_token,
 						user.created_at,
-						user.updated_at
+						user.updated_at,
 					);
+					console.log(this.user);
+					
 				}
 				else {
 					this.user = new User();

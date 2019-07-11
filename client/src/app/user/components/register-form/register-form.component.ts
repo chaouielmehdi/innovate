@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { passwordConfirmationValidator } from 'src/app/shared/functions/password-confirmation-validator';
 import { NzMessageService, UploadFile } from 'ng-zorro-antd';
 import { fade } from 'src/app/shared/animations/fade';
-import { createUserLogoUrl } from 'src/app/shared/app-config/URLs';
+import { userCreateLogoUrl } from 'src/app/shared/app-config/URLs';
 import { UserService } from '../../services/user.service';
 import { Observable, Observer } from 'rxjs';
 import { User } from 'src/app/shared/models/User';
@@ -286,7 +286,7 @@ export class RegisterFormComponent implements OnInit {
 	previewVisible = false;
 
 	isLoadingLogo: boolean = false;
-	logoUrl: string = createUserLogoUrl;
+	logoUrl: string = userCreateLogoUrl;
 	errorLogo: string = '';
 
 	// logoName after storing the logo in the backend

@@ -35,6 +35,13 @@
 					<nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">Email</nz-form-label>
 					<nz-form-control [nzSm]="14" [nzXs]="24">
 						<input [attr.disabled]="true" nz-input formControlName="email" id="email"/>
+
+						<!-- input-info -->
+						<nz-form-explain>
+							<span class="input-info">Ce champ n'est modifiable.</span>
+						</nz-form-explain>
+						<!-- End input-info -->
+
 						<nz-form-explain *ngIf="userForm.get('email')?.dirty && userForm.get('email')?.errors">
 							<ng-container *ngIf="userForm.get('email')?.hasError('required')">
 								Saisissez une adresse email.
@@ -179,6 +186,13 @@
 					<nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="username">Nom d'utilisateur</nz-form-label>
 					<nz-form-control [nzSm]="14" [nzXs]="24">
 						<input [attr.disabled]="true" nz-input formControlName="username" id="username"/>
+
+						<!-- input-info -->
+						<nz-form-explain>
+							<span class="input-info">Ce champ n'est modifiable.</span>
+						</nz-form-explain>
+						<!-- End input-info -->
+						
 						<nz-form-explain *ngIf="userForm.get('username')?.dirty && userForm.get('username')?.errors">
 							<ng-container *ngIf="userForm.get('username')?.hasError('required')">
 								Saisissez un nom d'utilisateur.

@@ -9,3 +9,7 @@
     cursor: not-allowed;
     opacity: 1;
 }
+.input-info{
+	color: grey;
+	font-size: 12px;
+}
