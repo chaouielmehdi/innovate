@@ -213,14 +213,15 @@ class UserController extends Controller {
 		if($emailExists != null){
             return response()->json(['status' => true], 200);
 		}
-
+		
 		// no email doesn't exist
 		return response()->json([
 			'status' => false,
-			'errors' => [
+			'errors' =>
+			[
 				'email' => ["Aucun utilisateur n'a été trouvé avec cette adresse email."]
-				]
-			], 404);
+			]
+		]);
 	}
 
 	/**

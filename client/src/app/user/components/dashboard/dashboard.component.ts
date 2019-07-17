@@ -88,7 +88,6 @@ export class DashboardComponent implements OnInit {
 					);
 
 					this.userHasLogo = user.logo === null? false : true;
-					console.log(user.logo)
 				}
 				else {
 					this.user = new User();

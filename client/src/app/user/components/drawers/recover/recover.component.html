@@ -1,0 +1,78 @@
+
+<!--
+-------------------------------------------------
+recover Drawer
+-------------------------------------------------
+-->
+
+<nz-drawer [nzWidth]="'900'" class="recover-drawer" [nzClosable]="false" [nzVisible]="visibleRecover" nzPlacement="right"
+	(nzOnClose)="closeRecover()">
+
+	<span (click)="closeRecover()" class="x">&times;</span>
+	
+	<div class="align-center mt-5">
+		<h4>
+			Récupérer votre compte
+		</h4>
+		<p class="color-grey txt-size">
+			Entrez votre email,
+			<br>
+			et consultez votre boîte Mail.
+		</p>
+	</div>
+	<form nz-form [formGroup]="recoverForm" class="recover-form" (ngSubmit)="submitRecoverForm()">
+		<nz-form-item>
+			<nz-form-control [nzValidateStatus]="emailValidateStatus">
+					
+				<!-- email input -->
+				<nz-input-group [nzPrefix]="prefixUser">
+					<input type="email" nz-input formControlName="email" placeholder="Email" (ngModelChange)="lightlyValidateRecoverForm()"/>
+				</nz-input-group>
+
+				<!-- email validation -->
+				<div *ngIf="recoverForm.get('email')?.dirty">
+					<nz-form-explain *ngIf="recoverForm.get('email').errors?.required">
+						Saisissez une adresse email.
+					</nz-form-explain>
+					<nz-form-explain *ngIf="recoverForm.get('email').errors?.email">
+						Saisissez une adresse email valide.
+					</nz-form-explain>
+					<nz-form-explain *ngIf="recoverForm.get('email').errors?.maxlength">
+						Email trop long.
+					</nz-form-explain>
+
+					<!-- BackEnd Errors -->
+					<nz-form-explain
+					*ngIf="
+						!recoverForm.get('email').errors?.required
+						&&
+						!recoverForm.get('email').errors?.email
+						&&
+						!backEndRecoverResponse.status
+						&&
+						backEndRecoverResponse?.errors?.email
+					">
+						<ng-container *ngFor="let emailError of backEndRecoverResponse.errors.email">
+							<span class="c-red d-block">{{ emailError }}</span>
+						</ng-container>
+					</nz-form-explain>
+					<!-- End BackEnd Errors -->
+				</div>
+
+			</nz-form-control>
+		</nz-form-item>
+		<nz-form-item>
+			<nz-form-control>
+				<button nz-button class="recover-form-button" [nzType]="'primary'" [nzLoading]="isRecoverLoading">Récupérer</button>
+					Ou
+				<a (click)="openLogin()" class="link">Se connecter!</a>
+			</nz-form-control>
+		</nz-form-item>
+	</form>
+	<ng-template #prefixUser><i nz-icon type="user"></i></ng-template>
+	<ng-template #prefixLock><i nz-icon type="lock"></i></ng-template>
+
+	<div class="drawer-footer">
+		<img src="assets/layout/img/drawer-bg.svg" alt="">
+	</div>
+</nz-drawer>

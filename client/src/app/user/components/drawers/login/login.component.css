@@ -1,0 +1,63 @@
+/* 
+-------------------------------------------------
+loginDrawer.css
+-------------------------------------------------
+*/
+.x{
+	margin-right: 7px;
+	top: -10px;
+	position: relative;
+	float: right;
+	font-size: 30px;
+	color: #77838f96;
+	cursor: pointer;
+}
+.align-center{
+	text-align: center;
+}
+.color-grey {
+	color: #77838f;
+}
+.txt-size{
+	font-size: 17px;
+}
+.login-form {
+	margin-top: 50px;
+	margin-right: 15px;
+	margin-left: 15px;
+	max-width: 300px;
+}
+
+.login-form-forgot {
+	float: right;
+	text-decoration: underline !important;
+	text-decoration-color: #77838f;
+}
+.login-form-forgot:hover {
+	color: #77838f !important;
+}
+
+.login-form-button {
+	width: 100%;
+}
+
+.link{
+	color: #377dff !important;
+}
+.link:hover{
+	color: #619eff !important;
+}
+.error {
+	color: #f5222d;
+}
+
+.drawer-footer{
+	position: absolute !important;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: -999;
+	height: 225px;
+	display: block;
+}
+

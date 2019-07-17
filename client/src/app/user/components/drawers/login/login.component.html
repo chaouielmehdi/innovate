@@ -1,0 +1,78 @@
+<nz-drawer [nzWidth]="'900'" class="login-drawer" [nzClosable]="false" [nzVisible]="visibleLogin" nzPlacement="right"
+	(nzOnClose)="closeLogin()">
+
+	<span (click)="closeLogin()" class="x">&times;</span>
+	
+	<div class="align-center mt-5">
+		<h4>
+			Se Connecter!
+		</h4>
+		<p class="color-grey txt-size">
+			Connectez-vous,
+			<br>
+			et gérez votre compte.
+		</p>
+	</div>
+	<form nz-form [formGroup]="loginForm" class="login-form" (ngSubmit)="submitLoginForm()">
+		<span class="error">{{ loginErrorMsg }}</span>
+		<nz-form-item>
+			<nz-form-control>
+			
+			<!-- email input -->
+			<nz-input-group [nzPrefix]="prefixUser">
+				<input type="email" nz-input formControlName="email" placeholder="Email" />
+			</nz-input-group>
+
+			<!-- email validation -->
+			<div *ngIf="loginForm.get('email')?.dirty">
+				<nz-form-explain *ngIf="loginForm.get('email').errors?.required">
+					Saisissez une adresse email.
+				</nz-form-explain>
+				<nz-form-explain *ngIf="loginForm.get('email').errors?.email">
+					Saisissez une adresse email valide.
+				</nz-form-explain>
+				<nz-form-explain *ngIf="loginForm.get('email').errors?.maxlength">
+					Email trop long.
+				</nz-form-explain>
+			</div>
+
+			</nz-form-control>
+		</nz-form-item>
+		<nz-form-item>
+			<nz-form-control>
+
+				<!-- password input -->
+				<nz-input-group [nzPrefix]="prefixLock">
+					<input type="password" nz-input formControlName="password" placeholder="Mot De Passe" />
+				</nz-input-group>
+
+				<!-- password validation -->
+				<div *ngIf="loginForm.get('password')?.dirty">
+					<nz-form-explain *ngIf="loginForm.get('password').errors?.required">
+						Saisissez un mot de passe.
+					</nz-form-explain>
+					<nz-form-explain *ngIf="loginForm.get('password').errors?.maxlength">
+						Mot de passe trop long.
+					</nz-form-explain>
+				</div>
+
+			</nz-form-control>
+		</nz-form-item>
+		<nz-form-item>
+			<nz-form-control>
+				<a class="login-form-forgot" (click)="openRecover()">Mode de passe oublié</a>
+				<button nz-button class="login-form-button" [nzType]="'primary'" [nzLoading]="connectLoader">Se Connecter</button>
+					Ou
+				<a (click)="openRegister()" class="link">Créer Votre Compte!</a>
+			</nz-form-control>
+		</nz-form-item>
+	</form>
+	<ng-template #prefixUser><i nz-icon type="user"></i></ng-template>
+	<ng-template #prefixLock><i nz-icon type="lock"></i></ng-template>
+
+	<div class="drawer-footer">
+		<img src="assets/layout/img/drawer-bg.svg" alt="">
+	</div>
+</nz-drawer>
+
+

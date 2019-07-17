@@ -19,13 +19,16 @@ import { ProfileFormComponent } from './components/profile-form/profile-form.com
 import { UserComponent } from './user.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { DrawersComponent } from './components/drawers/drawers.component';
 import { HomeComponent } from './components/home/home.component';
 import { ProductsComponent } from './components/products/products.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { InterceptorService } from './services/interceptor.service';
 import { ModalsComponent } from './components/modals/modals.component';
+import { MenuComponent } from './components/drawers/menu/menu.component';
+import { LoginComponent } from './components/drawers/login/login.component';
+import { RecoverComponent } from './components/drawers/recover/recover.component';
+import { RegisterComponent } from './components/drawers/register/register.component';
 
 @NgModule({
 	declarations: [
@@ -45,9 +48,12 @@ import { ModalsComponent } from './components/modals/modals.component';
 		CartComponent,
 		CreditsComponent,
 		ProfileFormComponent,
-		DrawersComponent,
 		PageNotFoundComponent,
-		ModalsComponent
+		ModalsComponent,
+		MenuComponent,
+		LoginComponent,
+		RecoverComponent,
+		RegisterComponent
 	],
 	imports: [
 		CommonModule,

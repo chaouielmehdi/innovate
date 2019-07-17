@@ -79,14 +79,14 @@ export class HomeComponent implements OnInit {
 						this.products = products.map((product) => {
 							return new Product(
 								product.id,
-								product.img,
+								product.image,
 								product.name,
-								product.desc,
+								product.description,
 								product.in_store,
 								product.price,
 								product.sold,
 								product.canal,
-								product.isViewed,
+								product.items_number,
 								product.created_at,
 								product.updated_at
 							);

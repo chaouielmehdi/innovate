@@ -1,0 +1,108 @@
+
+<nz-drawer [nzWidth]="'900'" class="register-drawer" [nzClosable]="false" [nzVisible]="visibleRegister" nzPlacement="right"
+	(nzOnClose)="closeRegister()">
+
+	<span (click)="closeRegister()" class="x">&times;</span>
+	
+	<div class="align-center mt-5">
+		<h4>
+			Créer un compte
+		</h4>
+		<p class="color-grey txt-size">
+			Rejoignez nous,
+			<br>
+			et profitez de nos services.
+		</p>
+	</div>
+	<form nz-form [formGroup]="registerForm" class="register-form" (ngSubmit)="submitRegisterForm()">
+		<span class="error">{{ registerErrorMsg }}</span>
+		<nz-form-item>
+			<nz-form-control [nzValidateStatus]="registerEmailValidateStatus">
+					
+				<!-- email input -->
+				<nz-input-group [nzPrefix]="prefixUser">
+					<input type="email" nz-input formControlName="email" placeholder="Email" (ngModelChange)="lightlyValidateRegisterForm()"/>
+				</nz-input-group>
+
+				<!-- email validation -->
+				<div *ngIf="registerForm.get('email')?.dirty">
+					<nz-form-explain *ngIf="registerForm.get('email').errors?.required">
+						Saisissez une adresse email.
+					</nz-form-explain>
+					<nz-form-explain *ngIf="registerForm.get('email').errors?.email">
+						Saisissez une adresse email valide.
+					</nz-form-explain>
+					<nz-form-explain *ngIf="registerForm.get('email').errors?.maxlength">
+						Email trop long.
+					</nz-form-explain>
+
+					<!-- BackEnd Errors -->
+					<nz-form-explain *ngIf="!backEndRegisterResponse.status && backEndRegisterResponse?.errors?.email">
+						<ng-container *ngFor="let emailError of backEndRegisterResponse.errors.email">
+							<span class="c-red d-block">{{ emailError }}</span>
+						</ng-container>
+					</nz-form-explain>
+					<!-- End BackEnd Errors -->
+				</div>
+
+			</nz-form-control>
+		</nz-form-item>
+		<nz-form-item>
+			<nz-form-control>
+
+				<!-- password input -->
+				<nz-input-group [nzPrefix]="prefixLock">
+					<input type="password" nz-input formControlName="password" placeholder="Mot De Passe" />
+				</nz-input-group>
+
+				<!-- password validation -->
+				<div *ngIf="registerForm.get('password')?.dirty">
+					<nz-form-explain *ngIf="registerForm.get('password').errors?.required">
+						Saisissez un mot de passe.
+					</nz-form-explain>
+					<nz-form-explain *ngIf="registerForm.get('password').errors?.maxlength">
+						Mot de passe trop long.
+					</nz-form-explain>
+					<nz-form-explain *ngIf="registerForm.get('password').errors?.minlength">
+						Minimum 6 caractères.
+					</nz-form-explain>
+				</div>
+
+			</nz-form-control>
+		</nz-form-item>
+		<nz-form-item>
+			<nz-form-control>
+
+				<!-- password_confirmation input -->
+				<nz-input-group [nzPrefix]="prefixLock">
+					<input type="password" nz-input formControlName="password_confirmation" placeholder="Confirmation du Mot De Passe" />
+				</nz-input-group>
+
+				<!-- password_confirmation validation -->
+				<div *ngIf="registerForm.get('password_confirmation')?.dirty">
+					<nz-form-explain *ngIf="registerForm.get('password_confirmation').errors?.required">
+						Confirmer votre mot de passe.
+					</nz-form-explain>
+					<nz-form-explain *ngIf="registerForm.errors?.misMatch">
+						<span class="error">Confirmation invalide</span>
+					</nz-form-explain>
+				</div>
+
+			</nz-form-control>
+		</nz-form-item>
+		<nz-form-item>
+			<nz-form-control>
+			<a class="register-form-forgot" (click)="openRecover()">Mode de passe oublié</a>
+			<button nz-button class="register-form-button" [nzType]="'primary'" [nzLoading]="isRegisterLoading">Créer</button>
+				Ou
+			<a (click)="openLogin()" class="link">Se Connecter!</a>
+			</nz-form-control>
+		</nz-form-item>
+	</form>
+	<ng-template #prefixUser><i nz-icon type="user"></i></ng-template>
+	<ng-template #prefixLock><i nz-icon type="lock"></i></ng-template>
+
+	<div class="drawer-footer">
+		<img src="assets/layout/img/drawer-bg.svg" alt="">
+	</div>
+</nz-drawer>

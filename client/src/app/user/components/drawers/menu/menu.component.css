@@ -1,0 +1,142 @@
+
+/* 
+-------------------------------------------------
+menuDrawer.css
+-------------------------------------------------
+*/
+.x{
+	margin-right: 7px;
+	top: -10px;
+	position: relative;
+	float: right;
+	font-size: 30px;
+	color: #77838f96;
+	cursor: pointer;
+}
+.pre-header .title{
+	margin-top: 0;
+	margin-bottom: 0 !important;
+	font-weight: 500;
+	font-size: 1rem !important;
+	line-height: 1.5;
+}
+.header{
+	margin-top: 28px;
+	padding-top: 25px;
+	padding-bottom: 25px;
+	background-color: #f0f2f5;
+	background-image: linear-gradient(to top right, #f0f2f5, white); /* Standard syntax (must be last) */
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+}
+.user-icon-div{
+	margin-left: 14px;
+	margin-top: 8px;
+	border: 2px !important;
+}
+.user-icon{
+	padding: 10px;
+	border-width: 2px;
+	border-style: solid !important;
+	border-radius: 5px;
+	font-size: 25px;
+}
+.username{
+	margin-top: 8px;
+	margin-left: 8px;
+	color: #1e2022;
+	line-height: 1.5;
+	font-size: 1rem;
+	font-weight: 600 !important;
+}
+.category{
+	display: block;
+	color: #8c98a4;
+	font-weight: 400;
+	font-size: .75rem;
+}
+.options{
+	padding: 8px;
+	color: #8c98a4;
+	cursor: pointer;
+}
+.options:hover{
+	color: #8c98a4ad;
+}
+ul[nz-menu]{
+	margin-top: 10px !important;
+}
+li[nz-menu-item]{
+	margin-top: 7px;
+	margin-bottom: 7px;
+	font-size: .95rem;
+	color: #97a4af !important;
+	transition: 0.1s ease-in-out;
+}
+li[nz-menu-item]:hover{
+	color: #377dff !important;
+	background-color: #ffffff00;
+}
+li[nz-menu-item] a i{
+	min-width: 23px;
+}
+
+.body{
+	margin-top: 35px;
+	z-index: 999;
+}
+.body hr{
+	margin-top: 2rem !important;
+	margin: 1rem;
+}
+.smaller{
+	font-size: .86rem;
+}
+.menu-item a{
+	padding: .625rem;
+	margin-right: 1rem;
+	margin-left: 1rem;
+	margin-top: .3rem;
+	margin-bottom: .3rem;
+	display: block;
+	font-size: .95rem;
+	color: #97a4af;
+	border-radius: 0.25rem;
+	cursor: pointer;
+	transition: 0.2s ease-in-out;
+	z-index: 999;
+	color: #97a4af;
+	text-decoration: none !important;
+}
+.menu-item a:hover {
+	background-color: rgba(55, 125, 255, 0.1) !important;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+.menu-item-icon{
+	margin-left: 1rem;
+}
+.mar-l{
+	margin-left: 1.2rem;
+}
+.menu-item-legend{
+	margin-left: 1rem;
+	text-decoration: none !important;
+}
+.menu-item-badge{
+	position: absolute;
+	right: 80px;
+}
+.active{
+	color: #377dff !important;
+	background-color: rgba(55, 125, 255, 0.1) !important;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.drawer-footer{
+	position: absolute !important;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: -999;
+	height: 225px;
+	display: block;
+}

@@ -107,7 +107,7 @@ export class ProfileFormComponent implements OnInit {
 			[Validators.required, Validators.maxLength(190)]
 		),
 		canal: new FormControl(
-			'Hotel',
+			'',
 			[Validators.required, Validators.maxLength(190)]
 		),
 		address: new FormControl(

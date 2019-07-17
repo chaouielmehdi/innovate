@@ -122,7 +122,6 @@ export class UserService {
 	 * @param user 
 	 */
 	loginClient(user: User): void{
-
 		this.router.navigateByUrl('/dashboard');
 
 		this.messageService.info('Bienvenue chez vous!');
@@ -130,6 +129,9 @@ export class UserService {
 		this._tokenService.handle(user.access_token);
 
 		this.changeAuthStatus(true);
+
+		// set the user and statistics for menu in drawer-service
+		
 	}
 	
 	/**

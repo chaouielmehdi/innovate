@@ -1,0 +1,116 @@
+<!--
+-------------------------------------------------
+Menu Drawer
+-------------------------------------------------
+-->
+<nz-drawer class="menu" [nzClosable]="false" [nzWidth]="380" [nzVisible]="visibleMenu" nzPlacement="right" (nzOnClose)="closeMenu()">
+	<div class="pre-header">
+		<span class="title">Gérer Mon Compte</span>
+		<span (click)="closeMenu()" class="x">&times;</span>
+	</div>
+
+	<div class="header">
+		<div class="row">
+			<div class="user-icon-div col-2">	
+				<i nz-icon type="user" class="user-icon"></i>
+			</div>
+			<div class="username col-7">
+				{{ user.username }}
+				<span class="category">
+					<div [ngSwitch]="user.canal">
+						<div *ngSwitchCase="'Hotel'">Hotel</div>
+						<div *ngSwitchCase="'Cafe'">Café</div>
+						<div *ngSwitchCase="'Restaurant'">Restaurant</div>
+						<div *ngSwitchCase="'Supermarche'">Supermarché</div>
+						<div *ngSwitchCase="'PDV'">Point de vente</div>
+						<div *ngSwitchDefault>Canal</div>
+					</div>
+				</span>
+			</div>
+			<div class="col-1">
+				<nz-dropdown [nzPlacement]="'bottomRight'">
+					<span nz-dropdown><i class="fas fa-ellipsis-v options"></i></span>
+					<ul nz-menu>
+						<li nz-menu-item>
+							<a (click)="toProfileForm()">
+								<i class="fas fa-user-cog"></i>
+								Paramètres
+							</a>
+						</li>
+						<li nz-menu-item>
+							<a (click)="logout()">
+								<i class="fas fa-sign-out-alt"></i>
+								Se Déconnecter
+							</a>
+						</li>
+					</ul>
+				</nz-dropdown>
+			</div>
+			
+		</div>
+	</div>
+	<div class="body">
+		<div class="menu-item">
+			<a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/dashboard" (click)="menuItemClicked()">
+
+				<i nz-icon nzType="dashboard" class="menu-item-icon" nzTheme="fill"></i>
+				<span class="menu-item-legend">Tableau de bord</span>
+				
+			</a>
+		</div>
+		<div class="menu-item">
+			<a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/commands" (click)="menuItemClicked()">
+		
+				<i class="fas fa-clipboard-list menu-item-icon mar-l"></i>
+				<span class="menu-item-legend">Mes Commandes</span>
+				<div class="d-inline menu-item-badge">
+					<nz-badge [nzCount]="statistics.commands.notViewedNumber" [nzStyle]="{ backgroundColor: '#ff3737' }"></nz-badge>
+				</div>
+		
+			</a>
+		</div>
+		<div class="menu-item">
+			<a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/cart" (click)="menuItemClicked()">
+		
+				<i class="fas fa-shopping-cart menu-item-icon smaller"></i>
+				<span class="menu-item-legend">Mon Panier</span>
+		
+			</a>
+		</div>
+		<div class="menu-item">
+			<a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/credits" (click)="menuItemClicked()">
+		
+				<i class="fas fa-coins menu-item-icon"></i>
+				<span class="menu-item-legend">Mes Crédits</span>
+		
+			</a>
+		</div>
+		<hr>
+		<div class="menu-item">
+			<a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/products" (click)="menuItemClicked()">
+			
+				<i class="fas fa-box-open menu-item-icon smaller"></i>
+				<span class="menu-item-legend">Nos Produits</span>
+				<div class="d-inline menu-item-badge">
+					<nz-badge [nzCount]="statistics.products.notViewedNumber" [nzStyle]="{ backgroundColor: '#ff3737' }"></nz-badge>
+				</div>
+
+			</a>
+		</div>
+		<div class="menu-item">
+			<a routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" routerLink="/support" (click)="menuItemClicked()">
+		
+				<i class="fas fa-headset menu-item-icon"></i>
+				<span class="menu-item-legend">Support</span>
+				<div class="d-inline menu-item-badge">
+					<nz-badge [nzCount]="statistics.support.notViewedNumber" [nzStyle]="{ backgroundColor: '#ff3737' }"></nz-badge>
+				</div>
+		
+			</a>
+		</div>
+	</div>
+	<div class="drawer-footer">
+		<img src="assets/layout/img/drawer-bg.svg" alt="">
+	</div>
+
+</nz-drawer>

@@ -4,14 +4,14 @@
 export class Product {
 	constructor(
 		public id?: number,
-		public img?: string,
+		public image?: string,
 		public name?: string,
-		public desc?: string,
+		public description?: string,
 		public in_store?: boolean,
 		public price?: number,
 		public sold?: number,
 		public canal?: string,
-		public isViewed?: boolean,
+		public items_number?: number,
 		public created_at?: Date,
 		public updated_at?: Date
 	) { }

@@ -56,14 +56,14 @@ export class ProductsComponent implements OnInit {
 						this.products = products.map((product) => {
 							return new Product(
 								product.id,
-								product.img,
+								product.image,
 								product.name,
-								product.desc,
+								product.description,
 								product.in_store,
 								product.price,
 								product.sold,
 								product.canal,
-								product.isViewed,
+								product.items_number,
 								product.created_at,
 								product.updated_at
 							);
@@ -118,7 +118,7 @@ export class ProductsComponent implements OnInit {
 	searchOnInput(): void {
 		let productsSearched = this.products.filter((product) =>{
 			return 	(
-						product.desc.toLowerCase().indexOf(this.searchInputValue.toLowerCase()) >= 0
+						product.description.toLowerCase().indexOf(this.searchInputValue.toLowerCase()) >= 0
 						||
 				   		product.name.toLowerCase().indexOf(this.searchInputValue.toLowerCase()) >= 0
 					)
@@ -161,7 +161,7 @@ export class ProductsComponent implements OnInit {
 				(
 					this.searchInputValue == ''
 					||
-					product.desc.toLowerCase().indexOf(this.searchInputValue.toLowerCase()) >= 0
+					product.description.toLowerCase().indexOf(this.searchInputValue.toLowerCase()) >= 0
 					||
 					product.name.toLowerCase().indexOf(this.searchInputValue.toLowerCase()) >= 0
 				)

@@ -24,7 +24,6 @@ export class DrawersComponent implements OnInit {
 		private router: Router,
 		private message: NzMessageService,
 		private _userService: UserService,
-		private _tokenService: TokenService,
 		private _drawerService: DrawerService,
 		private _statisticService: StatisticService
 	) { }
