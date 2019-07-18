@@ -3,8 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../../shared/models/Product';
 import { tap, catchError } from 'rxjs/operators';
-import { getProductsUrl, createProductUrl, updateProductUrl, getProductUrl, deleteProductUrl, getBestProductsUrl } from '../../shared/app-config/URLs';
 import { handleError } from '../../shared/functions/handle-http-error';
+import { productCreateURL, productUpdateURL, productGetBestsURL, productsGetURL, productGetURL, productDeleteURL } from 'src/app/shared/app-config/URLs';
 
 const httpOptions = {
 	headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -15,12 +15,12 @@ const httpOptions = {
 })
 export class ProductService {
 	
-	createProductUrl: 	string = createProductUrl;
-	updateProductUrl: 	string = updateProductUrl;
-	getBestProductsUrl: string = getBestProductsUrl;
-	getProductsUrl: 	string = getProductsUrl;
-	getProductUrl: 		string = getProductUrl;
-	deleteProductUrl: 	string = deleteProductUrl;
+	productCreateURL: 	string = productCreateURL;
+	productUpdateURL: 	string = productUpdateURL;
+	productGetBestsURL: string = productGetBestsURL;
+	productsGetURL: 	string = productsGetURL;
+	productGetURL: 		string = productGetURL;
+	productDeleteURL: 	string = productDeleteURL;
 
 	/**
 	 * 
@@ -49,7 +49,7 @@ export class ProductService {
 	createProductServer(product: Product): Observable<Product> {
 		console.log(`productService => trying to createProductServer : `, product);
 
-		return this.http.post<Product>(this.createProductUrl, product, httpOptions).pipe(
+		return this.http.post<Product>(this.productCreateURL, product, httpOptions).pipe(
 			tap((product: Product) => console.log(`productService => created product = `, product)),
 			catchError(handleError(`productService => product not created`, null))
 		);
@@ -73,7 +73,7 @@ export class ProductService {
 	getBestProductsServer(): Observable<Product[]> {
 		console.log(`productService => trying to getBestProductsServer`);
 
-		return this.http.get<Product[]>(this.getBestProductsUrl).pipe(
+		return this.http.get<Product[]>(this.productGetBestsURL).pipe(
 			tap((products: Product[]) => console.log(`productService => fetched products = `, products)),
 			catchError(handleError(`productService => error in fetching products`, null))
 		);
@@ -87,7 +87,7 @@ export class ProductService {
 	getProductsServer(): Observable<Product[]> {
 		console.log(`productService => trying to getProductsServer`);
 
-		return this.http.get<Product[]>(this.getProductsUrl).pipe(
+		return this.http.get<Product[]>(this.productsGetURL).pipe(
 			tap((products: Product[]) => console.log(`productService => fetched products = `, products)),
 			catchError(handleError(`productService => error in fetching products`, null))
 		);
@@ -102,10 +102,10 @@ export class ProductService {
 		console.log(`productService => trying to getProductServer`);
 
 		// append the id to the url
-		// const url = `${this.getProductUrl}/${id}`;
+		// const url = `${this.productGetURL}/${id}`;
 
 		// tmp line
-		const url = `${this.getProductUrl}`;
+		const url = `${this.productGetURL}`;
 		
 		return this.http.get<Product>(url).pipe(
 			tap((product: Product) => console.log(`productService => fetched product = `, product)),
@@ -131,7 +131,7 @@ export class ProductService {
 	updateProductServer(product: Product): Observable<Product> {
 		console.log(`productService => trying to updateProductServer : `, product);
 
-		return this.http.put<Product>(this.updateProductUrl, product, httpOptions).pipe(
+		return this.http.put<Product>(this.productUpdateURL, product, httpOptions).pipe(
 			tap((product: Product) => console.log(`productService => updated product = `, product)),
 			catchError(handleError(`productService => product not updated`, null))
 		);
@@ -155,7 +155,7 @@ export class ProductService {
 
 		// append the id to the url
 		const id = typeof product === 'number' ? product : product.id;
-		const url = `${this.deleteProductUrl}/${id}`;
+		const url = `${this.productDeleteURL}/${id}`;
 
 		return this.http.delete<Product>(url, httpOptions).pipe(
 			tap((product: Product) => console.log(`productService => deleted product = `, product)),

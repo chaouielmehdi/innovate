@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { createReportUrl } from '../../shared/app-config/URLs';
 import { Observable } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { handleError } from '../../shared/functions/handle-http-error';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { reportCreateURL } from 'src/app/shared/app-config/URLs';
 
 const httpOptions = {
 	headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,7 +14,7 @@ const httpOptions = {
 })
 export class ReportService {
 
-	createReportUrl: string = createReportUrl;
+	reportCreateURL: string = reportCreateURL;
 
 	/**
 	 * Creates an instance of report service.
@@ -41,7 +41,7 @@ export class ReportService {
 	createReportServer(report: {commandId: number, reason: string}): Observable<{commandId: number, reason: string}> {
 		console.log(`reportService => trying to createReportServer : `, report);
 
-		return this.http.post<{commandId: number, reason: string}>(this.createReportUrl, report, httpOptions).pipe(
+		return this.http.post<{commandId: number, reason: string}>(this.reportCreateURL, report, httpOptions).pipe(
 			tap((report: {commandId: number, reason: string}) => console.log(`reportService => created report = `, report)),
 			catchError(handleError(`reportService => report not created`, null))
 		);

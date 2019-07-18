@@ -3,15 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { Statistics } from '../../shared/models/Statistics';
-import { getStatisticsUrl } from '../../shared/app-config/URLs';
 import { handleError } from '../../shared/functions/handle-http-error';
+import { statisticsGetURL } from 'src/app/shared/app-config/URLs';
 
 @Injectable({
   	providedIn: 'root'
 })
 export class StatisticService {
 
-	private getStatisticsUrl: string = getStatisticsUrl;
+	private statisticsGetURL: string = statisticsGetURL;
 
 	/**
 	 * Creates an instance of statistic service.
@@ -36,7 +36,7 @@ export class StatisticService {
 	getStatistics(): Observable<Statistics> {
 		console.log(`statisticsService => trying to getStatistics`);
 
-		return this.http.get<Statistics>(this.getStatisticsUrl).pipe(
+		return this.http.get<Statistics>(this.statisticsGetURL).pipe(
 			tap((statistic: Statistics) => console.log(`statisticService => fetched statistic = `, statistic)),
 			catchError(handleError('statisticService => error in fetching statistic', null))
 		);

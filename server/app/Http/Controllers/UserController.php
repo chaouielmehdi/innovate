@@ -20,9 +20,9 @@ class UserController extends Controller {
      */
     public function __construct() {
 		//$this->middleware('assign.guard:users', ['except' => ['login', 'index', 'create', 'uploadLogo']]);
-		$this->middleware('auth')->except(
-			['login', 'logout', 'me', 'create', 'update', 'uploadLogo', 'exists', 'recover', 'asyncValidate']
-		);
+		// $this->middleware('auth')->except(
+		// 	['login', 'logout', 'me', 'create', 'update', 'uploadLogo', 'exists', 'recover', 'asyncValidate']
+		// );
     }
 
 
@@ -59,7 +59,7 @@ class UserController extends Controller {
     /**
      * User Creation light validation Rule
 	 * (backend only validation)
-	 * (used to validate th form asynchronously)
+	 * (used to validate the form asynchronously)
      * @return @mixed
      */
     public function creationLightRules(){
@@ -72,7 +72,7 @@ class UserController extends Controller {
 	/**
 	 * lightly validate a user form
 	 * (backend only validation)
-	 * (used to validate th form asynchronously)
+	 * (used to validate the form asynchronously)
      * @return \Illuminate\Http\JsonResponse
 	 */
     public function asyncValidate(Request $request){

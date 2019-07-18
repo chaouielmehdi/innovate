@@ -6,6 +6,7 @@ export class Product {
 		public id?: number,
 		public image?: string,
 		public name?: string,
+		public code?: string,
 		public description?: string,
 		public in_store?: boolean,
 		public price?: number,

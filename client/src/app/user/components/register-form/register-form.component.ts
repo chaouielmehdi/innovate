@@ -4,10 +4,9 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { passwordConfirmationValidator } from 'src/app/shared/functions/password-confirmation-validator';
 import { NzMessageService, UploadFile } from 'ng-zorro-antd';
 import { fade } from 'src/app/shared/animations/fade';
-import { userCreateLogoUrl } from 'src/app/shared/app-config/URLs';
+import { userCreateLogoURL } from 'src/app/shared/app-config/URLs';
 import { UserService } from '../../services/user.service';
 import { Observable, Observer } from 'rxjs';
-import { User } from 'src/app/shared/models/User';
 import { BackEndResponse } from 'src/app/shared/models/BackEndResponse';
 import { Router } from '@angular/router';
 
@@ -218,7 +217,7 @@ export class RegisterFormComponent implements OnInit {
 	-------------------------------------------------
 	lightlyValidate 
 	(backend only validation)
-	(used to validate th form asynchronously)
+	(used to validate the form asynchronously)
 	-------------------------------------------------
 	*/
 	backEndResponse: BackEndResponse = new BackEndResponse(true);
@@ -286,7 +285,7 @@ export class RegisterFormComponent implements OnInit {
 	previewVisible = false;
 
 	isLoadingLogo: boolean = false;
-	logoUrl: string = userCreateLogoUrl;
+	logoUrl: string = userCreateLogoURL;
 	errorLogo: string = '';
 
 	// logoName after storing the logo in the backend

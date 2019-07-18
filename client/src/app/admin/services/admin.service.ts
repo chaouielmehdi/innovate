@@ -4,10 +4,11 @@ import { Observable, of, BehaviorSubject } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { catchError, tap } from 'rxjs/operators';
 import { TokenService } from './token.service';
-import { createAdminUrl, loginAdminUrl, logoutAdminUrl, refreshAdminUrl, getAdminUrl, updateAdminUrl } from 'src/app/shared/app-config/URLs';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
 import { Admin } from 'src/app/shared/models/Admin';
+import { adminCreateURL, adminGetURL, adminRefreshURL, adminUpdateURL, adminLogoutURL, adminLoginURL, adminAsyncValidateURL } from 'src/app/shared/app-config/URLs';
+import { BackEndResponse } from 'src/app/shared/models/BackEndResponse';
 
 const httpOptions = {
 	headers: new HttpHeaders({
@@ -19,12 +20,13 @@ const httpOptions = {
 	providedIn: 'root'
 })
 export class AdminService {
-	createAdminUrl:	 string = createAdminUrl;
-	loginAdminUrl:	 string = loginAdminUrl;
-	logoutAdminUrl:	 string = logoutAdminUrl;
-	updateAdminUrl:	 string = updateAdminUrl;
-	refreshAdminUrl: string = refreshAdminUrl;
-	getAdminUrl:	 string = getAdminUrl;
+	adminAsyncValidateURL: string 	= adminAsyncValidateURL;
+	adminCreateURL:	string 			= adminCreateURL;
+	adminLoginURL: string 			= adminLoginURL;
+	adminLogoutURL:	string 			= adminLogoutURL;
+	adminUpdateURL:	string 			= adminUpdateURL;
+	adminRefreshURL: string 		= adminRefreshURL;
+	adminGetURL: string 			= adminGetURL;
 	
 	// Holds the validation errors coming from the server
 	errorResp: HttpErrorResponse = null;
@@ -63,7 +65,7 @@ export class AdminService {
 	loginServer(form: FormGroup): Observable<Admin> {
 		console.log(`adminService => trying to loginServer : `, form.value);
 
-		return this.http.post(this.loginAdminUrl, form.value, httpOptions).pipe(
+		return this.http.post(this.adminLoginURL, form.value, httpOptions).pipe(
 			tap((admin: Admin) => console.log(`adminService => logged admin = `, admin)),
 			catchError(this.handleError(`adminService => admin not logged in`, null))
 		);
@@ -81,14 +83,14 @@ export class AdminService {
 		
 		this._tokenService.handle(admin.access_token);
 
-		this.changeauthStatus$(true);
+		this.changeAuthStatus$(true);
 	}
 
 	/**
 	 * Changes auth status
 	 * @param value 
 	 */
-	changeauthStatus$(value) {
+	changeAuthStatus$(value) {
 		this.loggedIn.next(value);
 	}
 	
@@ -109,9 +111,17 @@ export class AdminService {
 	logoutServer(): Observable<Admin> {
 		console.log(`adminService => trying to logoutServer`);
 
-		return this.http.get(this.logoutAdminUrl).pipe(
-			tap((admin: Admin) => console.log(`adminService => logout admin = `, admin)),
-			catchError(this.handleError(`adminService => admin not logout`, null))
+		return this.http.get(this.adminLogoutURL).pipe(
+			// tap((admin: Admin) => console.log(`adminService => logout admin = `, admin)),
+			// catchError(this.handleError(`adminService => admin not logout`, null))
+			tap((admin: Admin) => console.log(`adminService => logoutServer = `, admin)),
+			catchError(
+				(err) => {
+					console.log(err);
+					
+					return of(null);
+				} 
+			)
 		);
 	}
 
@@ -122,7 +132,7 @@ export class AdminService {
 	logoutClient() {
 		this._tokenService.remove();
 
-		this.changeauthStatus$(false);
+		this.changeAuthStatus$(false);
 
 		this.router.navigateByUrl('/admin/login');
 	}
@@ -139,16 +149,33 @@ export class AdminService {
 
 
 	/**
-	 * Registers server side
+	 * lightly validate an admin form
+	 * (backend only validation)
+	 * (used to validate the form asynchronously)
+	 * @param form 
+	 * @returns response$
+	 */
+	lightlyValidate(form: FormGroup): Observable<BackEndResponse> {
+		console.log(`adminService => trying to lightlyValidate : `, form.value);
+		
+		return this.http.post(this.adminAsyncValidateURL, form.value, httpOptions).pipe(
+			tap((formValidation) => console.log(`adminService => lightlyValidate = `, formValidation)),
+			catchError(this.handleError(`adminService => form hasn't been lightlyValidated`, null))
+		);
+	}
+
+
+	/**
+	 * create admin server side
 	 * @param form 
 	 * @returns admin$
 	 */
-	registerServer(form: FormGroup): Observable<Admin> {
-		console.log(`adminService => trying to registerServer : `, form.value);
+	createAdmin(form: FormGroup): Observable<Admin> {
+		console.log(`adminService => trying to createAdmin : `, form.value);
 		
-		return this.http.post(this.createAdminUrl, form.value, httpOptions).pipe(
-			tap((admin: Admin) => console.log(`adminService => registered admin = `, admin)),
-			catchError(this.handleError(`adminService => admin not registered`, null))
+		return this.http.post(this.adminCreateURL, form.value, httpOptions).pipe(
+			tap((admin: Admin) => console.log(`adminService => admin created = `, admin)),
+			catchError(this.handleError(`adminService => admin not created`, null))
 		);
 	}
 
@@ -168,7 +195,7 @@ export class AdminService {
 	getAdminServer(): Observable<Admin>{
 		console.log(`adminService => trying to getAdmin`);
 		
-		return this.http.get<Admin>(this.getAdminUrl).pipe(
+		return this.http.get<Admin>(this.adminGetURL).pipe(
 				tap((admin: Admin) => console.log(`adminService => got admin = `, admin)),
 				catchError(this.handleError(`adminService => admin not got`, null))
 			);
@@ -191,47 +218,11 @@ export class AdminService {
 	updateAdminServer(form: FormGroup): Observable<Admin> {
 		console.log("adminService => trying to updateAdminServer : ", form.value);
 		
-		return this.http.put(this.updateAdminUrl, form.value, httpOptions).pipe(
+		return this.http.put(this.adminUpdateURL, form.value, httpOptions).pipe(
 			tap((admin: Admin) => console.log(`adminService => updated admin = `, admin)),
 			catchError(this.handleError(`adminService => admin not updated`, null))
 		);
 	}
-	
-
-
-
-
-
-
-
-
-
-
-	/**
-	 * holding values between
-	 * Register-drawer & Register-form component
-	 */
-	email: string = '';
-	password: string = '';
-
-	/**
-	 * Sets email password
-	 * @param email 
-	 * @param password 
-	 */
-	setEmailPassword(email: string, password: string): void{
-		this.email = email;
-		this.password = password;
-	}
-	
-	/**
-	 * Gets email password
-	 * @returns email password 
-	 */
-	getEmailPassword(): {email: string, password: string}{
-		return {email: this.email, password: this.password};
-	}
-	
 
 
 

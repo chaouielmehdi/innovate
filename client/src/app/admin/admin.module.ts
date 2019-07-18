@@ -8,7 +8,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './components/login/login.component';
-import { DrawersComponent } from './components/drawers/drawers.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { AdminComponent } from './admin.component';
@@ -17,19 +16,22 @@ import { ClientsComponent } from './components/clients/clients.component';
 import { CommercialsComponent } from './components/commercials/commercials.component';
 import { ProductsComponent } from './components/products/products.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { MenuComponent } from './components/drawers/menu/menu.component';
+import { CreateAdminComponent } from './components/create-admin/create-admin.component';
 
 @NgModule({
 	declarations: [
 		AdminComponent,
 		DashboardComponent,
 		LoginComponent,
-		DrawersComponent,
 		FooterComponent,
 		HeaderComponent,
 		ClientsComponent,
 		CommercialsComponent,
 		ProductsComponent,
-		SettingsComponent
+		SettingsComponent,
+		MenuComponent,
+		CreateAdminComponent
 	],
 	imports: [
 		CommonModule,

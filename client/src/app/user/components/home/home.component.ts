@@ -81,6 +81,7 @@ export class HomeComponent implements OnInit {
 								product.id,
 								product.image,
 								product.name,
+								product.code,
 								product.description,
 								product.in_store,
 								product.price,

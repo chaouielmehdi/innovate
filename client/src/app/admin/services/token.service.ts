@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { userCreateUrl, userLoginUrl } from 'src/app/shared/app-config/URLs';
+import { adminCreateURL, adminLoginURL } from 'src/app/shared/app-config/URLs';
 
 @Injectable({
   	providedIn: 'root'
@@ -7,10 +7,10 @@ import { userCreateUrl, userLoginUrl } from 'src/app/shared/app-config/URLs';
 
 export class TokenService {
 
-	userCreateUrl: string = userCreateUrl;
-	userLoginUrl: string = userLoginUrl;
+	adminCreateURL: string = adminCreateURL;
+	adminLoginURL: string = adminLoginURL;
 
-	iss: string[] = [this.userCreateUrl, this.userLoginUrl];
+	iss: string[] = [this.adminCreateURL, this.adminLoginURL];
 
 	/**
 	 * Creates an instance of token service.
@@ -34,7 +34,7 @@ export class TokenService {
 	 * @param token 
 	 */
 	set(token: string) {
-		localStorage.setItem('aToken', token);
+		localStorage.setItem('token', token);
 	}
 
 	/**
@@ -42,14 +42,14 @@ export class TokenService {
 	 * @returns token 
 	 */
 	get(): string{
-		return localStorage.getItem('aToken');
+		return localStorage.getItem('token');
 	}
 
 	/**
 	 * Removes token from local storage
 	 */
 	remove(): void{
-		localStorage.removeItem('aToken');
+		localStorage.removeItem('token');
 	}
 
 	/**

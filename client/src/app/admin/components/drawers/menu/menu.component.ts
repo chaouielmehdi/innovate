@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AdminService } from '../../services/admin.service';
+import { AdminService } from 'src/app/admin/services/admin.service';
+import { DrawerService } from 'src/app/admin/services/drawer.service';
 import { Admin } from 'src/app/shared/models/Admin';
-import { DrawerService } from '../../services/drawer.service';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
-	selector: 'app-drawers',
-	templateUrl: './drawers.component.html',
-	styleUrls: ['./drawers.component.css']
+	selector: 'app-menu',
+	templateUrl: './menu.component.html',
+	styleUrls: ['./menu.component.css']
 })
-export class DrawersComponent implements OnInit {
+export class MenuComponent implements OnInit {
 
 	constructor(
 		private router: Router,
+		private message: NzMessageService,
 		private _adminService: AdminService,
 		private _drawerService: DrawerService
 	) { }
@@ -51,12 +53,12 @@ export class DrawersComponent implements OnInit {
 				if(admin != null){
 					this.admin = new Admin(
 						admin.id,
-						admin.name,
 						admin.email,
 						admin.password,
+						admin.first_name,
+						admin.last_name,
 						admin.phone,
-						admin.email_verified_at,
-						admin.logoUrl,
+						admin.is_super_admin,
 						admin.access_token,
 						admin.created_at,
 						admin.updated_at
@@ -100,16 +102,27 @@ export class DrawersComponent implements OnInit {
 		this.router.navigateByUrl('/admin/settings');
 	}
 
+
 	logout() {
 		this.closeMenu();
-		this._adminService.logoutClient();
+		
+		this._adminService.logoutServer().subscribe(
+			(response) => {
+				if(response != null){
+					this._adminService.logoutClient();
+				}
+				else {
+					this.message.create('error', `Aïe! une erreur c'est produite!`);
+				}
+			},
+			(error) => {
+				this.message.create('error', `Aïe! une erreur c'est produite!`);
+				console.error(error);
+			});
 	}
 
 	menuItemClicked(){
 		this.closeMenu();
 	}
-
-
-
 
 }

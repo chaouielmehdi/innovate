@@ -1,65 +1,68 @@
 
 // baseURL
-export const baseURL: string = 'http://localhost:8000/api/';
+export const baseURL: string 				= 'http://localhost:8000/api/';
 
 
 // User
-export const userAsyncValidateUrl: string 	=	baseURL+'user/asyncValidate';
-export const userCreateUrl: string 			=	baseURL+'user/create';
-export const userExistsUrl: string 			=	baseURL+'user/exists';
-export const userRecoverUrl: string 		=	baseURL+'user/recover';
-export const userCreateLogoUrl: string 		=	baseURL+'user/uploadLogo';
-export const userLogoBaseURL: string 		=	'http://localhost:8000/images/logos/'; // + the user logo-name.png
-
-export const userLoginUrl: string 			=	baseURL+'user/login';
-export const userLogoutUrl: string 			=	baseURL+'user/logout';
+export const userLoginURL: string 			=	baseURL+'user/login';
+export const userLogoutURL: string 			=	baseURL+'user/logout';
 export const userRefreshURL: string 		=	baseURL+'user/refresh';
 
+export const userAsyncValidateURL: string 	=	baseURL+'user/asyncValidate';
+export const userExistsURL: string 			=	baseURL+'user/exists';
+export const userRecoverURL: string 		=	baseURL+'user/recover';
+export const userCreateLogoURL: string 		=	baseURL+'user/uploadLogo';
+export const userLogoBaseURL: string 		=	'http://localhost:8000/images/logos/'; // + the user logo-name.png
+export const userCreateURL: string 			=	baseURL+'user/create';
+
 export const userUpdateURL: string 			=	baseURL+'user/update';
-export const userGetURL: string 			=	baseURL+'user/me';
+export const userGetURL: string 			=	baseURL+'user/get';
 export const userDeleteURL: string 			=	baseURL+'user/delete';
 
 
 // Admin
-export const createAdminUrl: string 	=	baseURL+'auth/register';
-export const updateAdminUrl: string 	=	baseURL+'admin/update';
-export const getAdminUrl: string 		=	'assets/data/admin.json';
-export const deleteAdminUrl: string 	=	baseURL+'admin/delete';
+export const adminLoginURL: string 			=	baseURL+'admin/login';
+export const adminLogoutURL: string 		=	baseURL+'admin/logout';
+export const adminRefreshURL: string 		=	baseURL+'admin/refresh';
 
-export const loginAdminUrl: string 		=	baseURL+'auth/login';
-export const logoutAdminUrl: string 	=	baseURL+'auth/logout';
-export const refreshAdminUrl: string 	=	baseURL+'auth/refresh';
+export const adminAsyncValidateURL: string 	=	baseURL+'admin/asyncValidate';
+export const adminCreateImageURL: string 	=	baseURL+'admin/uploadImage';
+export const adminCreateURL: string 		=	baseURL+'admin/create';
+
+export const adminUpdateURL: string 		=	baseURL+'admin/update';
+export const adminGetURL: string 			=	baseURL+'admin/get';
+export const adminDeleteURL: string 		=	baseURL+'admin/delete';
 
 
 // Product
-export const createProductUrl: string 	=	baseURL+'product/create';
-export const updateProductUrl: string 	=	baseURL+'product/update';
-export const getBestProductsUrl: string =	'assets/data/products-best.json';
-export const getProductsUrl: string 	=	'assets/data/products.json';
-export const getProductUrl: string 		=	'assets/data/product.json';
-export const deleteProductUrl: string 	=	baseURL+'product/delete';
+export const productCreateURL: string 		=	baseURL+'product/create';
+export const productUpdateURL: string 		=	baseURL+'product/update';
+export const productGetBestsURL: string 	=	'assets/data/products-best.json';
+export const productsGetURL: string 		=	'assets/data/products.json';
+export const productGetURL: string 			=	'assets/data/product.json';
+export const productDeleteURL: string 		=	baseURL+'product/delete';
 
 
 // Cart
-export const createCartUrl: string 	=	baseURL+'cart/create';
-export const updateCartUrl: string 	=	baseURL+'cart/update';
-export const getCartsUrl: string 	=	'assets/data/cart.json';
-export const deleteCartUrl: string 	=	baseURL+'cart/delete';
+export const cartCreateURL: string 			=	baseURL+'cart/create';
+export const cartUpdateURL: string 			=	baseURL+'cart/update';
+export const cartsGetURL: string 			=	'assets/data/cart.json';
+export const cartDeleteURL: string 			=	baseURL+'cart/delete';
 
 
 // Command
-export const createCommandUrl: string 	=	baseURL+'command/create';
-export const updateCommandUrl: string 	=	baseURL+'command/update';
-export const getCommandsUrl: string 	=	'assets/data/commands.json';
-export const getCommandUrl: string 		=	'assets/data/command.json';
-export const deleteCommandUrl: string 	=	baseURL+'command/delete';
+export const commandCreateURL: string 		=	baseURL+'command/create';
+export const commandUpdateURL: string 		=	baseURL+'command/update';
+export const commandsGetURL: string 		=	'assets/data/commands.json';
+export const commandGetURL: string 			=	'assets/data/command.json';
+export const commandDeleteURL: string 		=	baseURL+'command/delete';
 
-export const setCommandViewedUrl: string 	=	baseURL+'command/setCommandViewed';
+export const commandSetViewedURL: string 	=	baseURL+'command/setCommandViewed';
 
 
 // Statistics
-export const getStatisticsUrl: string 	= 'assets/data/statistics.json';
+export const statisticsGetURL: string 		= 'assets/data/statistics.json';
 
 
 // Report
-export const createReportUrl: string 	=	baseURL+'report/create';
+export const reportCreateURL: string 		=	baseURL+'report/create';

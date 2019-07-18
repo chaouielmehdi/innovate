@@ -7,7 +7,7 @@ import { User, accountUpdatedStatus } from 'src/app/shared/models/User';
 import { NzMessageService, UploadFile } from 'ng-zorro-antd';
 import { fade } from 'src/app/shared/animations/fade';
 import { Observable, Observer } from 'rxjs';
-import { userCreateLogoUrl, userLogoBaseURL } from 'src/app/shared/app-config/URLs';
+import { userCreateLogoURL, userLogoBaseURL } from 'src/app/shared/app-config/URLs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -264,7 +264,7 @@ export class ProfileFormComponent implements OnInit {
 	previewVisible = false;
 
 	isLoadingLogo: boolean = false;
-	logoUrl: string = userCreateLogoUrl;
+	logoUrl: string = userCreateLogoURL;
 	errorLogo: string = '';
 
 	// logoName after storing the logo in the backend

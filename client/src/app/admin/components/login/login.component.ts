@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { fade } from 'src/app/shared/animations/fade';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { TokenService } from '../../services/token.service';
-import { DrawerService } from '../../services/drawer.service';
 import { AdminService } from '../../services/admin.service';
 
 @Component({
@@ -19,10 +16,7 @@ export class LoginComponent implements OnInit {
 	 */
 	constructor(
 		private fb: FormBuilder,
-		private router: Router,
-		private _adminService: AdminService,
-		private _tokenService: TokenService,
-		private _drawerService: DrawerService
+		private _adminService: AdminService
 	) { }
 
 	/**

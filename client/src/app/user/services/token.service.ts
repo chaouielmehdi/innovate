@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { userCreateUrl, userLoginUrl } from 'src/app/shared/app-config/URLs';
+import { userCreateURL, userLoginURL } from 'src/app/shared/app-config/URLs';
 
 @Injectable({
   	providedIn: 'root'
@@ -7,10 +7,10 @@ import { userCreateUrl, userLoginUrl } from 'src/app/shared/app-config/URLs';
 
 export class TokenService {
 
-	userCreateUrl: string = userCreateUrl;
-	userLoginUrl: string = userLoginUrl;
+	userCreateURL: string = userCreateURL;
+	userLoginURL: string = userLoginURL;
 
-	iss: string[] = [this.userCreateUrl, this.userLoginUrl];
+	iss: string[] = [this.userCreateURL, this.userLoginURL];
 
 	/**
 	 * Creates an instance of token service.

@@ -1,0 +1,186 @@
+
+<div @fade class="root">
+
+	<!-- Component Header -->
+	<div class="row">
+		<div class="col-md-12 d-flex justify-content-center align-items-center mb-2">
+
+			<div class="mt-5">
+				<h4>Ajout d'un admin</h4>
+			</div>
+
+		</div>
+	</div>
+	<!-- End Component Header -->
+	
+	<!-- login section -->
+	<div class="row">
+		<div class="col-md-12 d-flex justify-content-center align-items-center mb-5">
+			<div class="form-wrapper">
+				<form class="admin-form" nz-form [formGroup]="adminForm" (ngSubmit)="submitAdminForm()">
+					
+					<!-- email form control -->
+					<nz-form-item class="mt-3">
+						<nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">Email</nz-form-label>
+						<nz-form-control [nzSm]="14" [nzXs]="24" [nzValidateStatus]="emailValidateStatus" nzHasFeedback>
+							<input nz-input formControlName="email" id="email" (ngModelChange)="lightlyValidate()"/>
+							
+							<nz-form-explain *ngIf="adminForm.get('email')?.dirty && adminForm.get('email')?.errors">
+								<ng-container *ngIf="adminForm.get('email')?.hasError('required')">
+									Saisissez une adresse email.
+								</ng-container>
+								<ng-container *ngIf="adminForm.get('email')?.hasError('email')">
+									Saisissez une adresse email valide.
+								</ng-container>
+								<ng-container *ngIf="adminForm.get('email')?.hasError('maxlength')">
+									Email trop long.
+								</ng-container>
+							</nz-form-explain>
+							<!-- BackEnd Errors -->
+							<nz-form-explain *ngIf="!backEndResponse.status && backEndResponse?.errors?.email">
+								<ng-container *ngFor="let emailError of backEndResponse.errors.email">
+									<span class="c-red d-block">{{ emailError }}</span>
+								</ng-container>
+							</nz-form-explain>
+							<!-- End BackEnd Errors -->
+						</nz-form-control>
+					</nz-form-item>
+					<!-- End email form control -->
+	
+					<!-- password form control -->
+					<nz-form-item class="mt-3">
+						<nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Mot De Passe</nz-form-label>
+						<nz-form-control [nzSm]="14" [nzXs]="24">
+							<nz-input-group [nzSuffix]="eyeTemplate">
+								<input
+									nz-input
+									[type]="passwordVisible ? 'text' : 'password'"
+									id="password"
+									formControlName="password"
+								/>
+							</nz-input-group>
+							<ng-template #eyeTemplate>
+								<i nz-icon class="cursor-pointer" [nzType]="passwordVisible ? 'eye' : 'eye-invisible'" (click)="passwordVisible = !passwordVisible"></i>
+							</ng-template>
+	
+							<nz-form-explain
+								*ngIf="adminForm.get('password')?.dirty && adminForm.get('password')?.errors"
+							>
+								<ng-container *ngIf="adminForm.get('password')?.hasError('required')">
+									Saisissez un mot de passe.
+								</ng-container>
+								<ng-container *ngIf="adminForm.get('password')?.hasError('maxlength')">
+									Mot de passe trop long.
+								</ng-container>
+								<ng-container *ngIf="adminForm.get('password')?.hasError('minlength')">
+									Mot de passe doit être au minimum de 6 caractères.
+								</ng-container>
+							</nz-form-explain>
+						</nz-form-control>
+					</nz-form-item>
+					<!-- End password form control -->
+	
+					<!-- password_confirmation form control -->
+					<nz-form-item class="mt-3">
+						<nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password_confirmation" nzRequired>Confirmation</nz-form-label>
+						<nz-form-control [nzSm]="14" [nzXs]="24">
+							<input nz-input type="password" formControlName="password_confirmation" id="password_confirmation" />
+							<nz-form-explain
+								*ngIf="adminForm.get('password_confirmation')?.dirty && adminForm.get('password_confirmation')?.errors"
+							>
+								<ng-container *ngIf="adminForm.get('password_confirmation')?.hasError('required')">
+									Confirmer votre mot de passe.
+								</ng-container>
+							</nz-form-explain>
+	
+							<nz-form-explain *ngIf="(adminForm.get('password')?.dirty || adminForm.get('password_confirmation')?.dirty) && adminForm.errors?.misMatch">
+								<ng-container>
+									<span class="c-red d-block">Confirmation invalide.</span>
+								</ng-container>
+							</nz-form-explain>
+						</nz-form-control>
+					</nz-form-item>
+					<!-- End password_confirmation form control -->
+	
+					<hr class="mt-5 mb-5">
+
+					<!-- first_name form control -->
+					<nz-form-item class="mt-3">
+						<nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="first_name">Prénom</nz-form-label>
+						<nz-form-control [nzSm]="14" [nzXs]="24">
+							<input nz-input formControlName="first_name" id="first_name" (ngModelChange)="lightlyValidate()"/>
+	
+							<nz-form-explain *ngIf="adminForm.get('first_name')?.dirty && adminForm.get('first_name')?.errors">
+								<ng-container *ngIf="adminForm.get('first_name')?.hasError('required')">
+									Saisissez un prénom.
+								</ng-container>
+								<ng-container *ngIf="adminForm.get('first_name')?.hasError('maxlength')">
+									Prénom trop long.
+								</ng-container>
+							</nz-form-explain>
+						</nz-form-control>
+					</nz-form-item>
+					<!-- End first_name form control -->
+	
+
+					<!-- last_name form control -->
+					<nz-form-item class="mt-3">
+						<nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="last_name">Nom</nz-form-label>
+						<nz-form-control [nzSm]="14" [nzXs]="24">
+							<input nz-input formControlName="last_name" id="last_name" (ngModelChange)="lightlyValidate()"/>
+	
+							<nz-form-explain *ngIf="adminForm.get('last_name')?.dirty && adminForm.get('last_name')?.errors">
+								<ng-container *ngIf="adminForm.get('last_name')?.hasError('required')">
+									Saisissez un nom.
+								</ng-container>
+								<ng-container *ngIf="adminForm.get('last_name')?.hasError('maxlength')">
+									Nom trop long.
+								</ng-container>
+							</nz-form-explain>
+						</nz-form-control>
+					</nz-form-item>
+					<!-- End last_name form control -->
+	
+					<!-- phone form control -->
+					<nz-form-item class="mt-3">
+						<nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phone" nzRequired>Téléphone</nz-form-label>
+						<nz-form-control [nzSm]="14" [nzXs]="24" [nzValidateStatus]="adminForm.controls['phone']">
+							<nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
+								<ng-template #addOnBeforeTemplate>
+									<span>+212</span>
+								</ng-template>
+								<input formControlName="phone" id="phone" type="text" nz-input />
+							</nz-input-group>
+							<nz-form-explain
+								*ngIf="adminForm.get('phone')?.dirty && adminForm.get('phone')?.errors"
+							>
+								Saisissez votre numéro de téléphone.
+							</nz-form-explain>
+						</nz-form-control>
+					</nz-form-item>
+					<!-- End phone form control -->
+	
+					<!-- super_admin form control -->
+					<nz-form-item class="mt-3">
+						<nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Niveau</nz-form-label>
+						<nz-form-control [nzSm]="14" [nzXs]="24">
+							<nz-radio-group formControlName="is_super_admin" id="is_super_admin">
+								<label nz-radio-button nzValue="false">Admin simple</label>
+								<label nz-radio-button nzValue="true">Admin superieur</label>
+							</nz-radio-group>
+						</nz-form-control>
+					</nz-form-item>
+					<!-- End super_admin form control -->
+
+					<!-- submit button -->
+					<nz-form-item nz-row>
+						<nz-form-control [nzSpan]="14" [nzOffset]="6">
+							<button nz-button nzType="primary" [nzLoading]="adminLoader">S'inscrire</button>
+						</nz-form-control>
+					</nz-form-item>
+					<!-- End submit button -->
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

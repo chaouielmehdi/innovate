@@ -3,8 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { Command } from '../../shared/models/Command';
-import { getCommandsUrl, getCommandUrl, createCommandUrl, updateCommandUrl, deleteCommandUrl, setCommandViewedUrl } from '../../shared/app-config/URLs';
 import { handleError } from '../../shared/functions/handle-http-error';
+import { commandCreateURL, commandUpdateURL, commandsGetURL, commandGetURL, commandDeleteURL, commandSetViewedURL } from 'src/app/shared/app-config/URLs';
 
 const httpOptions = {
 	headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -15,12 +15,12 @@ const httpOptions = {
 })
 export class CommandService {
 
-	createCommandUrl: 		string = createCommandUrl;
-	updateCommandUrl: 		string = updateCommandUrl;
-	getCommandsUrl: 		string = getCommandsUrl;
-	getCommandUrl: 			string = getCommandUrl;
-	deleteCommandUrl: 		string = deleteCommandUrl;
-	setCommandViewedUrl:	string = setCommandViewedUrl;
+	commandCreateURL: 		string = commandCreateURL;
+	commandUpdateURL: 		string = commandUpdateURL;
+	commandsGetURL: 		string = commandsGetURL;
+	commandGetURL: 			string = commandGetURL;
+	commandDeleteURL: 		string = commandDeleteURL;
+	commandSetViewedURL:	string = commandSetViewedURL;
 
 	/**
 	 * Creates an instance of command service.
@@ -48,7 +48,7 @@ export class CommandService {
 	createCommandServer(command: Command): Observable<Command> {
 		console.log(`commandService => trying to createCommandServer : `, command);
 
-		return this.http.post<Command>(this.createCommandUrl, command, httpOptions).pipe(
+		return this.http.post<Command>(this.commandCreateURL, command, httpOptions).pipe(
 			tap((command: Command) => console.log(`commandService => created command = `, command)),
 			catchError(handleError(`commandService => command not created`, null))
 		);
@@ -72,7 +72,7 @@ export class CommandService {
 	getCommandsServer(): Observable<Command[]> {
 		console.log(`commandService => trying to getCommandsServer`);
 
-		return this.http.get<Command[]>(this.getCommandsUrl).pipe(
+		return this.http.get<Command[]>(this.commandsGetURL).pipe(
 			tap((commands: Command[]) => console.log(`commandService => fetched commands = `, commands)),
 			catchError(handleError(`commandService => error in fetching commands`, null))
 		);
@@ -88,11 +88,11 @@ export class CommandService {
 		console.log(`commandService => trying to getCommandServer`);
 
 		// append the id to the url
-		//const url = `${this.getCommandUrl}/${id}`;
+		//const url = `${this.commandGetURL}/${id}`;
 		/**
 		 * Tmp lines
 		 */
-		const url = `${this.getCommandUrl}`;
+		const url = `${this.commandGetURL}`;
 		
 		return this.http.get<Command>(url).pipe(
 			tap((command: Command) => console.log(`commandService => fetched command = `, command)),
@@ -115,7 +115,7 @@ export class CommandService {
 	updateCommandServer(command: Command): Observable<Command> {
 		console.log(`commandService => trying to updateCommandServer : `, command);
 
-		return this.http.put<Command>(this.updateCommandUrl, command, httpOptions).pipe(
+		return this.http.put<Command>(this.commandUpdateURL, command, httpOptions).pipe(
 			tap((command: Command) => console.log(`commandService => updated command = `, command)),
 			catchError(handleError(`commandService => command not updated`, null))
 		);
@@ -141,7 +141,7 @@ export class CommandService {
 
 		// append the id to the url
 		const id = typeof command === 'number' ? command : command.id;
-		const url = `${this.deleteCommandUrl}/${id}`;
+		const url = `${this.commandDeleteURL}/${id}`;
 
 		return this.http.delete<Command>(url, httpOptions).pipe(
 			tap((command: Command) => console.log(`commandService => deleted command = `, command)),
@@ -167,7 +167,7 @@ export class CommandService {
 
 		// append the id to the url
 		const id = typeof command === 'number' ? command : command.id;
-		const url = `${this.setCommandViewedUrl}/${id}`;
+		const url = `${this.commandSetViewedURL}/${id}`;
 
 		return this.http.post<Command>(url, httpOptions).pipe(
 			tap((command: Command) => console.log(`commandService => command set to viewed = `, command)),

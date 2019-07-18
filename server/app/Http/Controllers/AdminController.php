@@ -24,15 +24,179 @@ class AdminController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('assign.guard:admins', ['except' => ['login', 'index', 'create']]);
+        //$this->middleware('assign.guard:admins', ['except' => ['login', 'index', 'create']]);
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Create Admin methods
+    |--------------------------------------------------------------------------
+	*/
+    /**
+     * Admin Creation light validation Rule
+	 * (backend only validation)
+	 * (used to validate the form asynchronously)
+     * @return @mixed
+     */
+    public function creationLightRules(){
+        return [
+            'email' => ['unique:admins']
+        ];
+    }
+
+	/**
+	 * lightly validate an admin form
+	 * (backend only validation)
+	 * (used to validate the form asynchronously)
+     * @return \Illuminate\Http\JsonResponse
+	 */
+    public function asyncValidate(Request $request){
+        $validation = $this->validateRequest($request->all(), $this->creationLightRules());
+		if($validation != null){
+            return response()->json(['status' => false, 'errors' => $validation->toArray()]);
+		}
+		return response()->json(['status' => true], 200);
+	}
+
+    /**
+     * Admin Creation heavy validation Rule
+	 * (to be sure before store in the DB)
+     * @return @mixed
+     */
+    public function creationHeavyRules(){
+        return [
+            'email' => ['required', 'string', 'email', 'max:191', 'unique:admins'],
+            'password' => ['required', 'string', 'max:191', 'min:6', 'confirmed'],
+            'first_name' => ['required', 'string', 'max:191'],
+            'last_name' => ['required', 'string', 'max:191'],
+            'phone' => ['required', 'string', 'max:191'],
+            'is_super_admin' => ['required', 'boolean']
+        ];
+	}
+
+
+	/**
+	 * Create a admin from a request
+     * @return \Illuminate\Http\JsonResponse
+	 */
+    public function create(Request $request){
+		// heavilyValidate the form
+        $validation = $this->validateRequest($request->all(), $this->creationHeavyRules());
+		if($validation != null){
+            return response()->json(['status' => false, 'errors' => $validation->toArray()], 422);
+		}
+		
+        // Create the admin
+        $admin = new Admin();
+		
+        $admin->email = request('email');
+        $admin->password = Hash::make(request('password'));
+        $admin->first_name = request('first_name');
+        $admin->last_name = request('last_name');
+        $admin->phone = request('phone');
+        $admin->is_super_admin = request('is_super_admin');
+		
+        if($admin->save()){
+			return response()->json($admin);
+		}
+
+		// error in saving in DB
+        return response()->json(['status' => false], 500); // internal error
+	}
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Login Admin methods
+    |--------------------------------------------------------------------------
+	*/
+
+    /**
+     * Get a JWT via given credentials.
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function login(){
+        $credentials = request(['email', 'password']);
+        
+        if (! $token = auth('admins')->attempt($credentials)) {
+			return response()->json(['status' => false], 401);
+        }
+		
+        return $this->respondWithToken($token);
+	}
+
+
+
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Logout Admin methods
+    |--------------------------------------------------------------------------
+	*/
+	
+    /**
+     * Log the admin out
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout(){
+		auth('admins')->logout();
+		
+		return response()->json(['status' => true], 200);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	/**
 	 *  Create an admin
      * 
      *  @return \Illuminate\Http\JsonResponse
 	 */
-    public function create(Admin $admin, Request $request)
+    public function createAdmin(Admin $admin, Request $request)
     {
 		// Validation
         $validator = Validator::make($request->toArray(), [
@@ -139,7 +303,7 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login()
+    public function loginAdmin()
     {
 
         $credentials = request(['email', 'password']);
@@ -166,7 +330,7 @@ class AdminController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function logout()
+    public function logoutAdmin()
     {
         auth('admins')->logout();
 

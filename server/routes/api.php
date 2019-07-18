@@ -3,14 +3,14 @@
 // User group
 Route::group(
 	[
-		'prefix' => 'user',
-		'middleware' => ['api']
+		'middleware' => ['api'],
+		'prefix' => 'user'
 	],
 	function() {
-		// used to validate the form asynchronously
-		Route::post('asyncValidate'	, 'UserController@asyncValidate');
+		// used to validate the user form asynchronously
+		Route::post('asyncValidate'		, 'UserController@asyncValidate');
 
-		// used in recover password to validate the form asynchronously 
+		// used in recover password to validate the form asynchronously
 		// positive respond : email exists
 		Route::post('exists'			, 'UserController@exists');
 
@@ -20,9 +20,39 @@ Route::group(
 		Route::get ('logout'			, 'UserController@logout');
 		Route::post('recover'			, 'UserController@recover');
 
-		Route::get ('me'				, 'UserController@me');
+		Route::get ('get'				, 'UserController@me');
 		Route::post('update'			, 'UserController@update');
 		Route::post('delete'			, 'UserController@delete');
+	}
+);
+
+
+
+
+// Admin group 
+Route::group(
+	[
+		'middleware' => ['api'],
+		'prefix' => 'admin'
+	],
+	function() {
+		// used to validate the admin form asynchronously
+		Route::post('asyncValidate'	, 'AdminController@asyncValidate');
+		
+		Route::post('create'		, 'AdminController@create');
+		Route::post('login'			, 'AdminController@login');
+		Route::get ('logout'		, 'AdminController@logout');
+
+		Route::post('index'			, 'AdminController@index');
+		Route::post('me'			, 'AdminController@me');
+		Route::post('delete'		, 'AdminController@delete');
+		Route::post('update'		, 'AdminController@update');
+		
+		Route::group(['prefix' => 'validate'], function(){
+			Route::post('/', 'AdminController@pendingValidations');
+			Route::post('user/{id}', 'AdminController@validateUserAccount');
+			Route::post('user-update/{id}', 'AdminController@validateUpdateUser');
+		});
 	}
 );
 
@@ -39,21 +69,6 @@ Route::group(['prefix' => 'auth', 'middleware' => ['api']], function (){
     // Commercial
     Route::post('commercial/create', 'CommercialController@create');
     Route::post('commercial/login', 'AdminController@login');
-});
-
-
-// Admin group 
-Route::group(['prefix' => 'admin','middleware' => ['api', 'assign.guard:admins', 'jwt.auth']], function ()
-{
-    Route::post('index'            , 'AdminController@index'            );
-    Route::post('me'               , 'AdminController@me'               );
-    Route::post('delete'           , 'AdminController@delete'           );
-    Route::post('update'           , 'AdminController@update'           );
-    Route::group(['prefix' => 'validate'], function(){
-        Route::post('/', 'AdminController@pendingValidations');
-        Route::post('user/{id}', 'AdminController@validateUserAccount');
-        Route::post('user-update/{id}', 'AdminController@validateUpdateUser');
-    });
 });
 
 

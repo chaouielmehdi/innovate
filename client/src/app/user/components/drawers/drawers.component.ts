@@ -385,7 +385,7 @@ export class DrawersComponent implements OnInit {
 	-------------------------------------------------
 	lightlyValidateRegisterForm
 	(backend only validation)
-	(used to validate th form asynchronously)
+	(used to validate the form asynchronously)
 	-------------------------------------------------
 	*/
 	backEndRegisterResponse: BackEndResponse = new BackEndResponse(true);
@@ -548,7 +548,7 @@ export class DrawersComponent implements OnInit {
 	-------------------------------------------------
 	lightlyValidateRecoverForm
 	(backend only validation)
-	(used to validate th form asynchronously)
+	(used to validate theform asynchronously)
 	the opposite of registerForm (good case : email exist)
 	-------------------------------------------------
 	*/

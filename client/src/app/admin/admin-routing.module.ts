@@ -9,6 +9,7 @@ import { ClientsComponent } from './components/clients/clients.component';
 import { CommercialsComponent } from './components/commercials/commercials.component';
 import { ProductsComponent } from './components/products/products.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { CreateAdminComponent } from './components/create-admin/create-admin.component';
 
 const routes: Routes = [
 	{
@@ -25,6 +26,12 @@ const routes: Routes = [
 				path: 'login',
 				component: LoginComponent,
 				canActivate: [BeforeLoginGuard]
+			},
+			{
+				path: 'create-admin',
+				component: CreateAdminComponent,
+				canActivate: [BeforeLoginGuard]
+				//canActivate: [AfterLoginGuard]
 			},
 			{
 				path: 'dashboard',

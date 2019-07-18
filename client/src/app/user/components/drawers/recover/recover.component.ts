@@ -141,7 +141,7 @@ export class RecoverComponent implements OnInit {
 	-------------------------------------------------
 	lightlyValidateRecoverForm
 	(backend only validation)
-	(used to validate th form asynchronously)
+	(used to validate the form asynchronously)
 	the opposite of registerForm (good case : email exist)
 	-------------------------------------------------
 	*/

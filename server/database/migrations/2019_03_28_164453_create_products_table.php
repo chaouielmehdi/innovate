@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->bigIncrements('id');
             $table->string('image');
             $table->string('name');
-            $table->string('code');
+            $table->string('code')->unique();
             $table->integer('description');
             $table->integer('in_store');
             $table->double('price', 10, 3);

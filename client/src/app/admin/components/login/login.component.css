@@ -1,3 +1,7 @@
+.login-form-wrapper{
+	padding: 50px 35px 50px 35px;
+	box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+}
 
 .align-center{
 	text-align: center;

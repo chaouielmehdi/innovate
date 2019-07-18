@@ -125,7 +125,7 @@ export class RegisterComponent implements OnInit {
 	-------------------------------------------------
 	lightlyValidateRegisterForm
 	(backend only validation)
-	(used to validate th form asynchronously)
+	(used to validate the form asynchronously)
 	-------------------------------------------------
 	*/
 	backEndRegisterResponse: BackEndResponse = new BackEndResponse(true);
